@@ -137,7 +137,7 @@ const Input = styled.input`
   }
 
   @media (max-width: 400px) {
-    width: ${(props) => (props.type === 'radio' ? '2rem' : '20rem')};
+    width: ${(props) => (props.type === 'radio' ? '2rem' : '18rem')};
     padding: 0.3rem 0.6rem;
   }
 `;
@@ -160,7 +160,7 @@ const Select = styled.select`
     width: 22rem;
   }
   @media (max-width: 400px) {
-    width: 20rem;
+    width: 18rem;
     padding: 0.3rem 0.6rem;
   }
 `;

@@ -22,7 +22,7 @@ const Form = styled.form`
     padding: 3rem 0 2rem;
   }
   @media (max-width: 400px) {
-    max-width: 22rem;
+    max-width: 20rem;
   }
 `;
 
@@ -119,7 +119,7 @@ const Input = styled.input`
   }
 
   @media (max-width: 400px) {
-    width: 20rem;
+    width: 18rem;
     padding: 0.3rem 0.6rem;
   }
 `;
