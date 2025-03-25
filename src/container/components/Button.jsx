@@ -5,6 +5,9 @@ const BtnContainer = styled.div`
   width: 100%;
   text-align: center;
   padding-left: 5rem;
+  @media (max-width: 700px) {
+    padding-left: 0;
+  }
 `;
 
 const Btn = styled.button`

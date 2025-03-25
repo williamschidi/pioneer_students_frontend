@@ -18,6 +18,10 @@ const Form = styled.form`
   }
   @media (max-width: 500px) {
     max-width: 25rem;
+    padding: 3rem 0 2rem;
+  }
+  @media (max-width: 400px) {
+    max-width: 22rem;
   }
 `;
 
@@ -36,6 +40,11 @@ const Fieldset = styled.fieldset`
   @media (max-width: 500px) {
     padding: 3.5rem 1rem 1.5rem;
     gap: 2rem;
+  }
+
+  @media (max-width: 400px) {
+    padding: 3.5rem 0.8rem 1rem;
+    gap: 1.8rem;
   }
 `;
 
@@ -82,6 +91,9 @@ const Label = styled.label`
   @media (max-width: 600px) {
     font-size: 0.9rem;
   }
+  @media (max-width: 400px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const Input = styled.input`
@@ -103,6 +115,10 @@ const Input = styled.input`
   @media (max-width: 600px) {
     width: 22rem;
     padding: 0.4rem 0.8rem;
+  }
+  @media (max-width: 400px) {
+    width: 20rem;
+    padding: 0.3rem 0.6rem;
   }
 `;
 

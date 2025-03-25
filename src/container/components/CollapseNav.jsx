@@ -151,9 +151,6 @@ function CollapseNav() {
             <StyledNavLink to="login" onClick={() => setIsOpen(!isOpen)}>
               <Dropdownlist>Login</Dropdownlist>
             </StyledNavLink>
-            <StyledNavLink>
-              <Dropdownlist>Register Member</Dropdownlist>
-            </StyledNavLink>
           </Dropdown>
         </Li>
       </Ul>
