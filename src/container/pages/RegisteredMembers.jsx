@@ -17,10 +17,11 @@ const Caption = styled.caption`
   font-size: 1rem;
   font-weight: 600;
   padding: 0.7rem 1rem;
+  background-color: hsl(0 0% 0%);
 `;
 
 const Thead = styled.thead`
-  background-color: hsla(0 0 0 / 0.8);
+  background-color: hsla(0 0 0 / 0.5);
 `;
 
 const Tbody = styled.tbody``;
@@ -28,6 +29,7 @@ const Tbody = styled.tbody``;
 const Tr = styled.tr`
   &:nth-child(even) {
     background-color: hsla(0 0 0 / 0.2);
+    
   }
 `;
 
@@ -37,6 +39,14 @@ const Th = styled.th`
   font-size: 0.9rem;
   font-weight: bold;
   text-align: left;
+
+  @media (max-width: 900px) {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+  @media (max-width: 750px) {
+    display: none;
+  }
 `;
 const Td = styled.td`
   color: #e3fafc;
@@ -46,6 +56,18 @@ const Td = styled.td`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  @media (max-width: 900px) {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+  @media (max-width: 750px) {
+    display: block;
+    &::before {
+      content: attr(data-cell) ' : ';
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+  }
 `;
 
 const Span = styled.span`
@@ -103,13 +125,13 @@ function RegisteredMembers() {
       <Tbody>
         {data.map((row, ind) => (
           <Tr key={ind}>
-            <Td>{++ind}</Td>
-            <Td>{row.firstName}</Td>
-            <Td>{row.lastName}</Td>
-            <Td>{row.email}</Td>
-            <Td>{row.gender}</Td>
-            <Td>{row.phone}</Td>
-            <Td>
+            <Td data-cell="id">{++ind}</Td>
+            <Td data-cell="first-name">{row.firstName}</Td>
+            <Td data-cell="last-name">{row.lastName}</Td>
+            <Td data-cell="email">{row.email}</Td>
+            <Td data-cell="gender">{row.gender}</Td>
+            <Td data-cell="phone">{row.phone}</Td>
+            <Td data-cell="action">
               <Span>
                 <HiOutlinePencil />
               </Span>
