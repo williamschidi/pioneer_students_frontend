@@ -34,6 +34,11 @@ const LogoContainer = styled.div`
   width: 5rem;
   height: 5rem;
   margin-right: auto;
+
+  @media (max-width: 500px) {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
 `;
 const Img = styled.img`
   width: 100%;
@@ -127,12 +132,29 @@ const Search = styled.input`
     background-color: #fff4e6;
     box-shadow: 0 0 0.5rem rgba(0, 0, 255, 0.5);
   }
+  @media (max-width: 500px) {
+    width: 14rem;
+    padding: 0.3rem 0.7rem;
+  }
+  @media (max-width: 450px) {
+    width: 12rem;
+    font-size: 0.6rem;
+  }
 `;
 
 const SearchIcon = styled(HiOutlineSearch)`
   position: absolute;
   top: 0.6rem;
   right: 0.8rem;
+  @media (max-width: 500px) {
+    top: 0.4rem;
+    right: 0.6rem;
+  }
+  @media (max-width: 450px) {
+    top: 0.5rem;
+    width: 0.8rem;
+    height: 0.8rem;
+  }
 `;
 
 function Nav({ isAuth }) {
@@ -141,6 +163,8 @@ function Nav({ isAuth }) {
   const [active, setActive] = useState(false);
 
   const isMobile = useMediaQuery({ maxWidth: 750 });
+  const isMobileSm = useMediaQuery({ maxWidth: 500 });
+
   const { isSticky, navRef } = useSticky();
 
   function handleSearch(e) {
@@ -167,6 +191,7 @@ function Nav({ isAuth }) {
       </LogoContainer>
       <SearchContainer>
         <Search
+          isMobileSm={isMobileSm}
           type="text"
           name="search"
           value={search}

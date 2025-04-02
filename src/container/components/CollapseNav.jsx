@@ -46,6 +46,10 @@ const Bar = styled.div`
   background: #e3fafc;
   width: 1.4rem;
   height: 0.15rem;
+  @media (max-width: 500px) {
+    width: 1.2rem;
+    height: 0.1rem;
+  }
 
   &::before,
   &::after {
@@ -55,6 +59,10 @@ const Bar = styled.div`
     width: 1.4rem;
     height: 0.15rem;
     transition: all 0.3s ease-in-out;
+    @media (max-width: 500px) {
+      width: 1.2rem;
+      height: 0.1rem;
+    }
   }
   &::before {
     top: 0.6rem;

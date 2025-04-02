@@ -11,6 +11,9 @@ const Main = styled.main`
   justify-content: center;
   align-items: center;
   padding: 0 1.5rem;
+  @media (max-width: 600px) {
+    padding: 0 1rem;
+  }
 `;
 const Button = styled.button`
   margin-left: auto;
@@ -24,15 +27,29 @@ const Button = styled.button`
   box-shadow: 0.2rem 0.3rem 0.3rem rgba(0, 0, 0, 0.3);
   background-color: transparent;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    width: 2rem;
+    height: 2rem;
+  }
 `;
 const DarkModeIcon = styled(HiMiniMoon)`
   width: 2rem;
   height: 2rem;
+  @media (max-width: 600px) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 `;
 const LightModeIcon = styled(HiOutlineMoon)`
   width: 2rem;
   height: 2rem;
   fill: #fff;
+
+  @media (max-width: 600px) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 `;
 
 const Head = styled.p`
@@ -60,6 +77,7 @@ const Head = styled.p`
   }
   @media (max-width: 600px) {
     font-size: 1rem;
+    width: 100vw;
   }
   @media (max-width: 450px) {
     font-size: 0.8rem;

@@ -34,7 +34,6 @@ const Fieldset = styled.fieldset`
   gap: 2.4rem;
   padding: 4rem 1.4rem 2rem;
   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.4);
-  /* background: linear-gradient(to right, #212529, #495057); */
   background: ${(props) => props.theme.fieldsetBg};
   border: none;
   border-radius: 0.5rem;
@@ -312,7 +311,7 @@ function Signup() {
               </InputDiv>
             </InputFields>
           </InputFieldsContainer>
-          <Button />
+          <Button>sign up</Button>
         </Fieldset>
       </Form>
     </>

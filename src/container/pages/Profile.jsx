@@ -21,9 +21,13 @@ const Main = styled.main`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 1rem;
     max-width: 30rem;
     height: auto;
+  }
+
+  @media (max-width: 500px) {
+    gap: 0.5rem;
   }
 `;
 
@@ -39,7 +43,7 @@ const Aside = styled.aside`
   border-right: 0.1rem solid gray;
   @media (max-width: 750px) {
     border-right: 0;
-    width: 30rem;
+    width: 25rem;
     padding: 0.5rem;
     gap: 1rem;
   }
@@ -82,6 +86,10 @@ const H2 = styled.h2`
   @media (max-width: 750px) {
     font-size: 1.4rem;
   }
+
+  @media (max-width: 500px) {
+    font-size: 1.2rem;
+  }
 `;
 const P = styled.p`
   font-size: 1rem;
@@ -98,10 +106,13 @@ const P = styled.p`
     &.small {
       font-weight: 500;
     }
+    @media (max-width: 500px) {
+      font-size: 0.8rem;
+    }
   }
 `;
 const Section = styled.section`
-  color: ${(props) => props.theme.color};
+  color: #f1f3f5;
   padding: 1rem 0;
   flex: 1;
   height: 100%;
@@ -116,6 +127,10 @@ const Section = styled.section`
   gap: 2rem;
   @media (max-width: 750px) {
     width: 30rem;
+  }
+  @media (max-width: 500px) {
+    width: 25rem;
+    gap: 1.5rem;
   }
 `;
 const BioContainer = styled.div`
