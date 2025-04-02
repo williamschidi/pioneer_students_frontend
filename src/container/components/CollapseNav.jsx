@@ -102,7 +102,6 @@ const Dropdown = styled.ul`
   width: 10rem;
   top: 4rem;
   left: 2.4rem;
-  background-color: #212529;
 `;
 const Dropdownlist = styled.li`
   list-style: none;
