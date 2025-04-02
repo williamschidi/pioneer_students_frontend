@@ -86,6 +86,9 @@ const InputFields = styled.div`
   @media (max-width: 600px) {
     gap: 0.7rem;
   }
+  @media (max-width: 450px) {
+    gap: 0.5rem;
+  }
 `;
 
 const RadioInput = styled.div`

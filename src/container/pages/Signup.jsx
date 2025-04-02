@@ -85,6 +85,9 @@ const InputFields = styled.div`
   @media (max-width: 600px) {
     gap: 0.7rem;
   }
+  @media (max-width: 450px) {
+    gap: 0.5rem;
+  }
 `;
 
 const Label = styled.label`
@@ -148,14 +151,26 @@ const ShowPassword = styled(HiOutlineEye)`
   color: #212529;
   top: 0.5rem;
   right: 1rem;
+  @media (max-width: 600px) {
+    top: 0.4rem;
+    right: 0.8rem;
+    height: 1.2rem;
+    width: 1.2rem;
+  }
 `;
 const HidePassword = styled(HiOutlineEyeOff)`
   position: absolute;
-  height: 1.2rem;
-  width: 1.2rem;
+  height: 1rem;
+  width: 1rem;
   top: 0.5rem;
   right: 1rem;
   color: #212529;
+  @media (max-width: 600px) {
+    top: 0.4rem;
+    right: 0.8rem;
+    height: 1rem;
+    width: 1rem;
+  }
 `;
 
 const InputDiv = styled.div`

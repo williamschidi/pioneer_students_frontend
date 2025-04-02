@@ -117,6 +117,10 @@ const DropdownItem = styled.li`
 const SearchContainer = styled.div`
   position: relative;
   margin-right: 3rem;
+
+  @media (max-width: 600px) {
+    margin-right: 2rem;
+  }
 `;
 
 const Search = styled.input`
@@ -151,7 +155,6 @@ const SearchIcon = styled(HiOutlineSearch)`
     right: 0.6rem;
   }
   @media (max-width: 450px) {
-    top: 0.5rem;
     width: 0.8rem;
     height: 0.8rem;
   }

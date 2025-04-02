@@ -32,13 +32,17 @@ const Button = styled.button`
     width: 2rem;
     height: 2rem;
   }
+  @media (max-width: 600px) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 `;
 const DarkModeIcon = styled(HiMiniMoon)`
   width: 2rem;
   height: 2rem;
-  @media (max-width: 600px) {
-    width: 1.5rem;
-    height: 1.5rem;
+  @media (max-width: 450px) {
+    width: 1rem;
+    height: 1rem;
   }
 `;
 const LightModeIcon = styled(HiOutlineMoon)`
@@ -49,6 +53,10 @@ const LightModeIcon = styled(HiOutlineMoon)`
   @media (max-width: 600px) {
     width: 1.5rem;
     height: 1.5rem;
+  }
+  @media (max-width: 450px) {
+    width: 1rem;
+    height: 1rem;
   }
 `;
 
@@ -80,7 +88,7 @@ const Head = styled.p`
     width: 100vw;
   }
   @media (max-width: 450px) {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 `;
 
