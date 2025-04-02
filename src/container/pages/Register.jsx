@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../components/Button';
+import { useTheme } from '../components/ThemeContext';
 
 const Form = styled.form`
   margin: 0 auto;
   width: 50rem;
-  padding: 5rem 0;
+  padding: 3rem 0 2rem;
 
   @media (max-width: 900px) {
     max-width: 40rem;
@@ -33,7 +34,7 @@ const Fieldset = styled.fieldset`
   gap: 2.4rem;
   padding: 4rem 1.4rem 2rem;
   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.4);
-  background: linear-gradient(to right, #212529, #495057);
+  background: ${(props) => props.theme.fieldsetBg};
   border: none;
   border-radius: 0.5rem;
   @media (max-width: 900px) {
@@ -52,8 +53,10 @@ const Fieldset = styled.fieldset`
 
 const Legend = styled.legend`
   color: #e3fafc;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: bold;
+  padding-top: 3rem;
+  font-style: italic;
   @media (max-width: 600px) {
     font-size: 1.2rem;
   }
@@ -188,6 +191,8 @@ function Register() {
     profilePicture: null,
   });
 
+  const { theme } = useTheme();
+
   function handleOnChange(e) {
     setData(() => ({ ...data, [e.target.name]: e.target.value }));
   }
@@ -208,7 +213,7 @@ function Register() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Fieldset>
+      <Fieldset theme={theme}>
         <Legend>Register Member </Legend>
         <InputFieldsContainer>
           <InputFields>

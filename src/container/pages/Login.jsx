@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useTheme } from '../components/ThemeContext';
+import Profile from './Profile';
 
 const Form = styled.form`
   margin: 0 auto;
   max-width: 50rem;
-  padding: 5rem 0;
+  padding: 3rem 0 2rem;
   @media (max-width: 900px) {
     max-width: 40rem;
   }
@@ -34,7 +36,8 @@ const Fieldset = styled.fieldset`
   gap: 2.4rem;
   padding: 4rem 1.4rem 2rem;
   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.4);
-  background: linear-gradient(to right, #212529, #495057);
+  background: ${(props) => props.theme.fieldsetBg};
+  /* linear-gradient(to right, #4dabf7, #339af0); */
   border: none;
   border-radius: 0.5rem;
 
@@ -51,8 +54,10 @@ const Fieldset = styled.fieldset`
 
 const Legend = styled.legend`
   color: #e3fafc;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-weight: bold;
+  padding-top: 3rem;
+  font-style: italic;
   @media (max-width: 600px) {
     font-size: 1.2rem;
   }
@@ -127,6 +132,7 @@ const Input = styled.input`
 function Login({ setIsAuth }) {
   const [data, setData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   function handleOnChange(e) {
     setData({ ...data, [e.target.id]: e.target.value });
@@ -140,41 +146,44 @@ function Login({ setIsAuth }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Fieldset>
-        <Legend>Login</Legend>
-        <InputFieldsContainer>
-          <InputFields>
-            <Label htmlFor="email">Email :</Label>
-            <Input
-              type="email"
-              id="email"
-              placeholder="email"
-              value={data.email}
-              onChange={handleOnChange}
-              required
-            />
-          </InputFields>
-          <InputFields>
-            <Label htmlFor="password">Password :</Label>
-            <Input
-              type="password"
-              id="password"
-              placeholder="password"
-              value={data.password}
-              onChange={handleOnChange}
-              required
-            />
-          </InputFields>
-        </InputFieldsContainer>
-        <Button />
-      </Fieldset>
-    </Form>
+    <>
+      <Form onSubmit={handleSubmit}>
+        <Fieldset theme={theme}>
+          <Legend>Login</Legend>
+          <InputFieldsContainer>
+            <InputFields>
+              <Label htmlFor="email">Email :</Label>
+              <Input
+                type="email"
+                id="email"
+                placeholder="email"
+                value={data.email}
+                onChange={handleOnChange}
+                required
+              />
+            </InputFields>
+            <InputFields>
+              <Label htmlFor="password">Password :</Label>
+              <Input
+                type="password"
+                id="password"
+                placeholder="password"
+                value={data.password}
+                onChange={handleOnChange}
+                required
+              />
+            </InputFields>
+          </InputFieldsContainer>
+          <Button>Login</Button>
+        </Fieldset>
+      </Form>
+      <Profile />
+    </>
   );
 }
 
 Login.propTypes = {
-  setIsAuth: PropTypes.bool,
+  setIsAuth: PropTypes.func,
 };
 
 export default Login;

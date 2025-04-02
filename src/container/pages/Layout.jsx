@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Nav from '../components/Nav';
 import { Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useTheme } from '../components/ThemeContext';
 
 // import HocWithNav from '../components/HocWithNav';
 
@@ -15,16 +16,19 @@ const Container = styled.div`
 
 const ContentWrapper = styled.main`
   flex: 1;
-  background: #212529;
+  /* background: #212529; */
+  background: ${props=>props.theme.layoutBg};
 `;
 
 function Layout({ isAuth }) {
+const{theme} = useTheme()
+
   return (
     <Container>
       <Header />
       <Nav isAuth={isAuth} />
 
-      <ContentWrapper>
+      <ContentWrapper theme={theme}>
         <Outlet />
       </ContentWrapper>
       <Footer />

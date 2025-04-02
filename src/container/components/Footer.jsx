@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import img1 from './../../assets/image0002.jpg';
+import { useTheme } from './ThemeContext';
 
 const FooterContainer = styled.footer`
   text-align: center;
   padding: 1rem 1.4rem;
+  background: ${(props) => props.theme.footerBg};
   @media (max-width: 600px) {
     padding: 0.8rem 1rem;
   }
@@ -36,10 +38,11 @@ const P = styled.p`
 `;
 
 function Footer() {
+  const { theme } = useTheme();
   return (
-    <FooterContainer>
+    <FooterContainer theme={theme}>
       <P>
-        &copy; {new Date().getFullYear()} The Pioneer Students of St. Marks Sec.
+        &copy; {new Date().getFullYear()} Pioneer Students of St. Marks Sec.
         Sch. Emene. All rights reserved
       </P>
     </FooterContainer>
