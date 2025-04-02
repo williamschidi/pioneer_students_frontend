@@ -6,8 +6,6 @@ import { Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTheme } from '../components/ThemeContext';
 
-// import HocWithNav from '../components/HocWithNav';
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,12 +14,12 @@ const Container = styled.div`
 
 const ContentWrapper = styled.main`
   flex: 1;
-  /* background: #212529; */
-  background: ${props=>props.theme.layoutBg};
+
+  background: ${(props) => props.theme.layoutBg};
 `;
 
 function Layout({ isAuth }) {
-const{theme} = useTheme()
+  const { theme } = useTheme();
 
   return (
     <Container>

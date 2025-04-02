@@ -132,6 +132,10 @@ const Section = styled.section`
     width: 25rem;
     gap: 1.5rem;
   }
+  @media (max-width: 450px) {
+    width: 22rem;
+    gap: 1.5rem;
+  }
 `;
 const BioContainer = styled.div`
   width: 100%;

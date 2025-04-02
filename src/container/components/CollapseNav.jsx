@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { HiChevronDown } from 'react-icons/hi';
+import { useTheme } from './ThemeContext';
 
 const Ul = styled.ul`
   position: fixed;
@@ -12,7 +13,7 @@ const Ul = styled.ul`
   display: block;
   z-index: 98;
   margin-top: 9rem;
-  background-color: #212529;
+  background: ${(props) => props.theme.layoutBg};
   transition: all 0.8s;
 
   &.show-nav {
@@ -28,11 +29,11 @@ const Li = styled.li`
   margin: 0 auto 1.2rem;
   text-align: center;
   padding: 1.2rem 1.6rem;
-  background: linear-gradient(to right, #212529, #495057);
+  background: ${(props) => props.theme.fieldsetBg};
   color: #e3fafc;
 
   &:hover {
-    background: linear-gradient(to right, #343a40, #868e96);
+    background: ${(props) => props.theme.ulHover};
   }
   &.sub-list {
     display: inline-flex;
@@ -131,28 +132,46 @@ const DropDownArrow = styled(HiChevronDown)`
 
 function CollapseNav() {
   const [isOpen, setIsOpen] = useState(false);
-  const [openDropDown, setOpenDropDown] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(null);
+  const { theme } = useTheme();
+
+  function toggleOpenDropDown(menu) {
+    if (menu === 'account') {
+      setActiveMenu((prevMenu) => (prevMenu === menu ? null : menu));
+    } else {
+      setActiveMenu(null);
+    }
+  }
   return (
     <>
       <Bar
         onClick={() => setIsOpen(!isOpen)}
         className={isOpen ? 'active' : ''}
       ></Bar>
-      <Ul className={isOpen ? 'show-nav' : ''}>
-        <Li>About Us</Li>
+      <Ul className={isOpen ? 'show-nav' : ''} theme={theme}>
+        <Li theme={theme} onClick={() => toggleOpenDropDown('about')}>
+          About Us
+        </Li>
 
-        <Li>Motto</Li>
+        <Li theme={theme} onClick={() => toggleOpenDropDown('motto')}>
+          Motto
+        </Li>
 
-        <Li>Registered Members</Li>
-        <Li>
+        <Li
+          theme={theme}
+          onClick={() => toggleOpenDropDown('registered members')}
+        >
+          Registered Members
+        </Li>
+        <Li theme={theme}>
           <Btn
-            onClick={() => setOpenDropDown(!openDropDown)}
-            className={openDropDown && 'show-menu'}
+            onClick={() => toggleOpenDropDown('account')}
+            className={activeMenu && 'show-menu'}
           >
-            Account <DropDownArrow className={openDropDown && 'arrow-right'} />
+            Account <DropDownArrow className={activeMenu && 'arrow-right'} />
           </Btn>
 
-          <Dropdown open={openDropDown}>
+          <Dropdown open={activeMenu}>
             <StyledNavLink to="signup" onClick={() => setIsOpen(!isOpen)}>
               <Dropdownlist>Sign up</Dropdownlist>
             </StyledNavLink>

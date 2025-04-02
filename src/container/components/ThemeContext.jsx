@@ -13,6 +13,7 @@ const darkMode = {
   footerBg: 'linear-gradient(to right, #fff, #e7f5ff)',
   textShadow: '0.3rem 0.4rem 0.5rem rgba(255, 255, 255, 0.5)',
   hoverBg: 'linear-gradient(to right, #212529, #495057)',
+  ulHover: 'linear-gradient(to right, #343a40, #868e96)',
 };
 
 const lightMode = {
@@ -22,10 +23,11 @@ const lightMode = {
   navActiveBg: 'linear-gradient(to right, #4dabf7, #339af0);',
   navBorderBottom: '1px solid #212529',
   layoutBg: '#e7f5ff',
-  fieldsetBg: 'linear-gradient(to right, #4dabf7, #339af0)',
+  fieldsetBg: 'linear-gradient(to right,#339af0, #1c7ed6 )',
   btnHoverBg: 'linear-gradient(to right, #228be6, #1971c2)',
   footerBg: 'linear-gradient(to right, #a5d8ff, #4dabf7)',
   textShadow: ' 0.3rem 0.4rem 0.5rem rgba(0, 0, 0, 0.5)',
+  ulHover: 'linear-gradient(to right, #4dabf7, #74c0fc)',
 };
 
 const ThemeContext = createContext();
