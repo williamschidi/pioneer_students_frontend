@@ -1,7 +1,7 @@
 import chidi from './../../assets/chidi.jpg';
 import princess from './../../assets/princess.png';
 import princess01 from './../../assets/princess01.png';
-import mike from './../../assets/mike.png';
+import loveth from './../../assets/loveth.png';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { useTheme } from '../components/ThemeContext';
@@ -82,7 +82,7 @@ function Members() {
       email: 'Chidi@gmail.com',
       gender: 'male',
       phone: 8033551174,
-      photo: mike,
+      photo: loveth,
     },
     {
       firstName: 'Esther',
