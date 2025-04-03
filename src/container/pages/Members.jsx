@@ -26,7 +26,7 @@ const Container = styled.main`
   }
 
   @media (max-width: 450px) {
-    width: 22rem;
+    width: 20rem;
   }
 `;
 
