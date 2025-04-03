@@ -117,8 +117,8 @@ const SearchContainer = styled.div`
   position: relative;
   margin-right: 3rem;
 
-  @media (max-width: 600px) {
-    margin-right: 2rem;
+  @media (max-width: 1000px) {
+    margin: 0 2rem 0 1rem;
   }
 `;
 
@@ -134,6 +134,11 @@ const Search = styled.input`
     border-bottom: 2px solid gray;
     background-color: #fff4e6;
     box-shadow: 0 0 0.5rem rgba(0, 0, 255, 0.5);
+  }
+
+  @media (max-width: 1000px) {
+    width: 16rem;
+    font-size: 0.8rem;
   }
   @media (max-width: 500px) {
     width: 14rem;
