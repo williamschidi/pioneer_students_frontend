@@ -35,7 +35,7 @@ const P = styled.p`
     font-size: 0.5rem;
     word-spacing: 0.15rem;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 450px) {
     font-size: 0.4rem;
     word-spacing: 0.12rem;
   }
