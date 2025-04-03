@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function ProtectedRoute({ isAuth, children }) {
-  if (!isAuth) {
+  if (isAuth === 'false') {
     return <Navigate to="login" />;
   }
 

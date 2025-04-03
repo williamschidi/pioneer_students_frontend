@@ -3,11 +3,12 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { useTheme } from './ThemeContext';
 import PropTypes from 'prop-types';
+import { useMediaQuery } from 'react-responsive';
 
 const BtnContainer = styled.div`
   width: 100%;
   text-align: center;
-  padding-left: ${(props) => (props.noPadding ? '0' : '5rem')};
+  padding-left: ${(props) => (props.IsMobile ? '0' : '5rem')};
   @media (max-width: 700px) {
     padding-left: 0;
   }
@@ -27,18 +28,20 @@ const Btn = styled.button`
     color: #e3fafc;
     font-weight: bold;
   }
-  &:active {
+  /* &.active {
     transform: translateY(0.3rem);
-    box-shadow: 0, 0.2rem 0.3rem rgba(0, 0, 0, 0.2);
-  }
+    background-color: red;
+    box-shadow: 0 0.2rem 0.3rem rgba(0, 0, 0, 0.4);
+  } */
 `;
 
-function Button({ children, noPadding }) {
+function Button({ children }) {
   const [active, setActive] = useState(false);
   const { theme } = useTheme();
+  const IsMobile = useMediaQuery({ maxWidth: 700 });
 
   return (
-    <BtnContainer noPadding={noPadding}>
+    <BtnContainer IsMobile={IsMobile}>
       <Btn
         theme={theme}
         type="submit"

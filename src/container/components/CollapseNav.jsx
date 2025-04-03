@@ -109,11 +109,11 @@ const Dropdownlist = styled.li`
   margin: 0 auto 1rem;
   text-align: center;
   padding: 0.7rem 1.2rem;
-  background: linear-gradient(to right, #343a40, #495057);
+  background: ${(props) => props.theme.fieldsetBg};
   color: #e3fafc;
 
   &:hover {
-    background: linear-gradient(to right, #adb5bd, #495057);
+    background: ${(props) => props.theme.ulHover};
   }
 `;
 
@@ -155,13 +155,17 @@ function CollapseNav() {
         <Li theme={theme} onClick={() => toggleOpenDropDown('motto')}>
           Motto
         </Li>
-
-        <Li
-          theme={theme}
-          onClick={() => toggleOpenDropDown('registered members')}
-        >
-          Registered Members
-        </Li>
+        <StyledNavLink to="members">
+          <Li
+            theme={theme}
+            onClick={() => {
+              toggleOpenDropDown('registered members');
+              setIsOpen(!isOpen);
+            }}
+          >
+            Registered Members
+          </Li>
+        </StyledNavLink>
         <Li theme={theme}>
           <Btn
             onClick={() => toggleOpenDropDown('account')}
@@ -172,10 +176,10 @@ function CollapseNav() {
 
           <Dropdown open={activeMenu}>
             <StyledNavLink to="signup" onClick={() => setIsOpen(!isOpen)}>
-              <Dropdownlist>Sign up</Dropdownlist>
+              <Dropdownlist theme={theme}>Sign up</Dropdownlist>
             </StyledNavLink>
             <StyledNavLink to="login" onClick={() => setIsOpen(!isOpen)}>
-              <Dropdownlist>Login</Dropdownlist>
+              <Dropdownlist theme={theme}>Login</Dropdownlist>
             </StyledNavLink>
           </Dropdown>
         </Li>

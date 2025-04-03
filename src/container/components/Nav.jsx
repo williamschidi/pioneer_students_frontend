@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
 
 import CollapseNav from './CollapseNav';
-import useSticky from '../hooks/useSticky';
 
 import PropTypes from 'prop-types';
 import { useState } from 'react';
@@ -166,13 +165,9 @@ function Nav({ isAuth }) {
   const [active, setActive] = useState(false);
 
   const isMobile = useMediaQuery({ maxWidth: 750 });
-  const isMobileSm = useMediaQuery({ maxWidth: 500 });
-
-  const { isSticky, navRef } = useSticky();
 
   function handleSearch(e) {
     if (e.key === 'Enter') {
-      console.log(search);
       setSearch('');
     }
   }
@@ -188,13 +183,12 @@ function Nav({ isAuth }) {
   }
 
   return (
-    <Container ref={navRef} className={isSticky ? 'sticky' : ''} theme={theme}>
+    <Container theme={theme}>
       <LogoContainer>
         <Img src={logo} alt="logo" />
       </LogoContainer>
       <SearchContainer>
         <Search
-          isMobileSm={isMobileSm}
           type="text"
           name="search"
           value={search}

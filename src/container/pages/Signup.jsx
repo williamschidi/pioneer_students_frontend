@@ -13,13 +13,14 @@ const Form = styled.form`
   }
   @media (max-width: 700px) {
     max-width: 35rem;
+    padding: 2rem 0 1rem;
   }
   @media (max-width: 600px) {
     max-width: 30rem;
+    padding: 1rem 0 1rem;
   }
   @media (max-width: 500px) {
     max-width: 25rem;
-    padding: 3rem 0 2rem;
   }
   @media (max-width: 400px) {
     max-width: 20rem;

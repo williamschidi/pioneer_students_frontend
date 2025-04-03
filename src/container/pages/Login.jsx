@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../components/Button';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useTheme } from '../components/ThemeContext';
 import Profile from './Profile';
 
@@ -15,13 +14,14 @@ const Form = styled.form`
   }
   @media (max-width: 700px) {
     max-width: 35rem;
+    padding: 2rem 0 1rem;
   }
   @media (max-width: 600px) {
     max-width: 30rem;
+    padding: 1rem 0;
   }
   @media (max-width: 500px) {
     max-width: 25rem;
-    padding: 3rem 0 2rem;
   }
   @media (max-width: 400px) {
     max-width: 20rem;
@@ -37,7 +37,6 @@ const Fieldset = styled.fieldset`
   padding: 4rem 1.4rem 2rem;
   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.4);
   background: ${(props) => props.theme.fieldsetBg};
-  /* linear-gradient(to right, #4dabf7, #339af0); */
   border: none;
   border-radius: 0.5rem;
 
@@ -132,10 +131,12 @@ const Input = styled.input`
   }
 `;
 
-function Login({ setIsAuth }) {
+function Login() {
   const [data, setData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const { theme } = useTheme();
+
+  const setIsAuth = useOutletContext();
 
   function handleOnChange(e) {
     setData({ ...data, [e.target.id]: e.target.value });
@@ -143,9 +144,8 @@ function Login({ setIsAuth }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setIsAuth(() => true);
+    setIsAuth((prev) => !prev);
     navigate('/member');
-    console.log(data);
   }
 
   return (
@@ -177,16 +177,12 @@ function Login({ setIsAuth }) {
               />
             </InputFields>
           </InputFieldsContainer>
-          <Button>Login</Button>
+          <Button type="submit">Login</Button>
         </Fieldset>
       </Form>
       <Profile />
     </>
   );
 }
-
-Login.propTypes = {
-  setIsAuth: PropTypes.func,
-};
 
 export default Login;

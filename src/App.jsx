@@ -29,15 +29,19 @@ const GlobalStyle = createGlobalStyle`
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
+
   return (
     <BrowserRouter>
       <GlobalStyle />
 
       <Routes>
-        <Route path="/" element={<Layout isAuth={isAuth} />}>
-          <Route index element={<Login setIsAuth={setIsAuth} />} />
+        <Route
+          path="/"
+          element={<Layout isAuth={isAuth} setIsAuth={setIsAuth} />}
+        >
+          <Route index element={<Login />} />
 
-          <Route path="login" element={<Login setIsAuth={setIsAuth} />} />
+          <Route path="login" element={<Login />} />
           <Route
             path="member"
             element={

@@ -7,14 +7,45 @@ import { NavLink } from 'react-router-dom';
 import { useTheme } from '../components/ThemeContext';
 
 const Container = styled.main`
-  margin: 1rem auto;
+  margin: 2rem auto;
   width: 50rem;
+
+  @media (max-width: 900px) {
+    width: 40rem;
+  }
+  @media (max-width: 750px) {
+    width: 35rem;
+  }
+
+  @media (max-width: 600px) {
+    width: 30rem;
+  }
+
+  @media (max-width: 500px) {
+    width: 25rem;
+  }
+
+  @media (max-width: 450px) {
+    width: 22rem;
+  }
 `;
 
 const Heading = styled.h2`
   color: ${(props) => props.theme.color};
   text-transform: uppercase;
   text-shadow: ${(props) => props.theme.textShadow};
+
+  @media (max-width: 750px) {
+    font-size: 1.4rem;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 500px) {
+    font-size: 1rem;
+  }
 `;
 
 const Main = styled.main`
@@ -33,26 +64,56 @@ const Main = styled.main`
     color: #e3fafc;
     cursor: pointer;
   }
+
+  @media (max-width: 500px) {
+    gap: 1rem;
+    padding: 0.5rem 0;
+  }
+  @media (max-width: 500px) {
+    gap: 1rem;
+    padding: 0.5rem;
+  }
 `;
 
 const Section = styled.section`
   width: 25rem;
   height: 100%;
 
+  @media (max-width: 500px) {
+    width: 20rem;
+  }
+
+  @media (max-width: 500px) {
+    width: 18rem;
+  }
+
   &.image-container {
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
+
+    @media (max-width: 500px) {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+    @media (max-width: 450px) {
+      width: 2rem;
+      height: 2rem;
+    }
   }
   &.info-container {
     font-size: 0.9rem;
-    padding-left: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     padding: 0.5rem 1rem;
-    border-radius: 0.4rem;
+    @media (max-width: 600px) {
+      font-size: 0.8rem;
+    }
+    @media (max-width: 500px) {
+      gap: 0.7rem;
+      font-size: 0.7rem;
+    }
   }
 `;
 const Img = styled.img`
@@ -63,6 +124,15 @@ const Img = styled.img`
 const StyledLinkNav = styled(NavLink)`
   text-decoration: none;
   color: ${(props) => props.theme.color};
+`;
+
+const P = styled.p`
+  &.clip {
+    width: 5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `;
 
 function Members() {
@@ -111,13 +181,13 @@ function Members() {
               <Img src={info.photo} alt="profile_pic" />
             </Section>
             <Section className="info-container">
-              <p>
+              <P>
                 <strong>
                   {info.firstName} {info.lastName}
                 </strong>
-              </p>
-              <p>{info.phone}</p>
-              <p>{info.email}</p>
+              </P>
+              <P>{info.phone}</P>
+              <P className="clip">{info.email}</P>
             </Section>
           </Main>
         </StyledLinkNav>

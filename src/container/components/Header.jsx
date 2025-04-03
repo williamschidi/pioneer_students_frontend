@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import img1 from './../../assets/image0002.jpg';
 import { HiOutlineMoon } from 'react-icons/hi';
-import PropTypes from 'prop-types';
+
 import { useTheme } from './ThemeContext';
 import { HiMiniMoon } from 'react-icons/hi2';
 
@@ -11,6 +11,8 @@ const Main = styled.main`
   justify-content: center;
   align-items: center;
   padding: 0 1.5rem;
+  background: #fff;
+
   @media (max-width: 600px) {
     padding: 0 1rem;
   }
@@ -87,7 +89,7 @@ const Head = styled.p`
     font-size: 1rem;
     width: 100vw;
   }
-  @media (max-width: 450px) {
+  @media (max-width: 480px) {
     font-size: 0.7rem;
   }
 `;
@@ -104,9 +106,5 @@ function Header() {
     </Main>
   );
 }
-
-Header.propTypes = {
-  mode: PropTypes.string,
-};
 
 export default Header;
