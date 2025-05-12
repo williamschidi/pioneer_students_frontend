@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import Button from '../components/Button';
-import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
-import { useTheme } from '../components/ThemeContext';
+import { useState } from "react";
+import styled from "styled-components";
+import Button from "../components/Button";
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
+import { useTheme } from "../components/ThemeContext";
 
 const Form = styled.form`
   margin: 0 auto;
@@ -38,6 +38,7 @@ const Fieldset = styled.fieldset`
   background: ${(props) => props.theme.fieldsetBg};
   border: none;
   border-radius: 0.5rem;
+  opacity: 0.9;
 
   @media (max-width: 500px) {
     padding: 3.5rem 1rem 1.5rem;
@@ -180,23 +181,23 @@ const InputDiv = styled.div`
 
 function Signup() {
   const [data, setData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    accessCode: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    accessCode: "",
   });
 
   const [error, setError] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [msg, setMsg] = useState('');
+  const [msg, setMsg] = useState("");
   const { theme } = useTheme();
 
   const accessCodes = [1234, 2345, 3425, 4444];
 
   function handleOnChange(e) {
     setData({ ...data, [e.target.id]: e.target.value });
-    setError({ ...error, [e.target.id]: '' });
+    setError({ ...error, [e.target.id]: "" });
   }
 
   function handleSubmit(e) {
@@ -204,38 +205,38 @@ function Signup() {
 
     let newError = {};
     if (!data.firstName) {
-      newError.firstName = 'First name is required';
+      newError.firstName = "First name is required";
     }
     if (!data.lastName) {
-      newError.lastName = 'Last Name is required';
+      newError.lastName = "Last Name is required";
     }
 
     if (!data.email) {
-      newError.email = 'Email is required';
+      newError.email = "Email is required";
     }
     if (!data.password) {
-      newError.password = 'Password is required';
+      newError.password = "Password is required";
     }
     if (!data.accessCode) {
-      newError.accessCode = 'Access Code is required';
+      newError.accessCode = "Access Code is required";
     }
     if (!accessCodes.includes(data.accessCode * 1)) {
-      setMsg('Wrong Access code. Pls provide a valid access code');
+      setMsg("Wrong Access code. Pls provide a valid access code");
     } else {
-      setMsg('');
+      setMsg("");
     }
 
     if (Object.keys(newError).length > 0) {
       setError(newError);
     } else {
       setData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        accessCode: '',
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        accessCode: "",
       });
-      console.log('Data submitted successful');
+      console.log("Data submitted successful");
     }
   }
 
@@ -294,7 +295,7 @@ function Signup() {
               <InputDiv>
                 {error.password && <P>{error.password}</P>}
                 <Input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   placeholder="password"
                   value={data.password}

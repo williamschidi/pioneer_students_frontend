@@ -1,8 +1,10 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
-import { HiChevronDown } from 'react-icons/hi';
-import { useTheme } from './ThemeContext';
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
+import { HiChevronDown } from "react-icons/hi";
+import { useTheme } from "./ThemeContext";
+import ToggleLightMode from "./ToggleLightMode";
+import { Link } from "react-scroll";
 
 const Ul = styled.ul`
   position: fixed;
@@ -12,12 +14,15 @@ const Ul = styled.ul`
   min-height: 100vh;
   display: block;
   z-index: 98;
-  margin-top: 9rem;
+  margin-top: 5.2rem;
   background: ${(props) => props.theme.layoutBg};
   transition: all 0.8s;
 
   &.show-nav {
     left: 0;
+  }
+  @media (max-width: 500px) {
+    margin-top: 3.5rem;
   }
 `;
 
@@ -54,7 +59,7 @@ const Bar = styled.div`
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     background: #e3fafc;
     width: 1.4rem;
@@ -97,7 +102,7 @@ const Btn = styled.button`
 
 const Dropdown = styled.ul`
   position: absolute;
-  display: ${({ open }) => (open ? 'flex' : 'none')};
+  display: ${({ open }) => (open ? "flex" : "none")};
   flex-direction: column;
   width: 10rem;
   top: 4rem;
@@ -129,13 +134,19 @@ const DropDownArrow = styled(HiChevronDown)`
   }
 `;
 
+const ToggleContainer = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+`;
+
 function CollapseNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
   const { theme } = useTheme();
 
   function toggleOpenDropDown(menu) {
-    if (menu === 'account') {
+    if (menu === "account") {
       setActiveMenu((prevMenu) => (prevMenu === menu ? null : menu));
     } else {
       setActiveMenu(null);
@@ -145,21 +156,24 @@ function CollapseNav() {
     <>
       <Bar
         onClick={() => setIsOpen(!isOpen)}
-        className={isOpen ? 'active' : ''}
+        className={isOpen ? "active" : ""}
       ></Bar>
-      <Ul className={isOpen ? 'show-nav' : ''} theme={theme}>
-        <Li theme={theme} onClick={() => toggleOpenDropDown('about')}>
-          About Us
+      <Ul className={isOpen ? "show-nav" : ""} theme={theme}>
+        <ToggleContainer>
+          <ToggleLightMode />
+        </ToggleContainer>
+
+        <Li theme={theme} onClick={() => toggleOpenDropDown("about")}>
+          <Link to="about" smooth={true} duration={500} offset={-60}>
+            About Us
+          </Link>
         </Li>
 
-        <Li theme={theme} onClick={() => toggleOpenDropDown('motto')}>
-          Motto
-        </Li>
         <StyledNavLink to="members">
           <Li
             theme={theme}
             onClick={() => {
-              toggleOpenDropDown('registered members');
+              toggleOpenDropDown("registered members");
               setIsOpen(!isOpen);
             }}
           >
@@ -168,10 +182,10 @@ function CollapseNav() {
         </StyledNavLink>
         <Li theme={theme}>
           <Btn
-            onClick={() => toggleOpenDropDown('account')}
-            className={activeMenu && 'show-menu'}
+            onClick={() => toggleOpenDropDown("account")}
+            className={activeMenu && "show-menu"}
           >
-            Account <DropDownArrow className={activeMenu && 'arrow-right'} />
+            Account <DropDownArrow className={activeMenu && "arrow-right"} />
           </Btn>
 
           <Dropdown open={activeMenu}>

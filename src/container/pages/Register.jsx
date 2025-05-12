@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import Button from '../components/Button';
-import { useTheme } from '../components/ThemeContext';
+import { useState } from "react";
+import styled from "styled-components";
+import Button from "../components/Button";
+import { useTheme } from "../components/ThemeContext";
 
 const Form = styled.form`
   margin: 0 auto;
@@ -37,6 +37,7 @@ const Fieldset = styled.fieldset`
   background: ${(props) => props.theme.fieldsetBg};
   border: none;
   border-radius: 0.5rem;
+  opacity: 0.9;
   @media (max-width: 900px) {
     padding: 3rem 1.4rem 2rem;
   }
@@ -118,7 +119,7 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  width: ${(props) => (props.type === 'radio' ? '6rem' : '30rem')};
+  width: ${(props) => (props.type === "radio" ? "6rem" : "30rem")};
   padding: 0.5rem 1rem;
   border: 1px solid gray;
   border-radius: 0.8rem;
@@ -131,19 +132,19 @@ const Input = styled.input`
     box-shadow: 0 0 0.5rem rgba(0, 0, 255, 0.5);
   }
   @media (max-width: 900px) {
-    width: ${(props) => (props.type === 'radio' ? '4rem' : '25rem')};
+    width: ${(props) => (props.type === "radio" ? "4rem" : "25rem")};
   }
   @media (max-width: 700px) {
-    width: ${(props) => (props.type === 'radio' ? '2rem' : '25rem')};
+    width: ${(props) => (props.type === "radio" ? "2rem" : "25rem")};
   }
 
   @media (max-width: 600px) {
-    width: ${(props) => (props.type === 'radio' ? '2rem' : '22rem')};
+    width: ${(props) => (props.type === "radio" ? "2rem" : "22rem")};
     padding: 0.4rem 0.8rem;
   }
 
   @media (max-width: 400px) {
-    width: ${(props) => (props.type === 'radio' ? '2rem' : '18rem')};
+    width: ${(props) => (props.type === "radio" ? "2rem" : "18rem")};
     padding: 0.3rem 0.6rem;
   }
 `;
@@ -173,24 +174,24 @@ const Select = styled.select`
 
 function Register() {
   const stateLGData = {
-    Lagos: ['Ikeja', 'Surulele', 'Epe', 'Ikorodu'],
-    Enugu: ['Nsukka', 'Enugu East', 'Nkanu', 'Udi'],
-    Kano: ['Kano Municipal', 'Dala', 'Gwale', 'Ungogo'],
-    Rivers: ['Port Harcourt', 'Obi-Akpor', 'Eleme', 'Ikwere'],
+    Lagos: ["Ikeja", "Surulele", "Epe", "Ikorodu"],
+    Enugu: ["Nsukka", "Enugu East", "Nkanu", "Udi"],
+    Kano: ["Kano Municipal", "Dala", "Gwale", "Ungogo"],
+    Rivers: ["Port Harcourt", "Obi-Akpor", "Eleme", "Ikwere"],
   };
 
   const [data, setData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    gender: '',
-    maritalStatus: '',
-    ResidenceAddress: '',
-    occupation: '',
-    state: '',
-    localGovernment: '',
-    profilePictureUrl: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    gender: "",
+    maritalStatus: "",
+    ResidenceAddress: "",
+    occupation: "",
+    state: "",
+    localGovernment: "",
+    profilePictureUrl: "",
     profilePicture: null,
   });
 
@@ -273,7 +274,7 @@ function Register() {
                 name="gender"
                 id="male"
                 value="male"
-                checked={data.gender === 'male'}
+                checked={data.gender === "male"}
                 onChange={handleOnChange}
               />
               <Label htmlFor="male">Male</Label>
@@ -283,7 +284,7 @@ function Register() {
                 name="gender"
                 id="female"
                 value="female"
-                checked={data.gender === 'female'}
+                checked={data.gender === "female"}
                 onChange={handleOnChange}
               />
               <Label htmlFor="female">Female</Label>
@@ -297,7 +298,7 @@ function Register() {
                 name="maritalStatus"
                 id="single"
                 value="single"
-                checked={data.gender === 'single'}
+                checked={data.gender === "single"}
                 onChange={handleOnChange}
               />
               <Label htmlFor="single">Single</Label>
@@ -306,7 +307,7 @@ function Register() {
                 name="MaritalStatus"
                 id="married"
                 value="married"
-                checked={data.gender === 'married'}
+                checked={data.gender === "married"}
                 onChange={handleOnChange}
               />
               <Label htmlFor="married">Married</Label>
@@ -316,7 +317,7 @@ function Register() {
                 name="MaritalStatus"
                 id="divorced"
                 value="divorced"
-                checked={data.gender === 'divorced'}
+                checked={data.gender === "divorced"}
                 onChange={handleOnChange}
               />
               <Label htmlFor="divorced">Divorced</Label>

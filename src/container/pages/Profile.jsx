@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import esther from './../../assets/esther.png';
-import { useTheme } from '../components/ThemeContext';
-import Button from '../components/Button';
-import { useMediaQuery } from 'react-responsive';
+import styled from "styled-components";
+import esther from "./../../assets/esther.png";
+import { useTheme } from "../components/ThemeContext";
+import Button from "../components/Button";
+import { useMediaQuery } from "react-responsive";
 
 const Main = styled.main`
   max-width: 55rem;
-  box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4rem 4rem rgba(0, 0, 0, 0.7);
   border-radius: 0.5rem;
   height: 22rem;
   margin: 3rem auto;
@@ -41,6 +41,7 @@ const Aside = styled.aside`
   align-items: center;
   gap: 1.5rem;
   border-right: 0.1rem solid gray;
+
   @media (max-width: 750px) {
     border-right: 0;
     width: 25rem;
@@ -65,7 +66,7 @@ const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  color: ${(props) => props.theme.color};
+  color: #e3fafc;
   @media (max-width: 750px) {
     justify-content: center;
     align-items: center;
@@ -170,6 +171,7 @@ const BtnContainer = styled.div`
 function Profile() {
   const isMobile = useMediaQuery({ maxWidth: 750 });
   const { theme } = useTheme();
+
   return (
     <Main theme={theme}>
       <Aside>
@@ -181,7 +183,7 @@ function Profile() {
           <P className="small">Civil servant</P>
         </DetailContainer>
         <BtnContainer>
-          {!isMobile ? <Button noPadding>Edit</Button> : ''}
+          {!isMobile ? <Button noPadding>Edit</Button> : ""}
         </BtnContainer>
       </Aside>
       <Section theme={theme}>

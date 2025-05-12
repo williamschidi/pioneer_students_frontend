@@ -1,11 +1,13 @@
-import styled from 'styled-components';
-import img1 from './../../assets/image0002.jpg';
-import { useTheme } from './ThemeContext';
+import styled from "styled-components";
+import img1 from "./../../assets/image0002.jpg";
+import { useTheme } from "./ThemeContext";
 
 const FooterContainer = styled.footer`
   text-align: center;
   padding: 1rem 1.4rem;
   background: ${(props) => props.theme.footerBg};
+  // background: ${(props) => props.theme.navBg};
+  z-index: 100;
   @media (max-width: 600px) {
     padding: 0.8rem 1rem;
   }

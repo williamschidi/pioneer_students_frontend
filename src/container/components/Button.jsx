@@ -1,14 +1,14 @@
 // import PropTypes from 'prop-types';
-import { useState } from 'react';
-import styled from 'styled-components';
-import { useTheme } from './ThemeContext';
-import PropTypes from 'prop-types';
-import { useMediaQuery } from 'react-responsive';
+import { useState } from "react";
+import styled from "styled-components";
+import { useTheme } from "./ThemeContext";
+import PropTypes from "prop-types";
+import { useMediaQuery } from "react-responsive";
 
 const BtnContainer = styled.div`
   width: 100%;
   text-align: center;
-  padding-left: ${(props) => (props.IsMobile ? '0' : '5rem')};
+
   @media (max-width: 700px) {
     padding-left: 0;
   }
@@ -28,25 +28,27 @@ const Btn = styled.button`
     color: #e3fafc;
     font-weight: bold;
   }
-  /* &.active {
-    transform: translateY(0.3rem);
-    background-color: red;
+  &.active {
+    transform: scale(0.9);
     box-shadow: 0 0.2rem 0.3rem rgba(0, 0, 0, 0.4);
-  } */
+  }
 `;
 
-function Button({ children }) {
+function Button({ children, bgColor = "white", textColor = "#343a40" }) {
   const [active, setActive] = useState(false);
   const { theme } = useTheme();
-  const IsMobile = useMediaQuery({ maxWidth: 700 });
+  const mobile = useMediaQuery({ maxWidth: 700 });
 
   return (
-    <BtnContainer IsMobile={IsMobile}>
+    <BtnContainer isMobile={mobile}>
       <Btn
         theme={theme}
         type="submit"
-        onClick={() => setActive(true)}
-        className={active ? 'active' : ''}
+        onMouseDown={() => setActive(true)}
+        onMouseUp={() => setActive(false)}
+        onMouseLeave={() => setActive(false)}
+        className={active ? "active" : ""}
+        style={{ background: bgColor, color: textColor }}
       >
         {children}
       </Btn>
@@ -57,6 +59,8 @@ function Button({ children }) {
 Button.propTypes = {
   children: PropTypes.string,
   noPadding: PropTypes.bool,
+  bgColor: PropTypes.string,
+  textColor: PropTypes.string,
 };
 
 export default Button;

@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import Button from '../components/Button';
-import { useNavigate, useOutletContext } from 'react-router-dom';
-import { useTheme } from '../components/ThemeContext';
-import Profile from './Profile';
+import { useState } from "react";
+import styled from "styled-components";
+import Button from "../components/Button";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { useTheme } from "../components/ThemeContext";
+// import Profile from "./Profile";
+// import BackgroundImage from "./BackgroundImage";
 
 const Form = styled.form`
   margin: 0 auto;
@@ -39,6 +40,7 @@ const Fieldset = styled.fieldset`
   background: ${(props) => props.theme.fieldsetBg};
   border: none;
   border-radius: 0.5rem;
+  opacity: 0.9;
 
   @media (max-width: 500px) {
     padding: 3.5rem 1rem 1.5rem;
@@ -132,7 +134,7 @@ const Input = styled.input`
 `;
 
 function Login() {
-  const [data, setData] = useState({ email: '', password: '' });
+  const [data, setData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   const { theme } = useTheme();
 
@@ -145,7 +147,7 @@ function Login() {
   function handleSubmit(e) {
     e.preventDefault();
     setIsAuth((prev) => !prev);
-    navigate('/member');
+    navigate("/member");
   }
 
   return (
@@ -180,7 +182,8 @@ function Login() {
           <Button type="submit">Login</Button>
         </Fieldset>
       </Form>
-      <Profile />
+      {/* <Profile /> */}
+      {/* <BackgroundImage /> */}
     </>
   );
 }

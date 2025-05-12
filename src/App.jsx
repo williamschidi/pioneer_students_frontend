@@ -1,15 +1,19 @@
-import { createGlobalStyle } from 'styled-components';
-import Login from './container/pages/Login';
-import Register from './container/pages/Register';
-import Signup from './container/pages/Signup';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Layout from './container/pages/Layout.jsx';
-import PageNotFount from './container/pages/PageNotFount.jsx';
-import About from './container/components/About.jsx';
-import Motto from './container/components/Motto.jsx';
-import ProtectedRoute from './container/components/ProtectedRoute.jsx';
-import { useState } from 'react';
-import Members from './container/pages/Members.jsx';
+import { createGlobalStyle } from "styled-components";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import Login from "./container/pages/Login";
+import Register from "./container/pages/Register";
+import Signup from "./container/pages/Signup";
+import Home from "./container/pages/Home.jsx";
+import Layout from "./container/pages/Layout.jsx";
+import Profile from "./container/pages/Profile.jsx";
+import PageNotFount from "./container/pages/PageNotFount.jsx";
+import Members from "./container/pages/Members.jsx";
+
+// import About from "./container/components/About.jsx";
+import Motto from "./container/components/Motto.jsx";
+import ProtectedRoute from "./container/components/ProtectedRoute.jsx";
+import { useState } from "react";
 
 const GlobalStyle = createGlobalStyle`
     *{
@@ -18,8 +22,23 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
     }
 
-    body{
-        font-family:tahoma;
+
+  @font-face {
+    font-family: 'Ogg';
+    src: url('/fonts/Ogg-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Ogg';
+    src: url('/fonts/Ogg-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+  }
+
+ body{
+        font-family:tahoma ,'Ogg', serif;
         width: 100%;
         max-width: 140rem;
     }
@@ -39,7 +58,7 @@ function App() {
           path="/"
           element={<Layout isAuth={isAuth} setIsAuth={setIsAuth} />}
         >
-          <Route index element={<Login />} />
+          <Route index element={<Home />} />
 
           <Route path="login" element={<Login />} />
           <Route
@@ -52,9 +71,11 @@ function App() {
           />
 
           <Route path="signup" element={<Signup />} />
+          <Route path="home" element={<Home />} />
 
           <Route path="members" element={<Members />} />
-          <Route path="about" element={<About />} />
+          <Route path="members/:id" element={<Profile />} />
+          {/* <Route path="about" element={<About />} /> */}
           <Route path="motto" element={<Motto />} />
         </Route>
         <Route path="*" element={<PageNotFount />} />

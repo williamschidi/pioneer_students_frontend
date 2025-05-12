@@ -1,10 +1,51 @@
-import chidi from './../../assets/chidi.jpg';
-import princess from './../../assets/princess.png';
-import princess01 from './../../assets/princess01.png';
-import loveth from './../../assets/loveth.png';
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import { useTheme } from '../components/ThemeContext';
+import chidi from "./../../assets/chidi.jpg";
+import princess from "./../../assets/princess.png";
+import princess01 from "./../../assets/princess01.png";
+import loveth from "./../../assets/loveth.png";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+import { useTheme } from "../components/ThemeContext";
+// import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import Button from "../components/Button";
+
+const data = [
+  {
+    id: 1,
+    firstName: "William",
+    lastName: "Emeaso",
+    email: "William@gmail.com",
+    gender: "male",
+    phone: 7033881174,
+    photo: chidi,
+  },
+  {
+    id: 2,
+    firstName: "Chidi",
+    lastName: "Eze",
+    email: "Chidi@gmail.com",
+    gender: "male",
+    phone: 8033551174,
+    photo: loveth,
+  },
+  {
+    id: 3,
+    firstName: "Esther",
+    lastName: "Nze",
+    email: "Esther@gmail.com",
+    gender: "female",
+    phone: 7066889374,
+    photo: princess,
+  },
+  {
+    id: 4,
+    firstName: "Prince",
+    lastName: "Lucky",
+    email: "Prince@gmail.com",
+    gender: "male",
+    phone: 9055678912,
+    photo: princess01,
+  },
+];
 
 const Container = styled.main`
   margin: 2rem auto;
@@ -57,8 +98,10 @@ const Main = styled.main`
   margin: 1rem 0;
   border: 0.1rem solid gray;
   border-radius: 0.5rem;
+  background: ${(props) => props.theme.navBg};
   box-shadow: 1rem 2rem 3rem rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-in-out;
+  opacity: 0.9;
   &:hover {
     background: ${(props) => props.theme.hoverBg};
     color: #e3fafc;
@@ -135,47 +178,27 @@ const P = styled.p`
   }
 `;
 
+const BtnContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  margin-top: 3rem;
+`;
+
+// const ArrorRight = styled(HiChevronRight)`
+//   font-size: 3rem;
+//   color: #fff;
+// `;
+
 function Members() {
   const { theme } = useTheme();
-  const data = [
-    {
-      firstName: 'William',
-      lastName: 'Emeaso',
-      email: 'William@gmail.com',
-      gender: 'male',
-      phone: 7033881174,
-      photo: chidi,
-    },
-    {
-      firstName: 'Chidi',
-      lastName: 'Eze',
-      email: 'Chidi@gmail.com',
-      gender: 'male',
-      phone: 8033551174,
-      photo: loveth,
-    },
-    {
-      firstName: 'Esther',
-      lastName: 'Nze',
-      email: 'Esther@gmail.com',
-      gender: 'female',
-      phone: 7066889374,
-      photo: princess,
-    },
-    {
-      firstName: 'Prince',
-      lastName: 'Lucky',
-      email: 'Prince@gmail.com',
-      gender: 'male',
-      phone: 9055678912,
-      photo: princess01,
-    },
-  ];
+
   return (
     <Container>
       <Heading theme={theme}>Members</Heading>
       {data.map((info, ind) => (
-        <StyledLinkNav to="#" key={ind} theme={theme}>
+        <StyledLinkNav to={`/members/${info.id}`} key={ind} theme={theme}>
           <Main theme={theme}>
             <Section className="image-container">
               <Img src={info.photo} alt="profile_pic" />
@@ -192,6 +215,14 @@ function Members() {
           </Main>
         </StyledLinkNav>
       ))}
+      <BtnContainer>
+        <Button bgColor={theme.navBg} textColor="#fff">
+          Prev
+        </Button>
+        <Button bgColor={theme.navBg} textColor="#fff">
+          Next
+        </Button>
+      </BtnContainer>
     </Container>
   );
 }

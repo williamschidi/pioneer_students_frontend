@@ -1,9 +1,8 @@
-import styled from 'styled-components';
-import img1 from './../../assets/image0002.jpg';
-import { HiOutlineMoon } from 'react-icons/hi';
-
-import { useTheme } from './ThemeContext';
-import { HiMiniMoon } from 'react-icons/hi2';
+import styled, { keyframes, css } from "styled-components";
+import img1 from "./../../assets/image0002.jpg";
+import { HiOutlineSun } from "react-icons/hi";
+import { HiMiniMoon } from "react-icons/hi2";
+import { useTheme } from "./ThemeContext";
 
 const Main = styled.main`
   position: relative;
@@ -17,6 +16,27 @@ const Main = styled.main`
     padding: 0 1rem;
   }
 `;
+
+const Rotate = keyframes`
+  from{ 
+    transform: rotate(0deg);
+    
+  }
+  to{
+    transform: rotate(180deg);
+
+  }
+`;
+
+const Reverse = keyframes`
+  from{
+    transform: rotate(180deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+`;
+
 const Button = styled.button`
   margin-left: auto;
   display: inline-flex;
@@ -25,9 +45,18 @@ const Button = styled.button`
   width: 3rem;
   height: 3rem;
   border-radius: 0.4rem;
-  border: 0.1rem solid gray;
-  box-shadow: 0.2rem 0.3rem 0.3rem rgba(0, 0, 0, 0.3);
-  background-color: transparent;
+  border: none;
+  /* box-shadow: 0.2rem 0.3rem 0.3rem rgba(0, 0, 0, 0.3); */
+  background: transparent;
+  animation: ${(props) =>
+    props.mode === "light"
+      ? css`
+          ${Rotate} 1s forwards
+        `
+      : css`
+          ${Reverse} 1s forwards
+        `};
+
   cursor: pointer;
 
   @media (max-width: 600px) {
@@ -42,15 +71,15 @@ const Button = styled.button`
 const DarkModeIcon = styled(HiMiniMoon)`
   width: 2rem;
   height: 2rem;
+
   @media (max-width: 450px) {
     width: 1rem;
     height: 1rem;
   }
 `;
-const LightModeIcon = styled(HiOutlineMoon)`
+const LightModeIcon = styled(HiOutlineSun)`
   width: 2rem;
   height: 2rem;
-  fill: #fff;
 
   @media (max-width: 600px) {
     width: 1.5rem;
@@ -100,8 +129,8 @@ function Header() {
   return (
     <Main>
       <Head>Pioneer Students of St. Marks Sec Sch Emene.</Head>
-      <Button onClick={toggleMode}>
-        {mode === 'light' ? <LightModeIcon /> : <DarkModeIcon />}
+      <Button onClick={toggleMode} mode={mode} key={mode}>
+        {mode === "light" ? <LightModeIcon /> : <DarkModeIcon />}
       </Button>
     </Main>
   );
