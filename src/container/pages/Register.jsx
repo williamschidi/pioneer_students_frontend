@@ -2,6 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import Button from "../components/Button";
 import { useTheme } from "../components/ThemeContext";
+import {
+  useGetAllStatesQuery,
+  useRegisterMemberMutation,
+} from "../components/redux/apiSlice";
 
 const Form = styled.form`
   margin: 0 auto;
@@ -173,47 +177,60 @@ const Select = styled.select`
 `;
 
 function Register() {
-  const stateLGData = {
-    Lagos: ["Ikeja", "Surulele", "Epe", "Ikorodu"],
-    Enugu: ["Nsukka", "Enugu East", "Nkanu", "Udi"],
-    Kano: ["Kano Municipal", "Dala", "Gwale", "Ungogo"],
-    Rivers: ["Port Harcourt", "Obi-Akpor", "Eleme", "Ikwere"],
-  };
+  const { data } = useGetAllStatesQuery();
 
-  const [data, setData] = useState({
+  const [register, { isLoading }] = useRegisterMemberMutation();
+
+  const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
     gender: "",
     maritalStatus: "",
-    ResidenceAddress: "",
+    residence: "",
     occupation: "",
     state: "",
-    localGovernment: "",
-    profilePictureUrl: "",
-    profilePicture: null,
+    localGov: "",
+    // profilePictureUrl: "",
+    // profilePicture: null,
   });
 
   const { theme } = useTheme();
 
   function handleOnChange(e) {
-    setData(() => ({ ...data, [e.target.name]: e.target.value }));
+    setFormData(() => ({ ...formData, [e.target.name]: e.target.value }));
   }
 
-  function handleFileChange(e) {
-    const file = e.target.file[0];
+  // function handleFileChange(e) {
+  //   const file = e.target.files[0];
 
-    if (file) {
-      const imgUrl = URL.createObjectURL(file);
-      setData({ ...data, profilePicture: file, profilePictureUrl: imgUrl });
+  //   if (file) {
+  //     const imgUrl = URL.createObjectURL(file);
+  //     setFormData({
+  //       ...formData,
+  //       profilePicture: file,
+  //       profilePictureUrl: imgUrl,
+  //     });
+  //   }
+  // }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    console.log("Submitting:", formData);
+    try {
+      await register(formData).unwrap();
+      console.log("Submitting:", formData);
+    } catch (err) {
+      console.log(err.message);
     }
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(data);
-  }
+  const states = data?.data?.getStates;
+
+  const lgas =
+    states?.find((state) => state.value === formData.state)?.localGovernments ||
+    [];
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -227,7 +244,7 @@ function Register() {
               id="firstName"
               name="firstName"
               placeholder="First Name"
-              value={data.firstName}
+              value={formData.firstName}
               onChange={handleOnChange}
               required
             />
@@ -239,7 +256,7 @@ function Register() {
               id="lastName"
               name="lastName"
               placeholder="Last Name"
-              value={data.lastName}
+              value={formData.lastName}
               onChange={handleOnChange}
             />
           </InputFields>
@@ -250,7 +267,7 @@ function Register() {
               id="email"
               name="email"
               placeholder="Email"
-              value={data.email}
+              value={formData.email}
               onChange={handleOnChange}
             />
           </InputFields>
@@ -258,11 +275,11 @@ function Register() {
           <InputFields>
             <Label htmlFor="phone">Phone Number :</Label>
             <Input
-              type="number"
+              type="text"
               id="phone"
               name="phone"
               placeholder="phone"
-              value={data.phone}
+              value={formData.phone}
               onChange={handleOnChange}
             />
           </InputFields>
@@ -274,7 +291,7 @@ function Register() {
                 name="gender"
                 id="male"
                 value="male"
-                checked={data.gender === "male"}
+                checked={formData.gender === "male"}
                 onChange={handleOnChange}
               />
               <Label htmlFor="male">Male</Label>
@@ -284,7 +301,7 @@ function Register() {
                 name="gender"
                 id="female"
                 value="female"
-                checked={data.gender === "female"}
+                checked={formData.gender === "female"}
                 onChange={handleOnChange}
               />
               <Label htmlFor="female">Female</Label>
@@ -298,31 +315,43 @@ function Register() {
                 name="maritalStatus"
                 id="single"
                 value="single"
-                checked={data.gender === "single"}
+                checked={formData.maritalStatus === "single"}
                 onChange={handleOnChange}
               />
               <Label htmlFor="single">Single</Label>
               <Input
                 type="radio"
-                name="MaritalStatus"
+                name="maritalStatus"
                 id="married"
                 value="married"
-                checked={data.gender === "married"}
+                checked={formData.maritalStatus === "married"}
                 onChange={handleOnChange}
               />
               <Label htmlFor="married">Married</Label>
 
               <Input
                 type="radio"
-                name="MaritalStatus"
+                name="maritalStatus"
                 id="divorced"
                 value="divorced"
-                checked={data.gender === "divorced"}
+                checked={formData.maritalStatus === "divorced"}
                 onChange={handleOnChange}
               />
               <Label htmlFor="divorced">Divorced</Label>
             </div>
           </RadioInput>
+          <InputFields>
+            <Label htmlFor="residence">Residential Address :</Label>
+            <Input
+              type="text"
+              id="residence"
+              name="residence"
+              placeholder="Residential Address"
+              value={formData.residence}
+              onChange={handleOnChange}
+            />
+          </InputFields>
+
           <InputFields>
             <Label htmlFor="occupation">Occupation :</Label>
             <Input
@@ -330,7 +359,7 @@ function Register() {
               id="occupation"
               name="occupation"
               placeholder="Occupation"
-              value={data.occupation}
+              value={formData.occupation}
               onChange={handleOnChange}
             />
           </InputFields>
@@ -339,13 +368,13 @@ function Register() {
             <Select
               id="state"
               name="state"
-              value={data.state}
+              value={formData.state}
               onChange={handleOnChange}
             >
               <option value="">Select State</option>
-              {Object.keys(stateLGData).map((state) => (
-                <option key={state} value={state}>
-                  {state}
+              {states?.map((state) => (
+                <option key={state._id} value={state.value}>
+                  {state.state}
                 </option>
               ))}
             </Select>
@@ -354,21 +383,20 @@ function Register() {
             <Label htmlFor="lga">Local Government</Label>
             <Select
               id="lga"
-              name="localGovernment"
-              value={data.localGovernment}
+              name="localGov"
+              value={formData.localGov}
               onChange={handleOnChange}
-              disabled={!data.state}
+              disabled={!formData.state}
             >
               <option>Select Local Government</option>
-              {data.state &&
-                stateLGData[data.state].map((localGovernment) => (
-                  <option key={localGovernment} value={localGovernment}>
-                    {localGovernment}
-                  </option>
-                ))}
+              {lgas?.map((lga) => (
+                <option key={lga.name} value={lga.value}>
+                  {lga.name}
+                </option>
+              ))}
             </Select>
           </InputFields>
-          <InputFields>
+          {/* <InputFields>
             <Label htmlFor="photo">Profile Picture :</Label>
             <Input
               type="file"
@@ -376,9 +404,9 @@ function Register() {
               id="photo"
               onChange={handleFileChange}
             />
-          </InputFields>
+          </InputFields> */}
         </InputFieldsContainer>
-        <Button />
+        <Button type="submit">{isLoading ? "Registering" : "Register"}</Button>
       </Fieldset>
     </Form>
   );

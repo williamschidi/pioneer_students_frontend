@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Button from "../components/Button";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 import { useTheme } from "../components/ThemeContext";
+import { useSignupMutation } from "../components/redux/apiSlice";
+import { useNavigate } from "react-router-dom";
 
 const Form = styled.form`
   margin: 0 auto;
@@ -179,64 +181,84 @@ const InputDiv = styled.div`
   position: relative;
 `;
 
+const accessCodes = [1234, 2345, 3425, 4444];
+
 function Signup() {
-  const [data, setData] = useState({
+  const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
+    confirm_Password: "",
     accessCode: "",
   });
+
+  const [Signup, { isLoading }] = useSignupMutation();
+  const navigate = useNavigate();
 
   const [error, setError] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [msg, setMsg] = useState("");
   const { theme } = useTheme();
 
-  const accessCodes = [1234, 2345, 3425, 4444];
-
   function handleOnChange(e) {
-    setData({ ...data, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.id]: e.target.value });
     setError({ ...error, [e.target.id]: "" });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     let newError = {};
-    if (!data.firstName) {
+    if (!formData.firstName) {
       newError.firstName = "First name is required";
     }
-    if (!data.lastName) {
+    if (!formData.lastName) {
       newError.lastName = "Last Name is required";
     }
 
-    if (!data.email) {
+    if (!formData.email) {
       newError.email = "Email is required";
     }
-    if (!data.password) {
+    if (!formData.password) {
       newError.password = "Password is required";
     }
-    if (!data.accessCode) {
+    if (!formData.confirm_Password) {
+      newError.confirm_Password = "Confirm password is required";
+    }
+    if (formData.password !== formData.confirm_Password) {
+      newError.confirm_Password = "Passwords do not match";
+    }
+
+    if (!formData.accessCode) {
       newError.accessCode = "Access Code is required";
     }
-    if (!accessCodes.includes(data.accessCode * 1)) {
+    if (!accessCodes.includes(formData.accessCode * 1)) {
       setMsg("Wrong Access code. Pls provide a valid access code");
+      return;
     } else {
       setMsg("");
     }
 
     if (Object.keys(newError).length > 0) {
       setError(newError);
-    } else {
-      setData({
+      return;
+    }
+
+    try {
+      await Signup(formData).unwrap();
+      setFormData({
         firstName: "",
         lastName: "",
         email: "",
         password: "",
+        confirm_Password: "",
         accessCode: "",
       });
-      console.log("Data submitted successful");
+      navigate("/member");
+    } catch (err) {
+      console.error("Signup failed:", err);
+      setMsg("Signup failed. Please try again.");
     }
   }
 
@@ -255,7 +277,7 @@ function Signup() {
                   type="text"
                   id="firstName"
                   placeholder="first name"
-                  value={data.firstName}
+                  value={formData.firstName}
                   onChange={handleOnChange}
                   required
                 />
@@ -270,7 +292,7 @@ function Signup() {
                   type="text"
                   id="lastName"
                   placeholder="last name"
-                  value={data.lastName}
+                  value={formData.lastName}
                   onChange={handleOnChange}
                   required
                 />
@@ -284,7 +306,7 @@ function Signup() {
                   type="email"
                   id="email"
                   placeholder="email"
-                  value={data.email}
+                  value={formData.email}
                   onChange={handleOnChange}
                   required
                 />
@@ -298,7 +320,30 @@ function Signup() {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   placeholder="password"
-                  value={data.password}
+                  value={formData.password}
+                  onChange={handleOnChange}
+                  required
+                />
+                {showPassword ? (
+                  <ShowPassword
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                ) : (
+                  <HidePassword
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                )}
+              </InputDiv>
+            </InputFields>
+            <InputFields>
+              <Label htmlFor="confirm_Password">Confirm Password :</Label>
+              <InputDiv>
+                {error.confirm_Password && <P>{error.confirm_Password}</P>}
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  id="confirm_Password"
+                  placeholder="confirm password"
+                  value={formData.confirm_Password}
                   onChange={handleOnChange}
                   required
                 />
@@ -321,14 +366,14 @@ function Signup() {
                   type="Number"
                   id="accessCode"
                   placeholder="access code"
-                  value={data.accessCode}
+                  value={formData.accessCode}
                   onChange={handleOnChange}
                   required
                 />
               </InputDiv>
             </InputFields>
           </InputFieldsContainer>
-          <Button>sign up</Button>
+          <Button>{isLoading ? "Registering " : "Sign Up"}</Button>
         </Fieldset>
       </Form>
     </>

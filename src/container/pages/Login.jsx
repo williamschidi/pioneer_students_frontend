@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Button from "../components/Button";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useTheme } from "../components/ThemeContext";
+import { useLoginMutation } from "../components/redux/apiSlice";
 // import Profile from "./Profile";
 // import BackgroundImage from "./BackgroundImage";
 
@@ -134,20 +135,28 @@ const Input = styled.input`
 `;
 
 function Login() {
-  const [data, setData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [login, { data, isLoading, error }] = useLoginMutation();
   const navigate = useNavigate();
   const { theme } = useTheme();
 
   const setIsAuth = useOutletContext();
 
   function handleOnChange(e) {
-    setData({ ...data, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    setIsAuth((prev) => !prev);
-    navigate("/member");
+
+    try {
+      await login(formData).unwrap();
+
+      navigate("/member");
+      setIsAuth((prev) => !prev);
+    } catch (err) {
+      console.log("login failed", err.message);
+    }
   }
 
   return (
@@ -156,13 +165,23 @@ function Login() {
         <Fieldset theme={theme}>
           <Legend>Login</Legend>
           <InputFieldsContainer>
+            {error?.data && (
+              <p style={{ color: "red", fontSize: ".8rem" }}>
+                {error?.data?.message}
+              </p>
+            )}
+            {data?.message && (
+              <p style={{ color: "#fff", fontSize: ".8rem" }}>
+                {data?.message}
+              </p>
+            )}
             <InputFields>
               <Label htmlFor="email">Email :</Label>
               <Input
                 type="email"
                 id="email"
                 placeholder="email"
-                value={data.email}
+                value={formData.email}
                 onChange={handleOnChange}
                 required
               />
@@ -173,13 +192,15 @@ function Login() {
                 type="password"
                 id="password"
                 placeholder="password"
-                value={data.password}
+                value={formData.password}
                 onChange={handleOnChange}
                 required
               />
             </InputFields>
           </InputFieldsContainer>
-          <Button type="submit">Login</Button>
+          <Button type="submit">
+            {isLoading ? "Logging in...." : "Login"}
+          </Button>
         </Fieldset>
       </Form>
       {/* <Profile /> */}
