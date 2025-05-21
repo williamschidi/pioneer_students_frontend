@@ -1,16 +1,17 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import logo from "./../../assets/logo.jpeg";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 
 import CollapseNav from "./CollapseNav";
-
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { useTheme } from "./ThemeContext";
 import { Link } from "react-scroll";
 import ToggleLightMode from "./ToggleLightMode";
+import { useLogoutMutation } from "./redux/apiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "./redux/userSlice";
 
 const Container = styled.nav`
   position: relative;
@@ -68,11 +69,9 @@ const Li = styled.li`
   font-weight: bold;
   padding: 1rem 1.6rem;
   text-align: center;
-  border-bottom: 0.1rem solid ${(props) => props.theme.navBg};
+
   ${StyledNavLink}.active & {
-    // background: ${(props) => props.theme.navActiveBg};
     border-radius: 0.5rem;
-    // box-shadow: 0.2rem 0.3rem 0.4rem rgba(0, 0, 0, 0.4);
     border-bottom: 0.1rem solid #e3fafc;
   }
   cursor: pointer;
@@ -91,37 +90,12 @@ const Li = styled.li`
   }
 `;
 
-const Dropdown = styled.ul`
-  position: absolute;
-  top: 5rem;
-  right: 0;
-  list-style: none;
-  display: ${(props) => (props.active ? "flex" : "none")};
-  flex-direction: column;
-  justify-content: space-between;
-  width: 8rem;
-  height: 6rem;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
-  background: ${(props) => props.theme.navBg};
-  opacity: 0.8;
-`;
-
-const DropdownItem = styled.li`
-  padding: 0.8rem 0;
+const Btn = styled.button`
+  border: none;
+  background-color: transparent;
   color: #e3fafc;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  border: 0.2rem solid ${(props) => props.theme.navBg};
-  border-radius: 0.5rem;
-  &:last-child {
-    margin-bottom: 0rem;
-  }
-
-  &:hover {
-    border: 0.2rem solid #e3fafc;
-  }
+  font-weight: bold;
+  font-size: 1rem;
 `;
 
 const SearchContainer = styled.div`
@@ -175,11 +149,15 @@ const SearchIcon = styled(HiOutlineSearch)`
   }
 `;
 
-function Nav({ isAuth }) {
+function Nav() {
   const location = useLocation();
   const { theme } = useTheme();
   const [search, setSearch] = useState();
-  const [active, setActive] = useState(false);
+
+  const [logout] = useLogoutMutation();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.user.isAuth);
+  const disPatch = useDispatch();
 
   const isMobile = useMediaQuery({ maxWidth: 750 });
 
@@ -193,9 +171,13 @@ function Nav({ isAuth }) {
     setSearch(() => e.target.value);
   }
 
-  function toggleClass(e) {
-    if (e.target === e.currentTarget) {
-      setActive(!active);
+  async function handlelogout() {
+    try {
+      await logout().unwrap();
+      disPatch(clearUser());
+      navigate("/login");
+    } catch (err) {
+      console.log("Login failed", err.stack);
     }
   }
 
@@ -222,7 +204,7 @@ function Nav({ isAuth }) {
           <>
             <Ul>
               {location.pathname === "/home" && (
-                <Li theme={theme} onClick={() => setActive(false)}>
+                <Li theme={theme}>
                   <Link to="about" smooth={true} duration={500} offset={-60}>
                     About Us
                   </Link>
@@ -230,27 +212,24 @@ function Nav({ isAuth }) {
               )}
 
               <StyledNavLink to="members">
-                <Li theme={theme} onClick={() => setActive(false)}>
-                  Members
-                </Li>
+                <Li theme={theme}>Members</Li>
               </StyledNavLink>
 
-              {!isAuth ? (
-                <Li theme={theme} onClick={toggleClass}>
-                  Account
-                  <Dropdown theme={theme} active={active}>
-                    <StyledNavLink to="signup">
-                      <DropdownItem theme={theme}>Sign up</DropdownItem>
-                    </StyledNavLink>
-                    <StyledNavLink to="login">
-                      <DropdownItem theme={theme}>Login</DropdownItem>
-                    </StyledNavLink>
-                  </Dropdown>
-                </Li>
-              ) : (
-                <StyledNavLink to="member">
-                  <Li>Register Member</Li>
+              {!isAuthenticated ? (
+                <StyledNavLink to="login">
+                  <Li theme={theme}>Login</Li>
                 </StyledNavLink>
+              ) : (
+                <>
+                  <StyledNavLink to="member">
+                    <Li>Register Member</Li>
+                  </StyledNavLink>
+                  <StyledNavLink>
+                    <Li>
+                      <Btn onClick={handlelogout}>Logout</Btn>
+                    </Li>
+                  </StyledNavLink>
+                </>
               )}
             </Ul>
             <ToggleLightMode />
@@ -262,9 +241,5 @@ function Nav({ isAuth }) {
     </Container>
   );
 }
-
-Nav.propTypes = {
-  isAuth: PropTypes.bool,
-};
 
 export default Nav;

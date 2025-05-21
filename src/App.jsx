@@ -13,7 +13,6 @@ import Members from "./container/pages/Members.jsx";
 // import About from "./container/components/About.jsx";
 import Motto from "./container/components/Motto.jsx";
 import ProtectedRoute from "./container/components/ProtectedRoute.jsx";
-import { useState } from "react";
 
 const GlobalStyle = createGlobalStyle`
     *{
@@ -47,24 +46,19 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  const [isAuth, setIsAuth] = useState(false);
-
   return (
     <BrowserRouter>
       <GlobalStyle />
 
       <Routes>
-        <Route
-          path="/"
-          element={<Layout isAuth={isAuth} setIsAuth={setIsAuth} />}
-        >
+        <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
 
           <Route path="login" element={<Login />} />
           <Route
-            path="member"
+            path="register"
             element={
-              <ProtectedRoute isAuth={isAuth}>
+              <ProtectedRoute>
                 <Register />
               </ProtectedRoute>
             }
@@ -74,7 +68,7 @@ function App() {
           <Route path="home" element={<Home />} />
 
           <Route path="members" element={<Members />} />
-          <Route path="members/:id" element={<Profile />} />
+          <Route path="member/:id" element={<Profile />} />
           {/* <Route path="about" element={<About />} /> */}
           <Route path="motto" element={<Motto />} />
         </Route>

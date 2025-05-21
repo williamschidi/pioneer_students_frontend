@@ -6,6 +6,7 @@ import {
   useGetAllStatesQuery,
   useRegisterMemberMutation,
 } from "../components/redux/apiSlice";
+import { useSelector } from "react-redux";
 
 const Form = styled.form`
   margin: 0 auto;
@@ -175,11 +176,17 @@ const Select = styled.select`
     padding: 0.3rem 0.6rem;
   }
 `;
+const P = styled.p`
+  padding: 1rem 2rem;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: bold;
+`;
 
 function Register() {
   const { data } = useGetAllStatesQuery();
-
   const [register, { isLoading }] = useRegisterMemberMutation();
+  const { username } = useSelector((state) => state.user);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -217,10 +224,9 @@ function Register() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log("Submitting:", formData);
+
     try {
       await register(formData).unwrap();
-      console.log("Submitting:", formData);
     } catch (err) {
       console.log(err.message);
     }
@@ -233,170 +239,172 @@ function Register() {
     [];
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Fieldset theme={theme}>
-        <Legend>Register Member </Legend>
-        <InputFieldsContainer>
-          <InputFields>
-            <Label htmlFor="firstName">First name :</Label>
-            <Input
-              type="text"
-              id="firstName"
-              name="firstName"
-              placeholder="First Name"
-              value={formData.firstName}
-              onChange={handleOnChange}
-              required
-            />
-          </InputFields>
-          <InputFields>
-            <Label htmlFor="lastName">Last name :</Label>
-            <Input
-              type="text"
-              id="lastName"
-              name="lastName"
-              placeholder="Last Name"
-              value={formData.lastName}
-              onChange={handleOnChange}
-            />
-          </InputFields>
-          <InputFields>
-            <Label htmlFor="email">Email :</Label>
-            <Input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleOnChange}
-            />
-          </InputFields>
+    <>
+      <P>Welcome | {username}</P>
+      <Form onSubmit={handleSubmit}>
+        <Fieldset theme={theme}>
+          <Legend>Register Member </Legend>
+          <InputFieldsContainer>
+            <InputFields>
+              <Label htmlFor="firstName">First name :</Label>
+              <Input
+                type="text"
+                id="firstName"
+                name="firstName"
+                placeholder="First Name"
+                value={formData.firstName}
+                onChange={handleOnChange}
+                required
+              />
+            </InputFields>
+            <InputFields>
+              <Label htmlFor="lastName">Last name :</Label>
+              <Input
+                type="text"
+                id="lastName"
+                name="lastName"
+                placeholder="Last Name"
+                value={formData.lastName}
+                onChange={handleOnChange}
+              />
+            </InputFields>
+            <InputFields>
+              <Label htmlFor="email">Email :</Label>
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleOnChange}
+              />
+            </InputFields>
 
-          <InputFields>
-            <Label htmlFor="phone">Phone Number :</Label>
-            <Input
-              type="text"
-              id="phone"
-              name="phone"
-              placeholder="phone"
-              value={formData.phone}
-              onChange={handleOnChange}
-            />
-          </InputFields>
-          <RadioInput>
-            <Label htmlFor="gender">Gender :</Label>
-            <div>
+            <InputFields>
+              <Label htmlFor="phone">Phone Number :</Label>
               <Input
-                type="radio"
-                name="gender"
-                id="male"
-                value="male"
-                checked={formData.gender === "male"}
+                type="text"
+                id="phone"
+                name="phone"
+                placeholder="phone"
+                value={formData.phone}
                 onChange={handleOnChange}
               />
-              <Label htmlFor="male">Male</Label>
+            </InputFields>
+            <RadioInput>
+              <Label htmlFor="gender">Gender :</Label>
+              <div>
+                <Input
+                  type="radio"
+                  name="gender"
+                  id="male"
+                  value="male"
+                  checked={formData.gender === "male"}
+                  onChange={handleOnChange}
+                />
+                <Label htmlFor="male">Male</Label>
 
-              <Input
-                type="radio"
-                name="gender"
-                id="female"
-                value="female"
-                checked={formData.gender === "female"}
-                onChange={handleOnChange}
-              />
-              <Label htmlFor="female">Female</Label>
-            </div>
-          </RadioInput>
-          <RadioInput>
-            <Label>Marital Status :</Label>
-            <div>
-              <Input
-                type="radio"
-                name="maritalStatus"
-                id="single"
-                value="single"
-                checked={formData.maritalStatus === "single"}
-                onChange={handleOnChange}
-              />
-              <Label htmlFor="single">Single</Label>
-              <Input
-                type="radio"
-                name="maritalStatus"
-                id="married"
-                value="married"
-                checked={formData.maritalStatus === "married"}
-                onChange={handleOnChange}
-              />
-              <Label htmlFor="married">Married</Label>
+                <Input
+                  type="radio"
+                  name="gender"
+                  id="female"
+                  value="female"
+                  checked={formData.gender === "female"}
+                  onChange={handleOnChange}
+                />
+                <Label htmlFor="female">Female</Label>
+              </div>
+            </RadioInput>
+            <RadioInput>
+              <Label>Marital Status :</Label>
+              <div>
+                <Input
+                  type="radio"
+                  name="maritalStatus"
+                  id="single"
+                  value="single"
+                  checked={formData.maritalStatus === "single"}
+                  onChange={handleOnChange}
+                />
+                <Label htmlFor="single">Single</Label>
+                <Input
+                  type="radio"
+                  name="maritalStatus"
+                  id="married"
+                  value="married"
+                  checked={formData.maritalStatus === "married"}
+                  onChange={handleOnChange}
+                />
+                <Label htmlFor="married">Married</Label>
 
+                <Input
+                  type="radio"
+                  name="maritalStatus"
+                  id="divorced"
+                  value="divorced"
+                  checked={formData.maritalStatus === "divorced"}
+                  onChange={handleOnChange}
+                />
+                <Label htmlFor="divorced">Divorced</Label>
+              </div>
+            </RadioInput>
+            <InputFields>
+              <Label htmlFor="residence">Residential Address :</Label>
               <Input
-                type="radio"
-                name="maritalStatus"
-                id="divorced"
-                value="divorced"
-                checked={formData.maritalStatus === "divorced"}
+                type="text"
+                id="residence"
+                name="residence"
+                placeholder="Residential Address"
+                value={formData.residence}
                 onChange={handleOnChange}
               />
-              <Label htmlFor="divorced">Divorced</Label>
-            </div>
-          </RadioInput>
-          <InputFields>
-            <Label htmlFor="residence">Residential Address :</Label>
-            <Input
-              type="text"
-              id="residence"
-              name="residence"
-              placeholder="Residential Address"
-              value={formData.residence}
-              onChange={handleOnChange}
-            />
-          </InputFields>
+            </InputFields>
 
-          <InputFields>
-            <Label htmlFor="occupation">Occupation :</Label>
-            <Input
-              type="text"
-              id="occupation"
-              name="occupation"
-              placeholder="Occupation"
-              value={formData.occupation}
-              onChange={handleOnChange}
-            />
-          </InputFields>
-          <InputFields>
-            <Label htmlFor="state">State of Origin</Label>
-            <Select
-              id="state"
-              name="state"
-              value={formData.state}
-              onChange={handleOnChange}
-            >
-              <option value="">Select State</option>
-              {states?.map((state) => (
-                <option key={state._id} value={state.value}>
-                  {state.state}
-                </option>
-              ))}
-            </Select>
-          </InputFields>
-          <InputFields>
-            <Label htmlFor="lga">Local Government</Label>
-            <Select
-              id="lga"
-              name="localGov"
-              value={formData.localGov}
-              onChange={handleOnChange}
-              disabled={!formData.state}
-            >
-              <option>Select Local Government</option>
-              {lgas?.map((lga) => (
-                <option key={lga.name} value={lga.value}>
-                  {lga.name}
-                </option>
-              ))}
-            </Select>
-          </InputFields>
-          {/* <InputFields>
+            <InputFields>
+              <Label htmlFor="occupation">Occupation :</Label>
+              <Input
+                type="text"
+                id="occupation"
+                name="occupation"
+                placeholder="Occupation"
+                value={formData.occupation}
+                onChange={handleOnChange}
+              />
+            </InputFields>
+            <InputFields>
+              <Label htmlFor="state">State of Origin</Label>
+              <Select
+                id="state"
+                name="state"
+                value={formData.state}
+                onChange={handleOnChange}
+              >
+                <option value="">Select State</option>
+                {states?.map((state) => (
+                  <option key={state._id} value={state.value}>
+                    {state.state}
+                  </option>
+                ))}
+              </Select>
+            </InputFields>
+            <InputFields>
+              <Label htmlFor="lga">Local Government</Label>
+              <Select
+                id="lga"
+                name="localGov"
+                value={formData.localGov}
+                onChange={handleOnChange}
+                disabled={!formData.state}
+              >
+                <option>Select Local Government</option>
+                {lgas?.map((lga) => (
+                  <option key={lga.name} value={lga.value}>
+                    {lga.name}
+                  </option>
+                ))}
+              </Select>
+            </InputFields>
+            {/* <InputFields>
             <Label htmlFor="photo">Profile Picture :</Label>
             <Input
               type="file"
@@ -405,10 +413,13 @@ function Register() {
               onChange={handleFileChange}
             />
           </InputFields> */}
-        </InputFieldsContainer>
-        <Button type="submit">{isLoading ? "Registering" : "Register"}</Button>
-      </Fieldset>
-    </Form>
+          </InputFieldsContainer>
+          <Button type="submit">
+            {isLoading ? "Registering" : "Register"}
+          </Button>
+        </Fieldset>
+      </Form>
+    </>
   );
 }
 

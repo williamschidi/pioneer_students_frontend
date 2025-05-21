@@ -1,9 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Button from "../components/Button";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../components/ThemeContext";
 import { useLoginMutation } from "../components/redux/apiSlice";
+import { useDispatch } from "react-redux";
+import { setUsername } from "../components/redux/userSlice";
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 // import Profile from "./Profile";
 // import BackgroundImage from "./BackgroundImage";
 
@@ -133,14 +136,53 @@ const Input = styled.input`
     padding: 0.3rem 0.6rem;
   }
 `;
+const Span = styled.span`
+  color: #e3fafc;
+  font-size: 0.9rem;
+  font-weight: bold;
+`;
+
+const ShowPassword = styled(HiOutlineEye)`
+  position: absolute;
+  height: 1.2rem;
+  width: 1.2rem;
+  color: #212529;
+  top: 0.5rem;
+  right: 1rem;
+  @media (max-width: 600px) {
+    top: 0.4rem;
+    right: 0.8rem;
+    height: 1.2rem;
+    width: 1.2rem;
+  }
+`;
+const HidePassword = styled(HiOutlineEyeOff)`
+  position: absolute;
+  height: 1rem;
+  width: 1rem;
+  top: 0.5rem;
+  right: 1rem;
+  color: #212529;
+  @media (max-width: 600px) {
+    top: 0.4rem;
+    right: 0.8rem;
+    height: 1rem;
+    width: 1rem;
+  }
+`;
+
+const InputDiv = styled.div`
+  position: relative;
+`;
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [login, { data, isLoading, error }] = useLoginMutation();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { theme } = useTheme();
-
-  const setIsAuth = useOutletContext();
 
   function handleOnChange(e) {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -150,10 +192,10 @@ function Login() {
     e.preventDefault();
 
     try {
-      await login(formData).unwrap();
-
-      navigate("/member");
-      setIsAuth((prev) => !prev);
+      const result = await login(formData).unwrap();
+      console.log(result);
+      dispatch(setUsername(result.data.name));
+      navigate("/register");
     } catch (err) {
       console.log("login failed", err.message);
     }
@@ -186,21 +228,56 @@ function Login() {
                 required
               />
             </InputFields>
+
             <InputFields>
               <Label htmlFor="password">Password :</Label>
-              <Input
+
+              <InputDiv>
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  placeholder="password"
+                  value={formData.password}
+                  onChange={handleOnChange}
+                  required
+                />
+                {showPassword ? (
+                  <ShowPassword
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                ) : (
+                  <HidePassword
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                )}
+              </InputDiv>
+
+              {/* <Input
                 type="password"
                 id="password"
                 placeholder="password"
                 value={formData.password}
                 onChange={handleOnChange}
                 required
-              />
+              /> */}
             </InputFields>
           </InputFieldsContainer>
           <Button type="submit">
             {isLoading ? "Logging in...." : "Login"}
           </Button>
+          <Span>
+            Don&apos;t have an Account?{" "}
+            <Link
+              to="/signup"
+              style={{
+                color: "#e3fafc",
+                textDecoration: "none",
+                fontSize: "1rem",
+              }}
+            >
+              Sign Up
+            </Link>
+          </Span>
         </Fieldset>
       </Form>
       {/* <Profile /> */}

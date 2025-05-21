@@ -1,15 +1,18 @@
 import styled from "styled-components";
-import esther from "./../../assets/esther.png";
+// import esther from "./../../assets/esther.png";
 import { useTheme } from "../components/ThemeContext";
 import Button from "../components/Button";
 import { useMediaQuery } from "react-responsive";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useGetMemberQuery } from "../components/redux/apiSlice";
+import { HiArrowNarrowLeft } from "react-icons/hi";
 
 const Main = styled.main`
   max-width: 55rem;
   box-shadow: 0 4rem 4rem rgba(0, 0, 0, 0.7);
   border-radius: 0.5rem;
   height: 22rem;
-  margin: 3rem auto;
+  margin: 4rem auto;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -171,71 +174,101 @@ const BtnContainer = styled.div`
 function Profile() {
   const isMobile = useMediaQuery({ maxWidth: 750 });
   const { theme } = useTheme();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page") || 1;
+  const { data, isLoading } = useGetMemberQuery(id);
+
+  if (!data && isLoading) {
+    return <p>Data Loading .......</p>;
+  }
 
   return (
-    <Main theme={theme}>
-      <Aside>
-        <ImgContainer>
-          <Img src={esther} alt="profile pics" />
-        </ImgContainer>
-        <DetailContainer theme={theme}>
-          <H2>William</H2>
-          <P className="small">Civil servant</P>
-        </DetailContainer>
-        <BtnContainer>
-          {!isMobile ? <Button noPadding>Edit</Button> : ""}
-        </BtnContainer>
-      </Aside>
-      <Section theme={theme}>
-        <H2 className="bio-heading">Bio Information</H2>
-        <BioContainer>
-          <BioDetail>
-            <P>
-              <b>Email: </b>
-              <br />
-              <br />
-              Williamchidi@gmail.com
-            </P>
-            <P className="push">
-              <b>Phone: </b>
-              <br />
-              <br />
-              07033881174
-            </P>
-          </BioDetail>
-          <hr />
-          <BioDetail>
-            <P>
-              <b>Gender:</b>
-              <br />
-              <br />
-              Male
-            </P>
-            <P className="push">
-              <b>Marital Status:</b>
-              <br />
-              <br />
-              Single
-            </P>
-          </BioDetail>
-          <hr />
-          <BioDetail>
-            <P>
-              <b>State: </b>
-              <br />
-              <br />
-              Imo
-            </P>
-            <P className="push">
-              <b>Local Govt.</b>
-              <br />
-              <br />
-              Ikeduru
-            </P>
-          </BioDetail>
-        </BioContainer>
-      </Section>
-    </Main>
+    <>
+      <Button
+        alignment="left"
+        containerStyle={{
+          marginLeft: "2rem",
+          marginTop: "2rem",
+        }}
+        style={{
+          fontSize: "2rem",
+          backgroundColor: "transparent",
+          border: "none",
+        }}
+        onClick={() => {
+          navigate(`/members?page=${page}`);
+        }}
+      >
+        <HiArrowNarrowLeft />
+      </Button>
+      <Main theme={theme}>
+        <Aside>
+          <ImgContainer>
+            <Img src="" alt="profile pics" />
+          </ImgContainer>
+          <DetailContainer theme={theme}>
+            <H2>
+              {data?.data?.member?.firstName} {data?.data?.member?.lastName}
+            </H2>
+            <P className="small">{data?.data?.member?.member?.occupation}</P>
+          </DetailContainer>
+          <BtnContainer>
+            {!isMobile ? <Button noPadding>Edit</Button> : ""}
+          </BtnContainer>
+        </Aside>
+        <Section theme={theme}>
+          <H2 className="bio-heading">Bio Information</H2>
+          <BioContainer>
+            <BioDetail>
+              <P>
+                <b>Email: </b>
+                <br />
+                <br />
+                {data?.data?.member?.email}
+              </P>
+              <P className="push">
+                <b>Phone: </b>
+                <br />
+                <br />
+                {data?.data?.member?.phone}
+              </P>
+            </BioDetail>
+            <hr />
+            <BioDetail>
+              <P>
+                <b>Gender:</b>
+                <br />
+                <br />
+                {data?.data?.member?.gender}
+              </P>
+              <P className="push">
+                <b>Marital Status:</b>
+                <br />
+                <br />
+                {data?.data?.member?.maritalStatus}
+              </P>
+            </BioDetail>
+            <hr />
+            <BioDetail>
+              <P>
+                <b>State: </b>
+                <br />
+                <br />
+                {data?.data?.member?.state}
+              </P>
+              <P className="push">
+                <b>Local Govt.</b>
+                <br />
+                <br />
+                {data?.data?.member?.localGov}
+              </P>
+            </BioDetail>
+          </BioContainer>
+        </Section>
+      </Main>
+    </>
   );
 }
 

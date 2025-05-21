@@ -8,12 +8,11 @@ import useSticky from "../hooks/useSticky";
 import { useEffect, useState } from "react";
 
 const images = [
-  "/images/bg1.webp",
   "/images/bg2.webp",
-  "/images/bg3.webp",
+  "/images/bg11.webp",
   "/images/bg4.webp",
-  "/images/bg5.webp",
   "/images/bg-01.webp",
+  "/images/bg10.webp",
   "/images/bg7.webp",
 ];
 
@@ -62,7 +61,7 @@ const Overlay = styled.div`
   z-index: 2;
 `;
 
-function Layout({ isAuth, setIsAuth }) {
+function Layout() {
   const { isSticky, navRef } = useSticky();
 
   const [index, setIndex] = useState(0);
@@ -91,13 +90,13 @@ function Layout({ isAuth, setIsAuth }) {
     <Container>
       <HeaderContainer ref={navRef} className={isSticky ? "sticky" : ""}>
         {/* <Header /> */}
-        <Nav isAuth={isAuth} />
+        <Nav />
       </HeaderContainer>
       <BgLayer style={{ backgroundImage: `url(${bg1})` }} visible={toggle} />
       <BgLayer style={{ backgroundImage: `url(${bg2})` }} visible={!toggle} />
       <Overlay />
       <ContentWrapper>
-        <Outlet context={setIsAuth} />
+        <Outlet />
       </ContentWrapper>
       <Footer />
     </Container>

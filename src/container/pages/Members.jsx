@@ -1,51 +1,53 @@
-import chidi from "./../../assets/chidi.jpg";
-import princess from "./../../assets/princess.png";
-import princess01 from "./../../assets/princess01.png";
-import loveth from "./../../assets/loveth.png";
+// import chidi from "./../../assets/chidi.jpg";
+// import princess from "./../../assets/princess.png";
+// import princess01 from "./../../assets/princess01.png";
+// import loveth from "./../../assets/loveth.png";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, useSearchParams } from "react-router-dom";
 import { useTheme } from "../components/ThemeContext";
 // import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import Button from "../components/Button";
+import { useEffect, useState } from "react";
+import { useLazyGetMembersQuery } from "../components/redux/apiSlice";
 
-const data = [
-  {
-    id: 1,
-    firstName: "William",
-    lastName: "Emeaso",
-    email: "William@gmail.com",
-    gender: "male",
-    phone: 7033881174,
-    photo: chidi,
-  },
-  {
-    id: 2,
-    firstName: "Chidi",
-    lastName: "Eze",
-    email: "Chidi@gmail.com",
-    gender: "male",
-    phone: 8033551174,
-    photo: loveth,
-  },
-  {
-    id: 3,
-    firstName: "Esther",
-    lastName: "Nze",
-    email: "Esther@gmail.com",
-    gender: "female",
-    phone: 7066889374,
-    photo: princess,
-  },
-  {
-    id: 4,
-    firstName: "Prince",
-    lastName: "Lucky",
-    email: "Prince@gmail.com",
-    gender: "male",
-    phone: 9055678912,
-    photo: princess01,
-  },
-];
+// const data = [
+//   {
+//     id: 1,
+//     firstName: "William",
+//     lastName: "Emeaso",
+//     email: "William@gmail.com",
+//     gender: "male",
+//     phone: 7033881174,
+//     photo: chidi,
+//   },
+//   {
+//     id: 2,
+//     firstName: "Chidi",
+//     lastName: "Eze",
+//     email: "Chidi@gmail.com",
+//     gender: "male",
+//     phone: 8033551174,
+//     photo: loveth,
+//   },
+//   {
+//     id: 3,
+//     firstName: "Esther",
+//     lastName: "Nze",
+//     email: "Esther@gmail.com",
+//     gender: "female",
+//     phone: 7066889374,
+//     photo: princess,
+//   },
+//   {
+//     id: 4,
+//     firstName: "Prince",
+//     lastName: "Lucky",
+//     email: "Prince@gmail.com",
+//     gender: "male",
+//     phone: 9055678912,
+//     photo: princess01,
+//   },
+// ];
 
 const Container = styled.main`
   margin: 2rem auto;
@@ -193,15 +195,48 @@ const BtnContainer = styled.div`
 
 function Members() {
   const { theme } = useTheme();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const paramPage = parseInt(searchParams.get("page")) || 1;
+  const [currentPage, setCurrentPage] = useState(paramPage);
+
+  const [fetchResult, { data, isFetching }] = useLazyGetMembersQuery();
+
+  useEffect(() => {
+    setSearchParams({ page: currentPage });
+    fetchResult({ page: currentPage, limit: 2 });
+  }, [fetchResult, currentPage, setSearchParams]);
+
+  const totalPages = data?.data?.totalPages || 1;
+
+  function nextPage() {
+    if (totalPages > currentPage) {
+      setCurrentPage((curPage) => curPage + 1);
+      console.log("Fetching page:", currentPage);
+    }
+  }
+
+  function prevPage() {
+    if (currentPage > 1) {
+      setCurrentPage((curPage) => curPage - 1);
+      console.log("Fetching page:", currentPage);
+    }
+  }
+  if (isFetching && !data) {
+    return <p>Fetching ....</p>;
+  }
 
   return (
     <Container>
       <Heading theme={theme}>Members</Heading>
-      {data.map((info, ind) => (
-        <StyledLinkNav to={`/members/${info.id}`} key={ind} theme={theme}>
+      {data?.data?.members.map((info, ind) => (
+        <StyledLinkNav
+          to={`/member/${info._id}?page=${currentPage} `}
+          key={ind}
+          theme={theme}
+        >
           <Main theme={theme}>
             <Section className="image-container">
-              <Img src={info.photo} alt="profile_pic" />
+              <Img src="" alt="profile_pic" />
             </Section>
             <Section className="info-container">
               <P>
@@ -216,10 +251,11 @@ function Members() {
         </StyledLinkNav>
       ))}
       <BtnContainer>
-        <Button bgColor={theme.navBg} textColor="#fff">
+        <Button bgColor={theme.navBg} textColor="#fff" onClick={prevPage}>
           Prev
         </Button>
-        <Button bgColor={theme.navBg} textColor="#fff">
+
+        <Button bgColor={theme.navBg} textColor="#fff" onClick={nextPage}>
           Next
         </Button>
       </BtnContainer>

@@ -6,6 +6,7 @@ export const apiSlice = createApi({
     baseUrl: "http://localhost:3003/api/v1",
     credentials: "include",
   }),
+  tagTypes: ["Admin"],
 
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -22,37 +23,49 @@ export const apiSlice = createApi({
         body: data,
       }),
     }),
+
+    logout: builder.mutation({
+      query: () => ({
+        url: "/admin/logout",
+        method: "POST",
+      }),
+    }),
+    protected: builder.query({
+      query: () => "/register",
+    }),
     registerMember: builder.mutation({
       query: (data) => ({
-        url: "/members",
+        url: "/register",
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Admin"],
     }),
-    getAllMembers: builder.query({
-      query: () => "/members",
+    getMembers: builder.query({
+      query: ({ page = 1, limit = 10 }) =>
+        `/register?page=${page}&limit=${limit}`,
+      providesTags: ["Admin"],
     }),
     getMember: builder.query({
-      query: ({ id, ...data }) => ({
-        url: `/member/${id}`,
-        method: "GET",
-        body: data,
-      }),
+      query: (id) => `/register/${id}`,
+      providesTags: ["Admin"],
     }),
 
     updateMember: builder.mutation({
       query: ({ id, ...data }) => ({
-        url: `/member/${id}`,
+        url: `/register/${id}`,
         method: "PATCH",
         body: data,
       }),
+      invalidatesTags: ["Admin"],
     }),
     deleteMember: builder.mutation({
       query: (id) => ({
-        url: `/member/${id}`,
+        url: `/register/${id}`,
         method: "DELETE",
         body: id,
       }),
+      invalidatesTags: ["Admin"],
     }),
 
     getAllStates: builder.query({
@@ -68,11 +81,14 @@ export const apiSlice = createApi({
 export const {
   useDeleteMemberMutation,
   useGetMemberQuery,
-  useGetAllMembersQuery,
+  useGetMembersQuery,
+  useLazyGetMembersQuery,
   useGetAllStatesQuery,
   useUpdateMemberMutation,
   useSignupMutation,
   useLoginMutation,
+  useLogoutMutation,
   useRegisterMemberMutation,
   useVerifyTokenQuery,
+  useProtectedQuery,
 } = apiSlice;
