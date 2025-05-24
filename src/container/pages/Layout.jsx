@@ -62,9 +62,9 @@ const Overlay = styled.div`
 `;
 
 const Wraper = styled.div`
-  position: fixed;
-  top: 5rem;
-  left: 25%;
+  // position: fixed;
+  // top: 5rem;
+  // left: 25%;
   max-width: 50rem;
   opacity: 0.7;
   padding: 1.5rem;

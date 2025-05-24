@@ -4,7 +4,7 @@ import { clearUser, setUsername } from "./userSlice";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3003/api/v1",
+    baseUrl: "https://pioneer-students-backend.onrender.com/api/v1",
     credentials: "include",
   }),
   tagTypes: ["Admin"],

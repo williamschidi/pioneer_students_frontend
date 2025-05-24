@@ -389,6 +389,14 @@ function About() {
             </BioInfo>
           </ExcoDetail>
           <ExcoDetail>
+            <Img src="/images/chidi.jpeg" alt="image1" />
+            <BioInfo>
+              <Name>Emeaso Chidiebere</Name>
+              <Position>Assistant Secretary</Position>
+              <Contact>07033881174</Contact>
+            </BioInfo>
+          </ExcoDetail>
+          <ExcoDetail>
             <Img src="" alt="image1" />
             <BioInfo>
               <Name>Chukwuebuka Ibeh</Name>
