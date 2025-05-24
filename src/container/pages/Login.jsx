@@ -193,9 +193,9 @@ function Login() {
 
     try {
       const result = await login(formData).unwrap();
-      console.log(result);
+
       dispatch(setUsername(result.data.name));
-      navigate("/register");
+      result && navigate("/register");
     } catch (err) {
       console.log("login failed", err.message);
     }

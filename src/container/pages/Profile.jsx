@@ -8,11 +8,12 @@ import { useGetMemberQuery } from "../components/redux/apiSlice";
 import { HiArrowNarrowLeft } from "react-icons/hi";
 
 const Main = styled.main`
+  position: relative;
   max-width: 55rem;
   box-shadow: 0 4rem 4rem rgba(0, 0, 0, 0.7);
   border-radius: 0.5rem;
   height: 22rem;
-  margin: 4rem auto;
+  margin: 2rem auto;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -181,21 +182,21 @@ function Profile() {
   const { data, isLoading } = useGetMemberQuery(id);
 
   if (!data && isLoading) {
-    return <p>Data Loading .......</p>;
+    return <p style={{ color: "#fff" }}>Data Loading .......</p>;
   }
 
   return (
     <>
       <Button
         alignment="left"
-        containerStyle={{
-          marginLeft: "2rem",
-          marginTop: "2rem",
-        }}
+        hover="transparent"
         style={{
-          fontSize: "2rem",
+          fontSize: "3rem",
           backgroundColor: "transparent",
+          color: "#fff",
           border: "none",
+          paddingLeft: "2rem",
+          boxShadow: "none",
         }}
         onClick={() => {
           navigate(`/members?page=${page}`);
@@ -206,7 +207,7 @@ function Profile() {
       <Main theme={theme}>
         <Aside>
           <ImgContainer>
-            <Img src="" alt="profile pics" />
+            <Img src={data?.data?.member?.profilePic} alt="profile pics" />
           </ImgContainer>
           <DetailContainer theme={theme}>
             <H2>
@@ -215,7 +216,13 @@ function Profile() {
             <P className="small">{data?.data?.member?.member?.occupation}</P>
           </DetailContainer>
           <BtnContainer>
-            {!isMobile ? <Button noPadding>Edit</Button> : ""}
+            {!isMobile ? (
+              <Button noPadding onClick={() => navigate(`/update/${id}`)}>
+                Edit
+              </Button>
+            ) : (
+              ""
+            )}
           </BtnContainer>
         </Aside>
         <Section theme={theme}>

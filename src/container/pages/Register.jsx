@@ -199,34 +199,44 @@ function Register() {
     occupation: "",
     state: "",
     localGov: "",
-    // profilePictureUrl: "",
-    // profilePicture: null,
+    profilePicture: null,
   });
 
   const { theme } = useTheme();
 
   function handleOnChange(e) {
-    setFormData(() => ({ ...formData, [e.target.name]: e.target.value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  // function handleFileChange(e) {
-  //   const file = e.target.files[0];
+  function handleFileChange(e) {
+    const file = e.target.files[0];
 
-  //   if (file) {
-  //     const imgUrl = URL.createObjectURL(file);
-  //     setFormData({
-  //       ...formData,
-  //       profilePicture: file,
-  //       profilePictureUrl: imgUrl,
-  //     });
-  //   }
-  // }
+    if (file) {
+      setFormData({
+        ...formData,
+        profilePicture: file,
+      });
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
-      await register(formData).unwrap();
+      const formPayload = new FormData();
+    
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key !== "profilePicture") {
+          formPayload.append(key, value);
+        }
+      });
+
+      if (formData.profilePicture) {
+        formPayload.append("profilePic", formData.profilePicture);
+      }
+
+      await register(formPayload).unwrap();
+      console.log("data submitted successful");
     } catch (err) {
       console.log(err.message);
     }
@@ -241,7 +251,7 @@ function Register() {
   return (
     <>
       <P>Welcome | {username}</P>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} encType="multipart/form-data">
         <Fieldset theme={theme}>
           <Legend>Register Member </Legend>
           <InputFieldsContainer>
@@ -404,15 +414,15 @@ function Register() {
                 ))}
               </Select>
             </InputFields>
-            {/* <InputFields>
-            <Label htmlFor="photo">Profile Picture :</Label>
-            <Input
-              type="file"
-              accept="image/*"
-              id="photo"
-              onChange={handleFileChange}
-            />
-          </InputFields> */}
+            <InputFields>
+              <Label htmlFor="photo">Profile Picture :</Label>
+              <Input
+                type="file"
+                accept="image/*"
+                id="photo"
+                onChange={handleFileChange}
+              />
+            </InputFields>
           </InputFieldsContainer>
           <Button type="submit">
             {isLoading ? "Registering" : "Register"}

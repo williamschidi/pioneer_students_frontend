@@ -249,7 +249,8 @@ const Position = styled.p`
 
 const Contact = styled.p`
   font-size: 0.8rem;
-  font-weight: 500;
+
+  font-weight: 600;
   @media (max-width: 600px) {
     font-size: 1rem;
   }
@@ -332,59 +333,67 @@ function About() {
           }}
         >
           <ExcoDetail>
-            <Img src="/images/princess01.png" alt="image1" />
+            <Img src="/images/ezebig.jpeg" alt="image1" />
             <BioInfo>
               <Name>Chimezie Ezebuilo</Name>
               <Position>Chairmain</Position>
-              <Contact>contact</Contact>
+              <Contact>08036863049</Contact>
             </BioInfo>
           </ExcoDetail>
           <ExcoDetail>
-            <Img src="/images/princess.png" alt="image1" />
+            <Img src="/images/chika.jpeg" alt="image1" />
             <BioInfo>
               <Name>Chikodili Onwugamba</Name>
               <Position>Vice chairmain</Position>
-              <Contact>contact</Contact>
+              <Contact>07032205868</Contact>
             </BioInfo>
           </ExcoDetail>
           <ExcoDetail>
-            <Img src="/images/chidi.jpg" alt="image1" />
+            <Img src="/images/desmond.jpeg" alt="image1" />
             <BioInfo>
               <Name>Desmond Nwadishi</Name>
               <Position>Secretary</Position>
-              <Contact>contact</Contact>
+              <Contact>08061698540</Contact>
             </BioInfo>
           </ExcoDetail>
           <ExcoDetail>
-            <Img src="/images/loveth.png" alt="image1" />
+            <Img src="/images/steve.jpg" alt="image1" />
             <BioInfo>
               <Name>Onochie Mgbor</Name>
               <Position>Financial Secretary</Position>
-              <Contact>contact</Contact>
+              <Contact>07065235443</Contact>
             </BioInfo>
           </ExcoDetail>
           <ExcoDetail>
-            <Img src="/images/princess01.png" alt="image1" />
+            <Img src="" alt="image1" />
             <BioInfo>
               <Name>Chizoba Eneh</Name>
               <Position>Welfare</Position>
-              <Contact>contact</Contact>
+              <Contact>08169934770</Contact>
             </BioInfo>
           </ExcoDetail>
           <ExcoDetail>
-            <Img src="/images/princess01.png" alt="image1" />
+            <Img src="/images/meche.jpeg" alt="image1" />
             <BioInfo>
               <Name>Chinonso Ugwu</Name>
               <Position>Treasurer</Position>
-              <Contact>contact</Contact>
+              <Contact>09162340382</Contact>
             </BioInfo>
           </ExcoDetail>
           <ExcoDetail>
-            <Img src="/images/loveth.png" alt="image1" />
+            <Img src="/images/chidera.jpeg" alt="image1" />
             <BioInfo>
               <Name>Chidera Ugwu</Name>
               <Position>P.R.O</Position>
-              <Contact>contact</Contact>
+              <Contact>08035994524</Contact>
+            </BioInfo>
+          </ExcoDetail>
+          <ExcoDetail>
+            <Img src="" alt="image1" />
+            <BioInfo>
+              <Name>Chukwuebuka Ibeh</Name>
+              <Position>Legal Advicer</Position>
+              <Contact>07062117285</Contact>
             </BioInfo>
           </ExcoDetail>
 

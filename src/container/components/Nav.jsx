@@ -7,11 +7,12 @@ import CollapseNav from "./CollapseNav";
 import { useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { useTheme } from "./ThemeContext";
-import { Link } from "react-scroll";
+// import { Link } from "react-scroll";
 import ToggleLightMode from "./ToggleLightMode";
 import { useLogoutMutation } from "./redux/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "./redux/userSlice";
+import { scrollToSection } from "./scrollToSection";
 
 const Container = styled.nav`
   position: relative;
@@ -185,7 +186,7 @@ function Nav() {
     <Container theme={theme}>
       <LogoContainer>
         <NavLink to="home">
-          <Img src={logo} alt="logo" />
+          <Img src={logo} alt="logo" id="top" />
         </NavLink>
       </LogoContainer>
       <SearchContainer>
@@ -203,13 +204,18 @@ function Nav() {
         {!isMobile ? (
           <>
             <Ul>
-              {location.pathname === "/home" && (
-                <Li theme={theme}>
-                  <Link to="about" smooth={true} duration={500} offset={-60}>
-                    About Us
-                  </Link>
-                </Li>
-              )}
+              <Li
+                theme={theme}
+                onClick={() => {
+                  if (location.pathname === "/home") {
+                    scrollToSection("about");
+                  } else {
+                    navigate("/home", { state: { scrollTo: "about" } });
+                  }
+                }}
+              >
+                About Us
+              </Li>
 
               <StyledNavLink to="members">
                 <Li theme={theme}>Members</Li>
@@ -221,7 +227,7 @@ function Nav() {
                 </StyledNavLink>
               ) : (
                 <>
-                  <StyledNavLink to="member">
+                  <StyledNavLink to="register">
                     <Li>Register Member</Li>
                   </StyledNavLink>
                   <StyledNavLink>

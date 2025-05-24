@@ -9,10 +9,12 @@ import Layout from "./container/pages/Layout.jsx";
 import Profile from "./container/pages/Profile.jsx";
 import PageNotFount from "./container/pages/PageNotFount.jsx";
 import Members from "./container/pages/Members.jsx";
+import Update from "./container/pages/Update.jsx";
 
 // import About from "./container/components/About.jsx";
 import Motto from "./container/components/Motto.jsx";
 import ProtectedRoute from "./container/components/ProtectedRoute.jsx";
+import { useVerifyTokenQuery } from "./container/components/redux/apiSlice.js";
 
 const GlobalStyle = createGlobalStyle`
     *{
@@ -46,6 +48,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  useVerifyTokenQuery();
   return (
     <BrowserRouter>
       <GlobalStyle />
@@ -69,7 +72,7 @@ function App() {
 
           <Route path="members" element={<Members />} />
           <Route path="member/:id" element={<Profile />} />
-          {/* <Route path="about" element={<About />} /> */}
+          <Route path="update/:id" element={<Update />} />
           <Route path="motto" element={<Motto />} />
         </Route>
         <Route path="*" element={<PageNotFount />} />

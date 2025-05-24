@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Footer from "../components/Footer";
 // import Header from "../components/Header";
 import Nav from "../components/Nav";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import useSticky from "../hooks/useSticky";
 import { useEffect, useState } from "react";
@@ -61,8 +61,41 @@ const Overlay = styled.div`
   z-index: 2;
 `;
 
+const Wraper = styled.div`
+  position: fixed;
+  top: 5rem;
+  left: 25%;
+  max-width: 50rem;
+  opacity: 0.7;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin: 10rem auto;
+  @media (max-width: 750px) {
+    max-width: 40rem;
+  }
+`;
+
+const H1 = styled.p`
+  color: #f1f3f5;
+  text-align: center;
+  font-size: 2.4rem;
+  font-family: "Ogg";
+  font-weight: bold;
+  font-style: italic;
+  @media (max-width: 750px) {
+    font-size: 1.8rem;
+  }
+  @media (max-width: 600px) {
+    font-size: 1.4rem;
+  }
+  @media (max-width: 450px) {
+    font-size: 1.2rem;
+  }
+`;
+
 function Layout() {
   const { isSticky, navRef } = useSticky();
+  const location = useLocation();
 
   const [index, setIndex] = useState(0);
   const [toggle, setToggle] = useState(true);
@@ -96,6 +129,16 @@ function Layout() {
       <BgLayer style={{ backgroundImage: `url(${bg2})` }} visible={!toggle} />
       <Overlay />
       <ContentWrapper>
+        {location.pathname === "/" || location.pathname === "/home" ? (
+          <Wraper>
+            <H1>
+              Pioneer Students <br /> of <br /> St. Mark&apos;s Secondary School
+              Emene, Enugu.
+            </H1>
+          </Wraper>
+        ) : (
+          ""
+        )}
         <Outlet />
       </ContentWrapper>
       <Footer />

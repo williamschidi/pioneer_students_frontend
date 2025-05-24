@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { useProtectedQuery } from "./redux/apiSlice";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { setUsername } from "./redux/userSlice";
+import { clearUser, setUsername } from "./redux/userSlice";
 
 function ProtectedRoute({ children }) {
   const { data, isError, isLoading, isSuccess } = useProtectedQuery();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,6 +17,7 @@ function ProtectedRoute({ children }) {
   }, [dispatch, data, isSuccess]);
 
   if (!isLoading && isError) {
+    dispatch(clearUser());
     return <Navigate to="/login" />;
   }
 

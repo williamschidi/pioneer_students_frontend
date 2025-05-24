@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { clearUser, setUsername } from "./userSlice";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -40,6 +41,7 @@ export const apiSlice = createApi({
         body: data,
       }),
       invalidatesTags: ["Admin"],
+      transformResponse: (response) => response,
     }),
     getMembers: builder.query({
       query: ({ page = 1, limit = 10 }) =>
@@ -52,12 +54,13 @@ export const apiSlice = createApi({
     }),
 
     updateMember: builder.mutation({
-      query: ({ id, ...data }) => ({
+      query: ({ id, data }) => ({
         url: `/register/${id}`,
         method: "PATCH",
         body: data,
       }),
       invalidatesTags: ["Admin"],
+      transformResponse: (response) => response,
     }),
     deleteMember: builder.mutation({
       query: (id) => ({
@@ -73,7 +76,16 @@ export const apiSlice = createApi({
     }),
 
     verifyToken: builder.query({
-      query: () => "/verify-token",
+      query: () => "/admin/verify",
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setUsername(data.data.username));
+        } catch (err) {
+          dispatch(clearUser());
+          err.message;
+        }
+      },
     }),
   }),
 });

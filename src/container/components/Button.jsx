@@ -29,7 +29,8 @@ const Btn = styled.button`
     background-color: #fff;
   }
   &:hover {
-    background: ${(props) => props.theme.btnHoverBg};
+    background: ${(props) =>
+      props.hover ? props.hover : props.theme.btnHoverBg};
     color: #e3fafc;
     font-weight: bold;
   }
@@ -41,11 +42,10 @@ const Btn = styled.button`
 
 function Button({
   children,
-  // bgColor = "white",
-  // textColor = "#343a40",
   type = "button",
   alignment = "center",
   containerStyle = {},
+  bgHoverColor = "",
   ...props
 }) {
   const [active, setActive] = useState(false);
@@ -59,14 +59,13 @@ function Button({
       style={containerStyle}
     >
       <Btn
+        hover={bgHoverColor}
         theme={theme}
         type={type}
         onMouseDown={() => setActive(true)}
         onMouseUp={() => setActive(false)}
         onMouseLeave={() => setActive(false)}
         className={`${active ? "active" : ""} btn-custom`}
-        // bgColor={bgColor}
-        // textColor={textColor}
         {...props}
       >
         {children}
@@ -80,6 +79,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   containerStyle: PropTypes.string,
   alignment: PropTypes.string,
+  bgHoverColor: PropTypes.string,
   type: PropTypes.oneOf(["button", "submit"]),
 };
 

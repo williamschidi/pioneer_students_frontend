@@ -211,14 +211,12 @@ function Members() {
   function nextPage() {
     if (totalPages > currentPage) {
       setCurrentPage((curPage) => curPage + 1);
-      console.log("Fetching page:", currentPage);
     }
   }
 
   function prevPage() {
     if (currentPage > 1) {
       setCurrentPage((curPage) => curPage - 1);
-      console.log("Fetching page:", currentPage);
     }
   }
   if (isFetching && !data) {
@@ -236,7 +234,7 @@ function Members() {
         >
           <Main theme={theme}>
             <Section className="image-container">
-              <Img src="" alt="profile_pic" />
+              <Img src={info.profilePic} alt="profile_pic" />
             </Section>
             <Section className="info-container">
               <P>
@@ -251,13 +249,19 @@ function Members() {
         </StyledLinkNav>
       ))}
       <BtnContainer>
-        <Button bgColor={theme.navBg} textColor="#fff" onClick={prevPage}>
-          Prev
-        </Button>
+        {!data ? (
+          ""
+        ) : (
+          <>
+            <Button bgColor={theme.navBg} textColor="#fff" onClick={prevPage}>
+              Prev
+            </Button>
 
-        <Button bgColor={theme.navBg} textColor="#fff" onClick={nextPage}>
-          Next
-        </Button>
+            <Button bgColor={theme.navBg} textColor="#fff" onClick={nextPage}>
+              Next
+            </Button>
+          </>
+        )}
       </BtnContainer>
     </Container>
   );
