@@ -193,7 +193,7 @@ function Signup() {
     accessCode: "",
   });
 
-  const [Signup, { isLoading }] = useSignupMutation();
+  const [Signup, { isLoading, isError }] = useSignupMutation();
   const navigate = useNavigate();
 
   const [error, setError] = useState({});
@@ -255,11 +255,18 @@ function Signup() {
         confirm_Password: "",
         accessCode: "",
       });
+
       navigate("/member");
     } catch (err) {
       console.error("Signup failed:", err);
       setMsg("Signup failed. Please try again.");
     }
+  }
+
+  if (!isLoading && isError) {
+    return (
+      <p>{error?.data?.message || error?.error || "Something went wrong"}</p>
+    );
   }
 
   return (
@@ -373,7 +380,9 @@ function Signup() {
               </InputDiv>
             </InputFields>
           </InputFieldsContainer>
-          <Button>{isLoading ? "Registering " : "Sign Up"}</Button>
+          <Button type="submit">
+            {isLoading ? "Registering...... " : "Sign up"}
+          </Button>
         </Fieldset>
       </Form>
     </>
