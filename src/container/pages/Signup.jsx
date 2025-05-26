@@ -256,7 +256,7 @@ function Signup() {
         accessCode: "",
       });
 
-      navigate("/member");
+      navigate("/register");
     } catch (err) {
       console.error("Signup failed:", err);
       setMsg("Signup failed. Please try again.");
