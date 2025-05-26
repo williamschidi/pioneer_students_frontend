@@ -270,7 +270,7 @@ function Login() {
             <Link
               to="/signup"
               style={{
-                color: "#e3fafc",
+                color: "blue",
                 textDecoration: "none",
                 fontSize: "1rem",
               }}
