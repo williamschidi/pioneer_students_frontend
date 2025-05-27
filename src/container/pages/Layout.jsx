@@ -41,7 +41,7 @@ const BgLayer = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 92vh;
+  height: ${(props) => (props.home === "true" ? "92vh" : "100vh")};
   background-size: cover;
   backgroung-position: center;
   background-repeat: no-repeat;
@@ -55,7 +55,7 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 92vh;
+  height: ${(props) => (props.home === "true" ? "92vh" : "100vh")};
   background-color: #000;
   opacity: 0.6;
   z-index: 2;
@@ -123,9 +123,17 @@ function Layout() {
         {/* <Header /> */}
         <Nav />
       </HeaderContainer>
-      <BgLayer style={{ backgroundImage: `url(${bg1})` }} visible={toggle} />
-      <BgLayer style={{ backgroundImage: `url(${bg2})` }} visible={!toggle} />
-      <Overlay />
+      <BgLayer
+        style={{ backgroundImage: `url(${bg1})` }}
+        visible={toggle}
+        home={location.pathname === "/home"}
+      />
+      <BgLayer
+        style={{ backgroundImage: `url(${bg2})` }}
+        visible={!toggle}
+        home={location.pathname === "/home"}
+      />
+      <Overlay home={location.pathname === "/home"} />
       <ContentWrapper>
         {location.pathname === "/" || location.pathname === "/home" ? (
           <Wraper>
