@@ -27,7 +27,6 @@ const tabContents = [
 ];
 
 const MainContainer = styled.section`
-  margin-top: 100vh;
   background: #fff;
   padding: 3rem 0 2rem;
   z-index: 5;

@@ -1,5 +1,5 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import logo from "./../../assets/logo.jpeg";
+import logo from "./../../assets/mylogo.webp";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 
@@ -19,7 +19,7 @@ const Container = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
+  padding: 0 2rem 0 1rem;
   background: ${(props) => props.theme.navBg};
   border-bottom: ${(props) => props.theme.navBorderBottom};
   &.sticky {
