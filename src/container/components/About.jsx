@@ -179,14 +179,13 @@ const StyledSwiper = styled(Swiper)`
 `;
 
 const H2 = styled.h2`
-  background-color: rgba(0, 0, 0, 0.05);
   padding: 1rem 1.5rem;
   border-radius: 0.6rem;
   color: #212529;
   text-align: center;
   font-size: 2rem;
   text-shadow: ${(props) => props.theme.textShadow};
-  box-shadow: 0 0.2rem 0.3rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.2);
 
   @media (max-width: 750px) {
     font-size: 1.8rem;
