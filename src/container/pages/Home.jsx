@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import About from "../components/About";
-// import Hero from "../components/Hero";
+
 import { useEffect } from "react";
 
 import { scrollToSection } from "../components/scrollToSection";
@@ -14,12 +14,7 @@ function Home() {
       window.history.replaceState({}, document.title);
     }
   }, []);
-  return (
-    <>
-      {/* <Hero /> */}
-      <About />
-    </>
-  );
+  return <About />;
 }
 
 export default Home;

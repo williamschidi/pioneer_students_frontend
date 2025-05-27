@@ -6,7 +6,7 @@ const FooterContainer = styled.footer`
   text-align: center;
   padding: 1rem 1.4rem;
   background: ${(props) => props.theme.footerBg};
-  // background: ${(props) => props.theme.navBg};
+  height: 8vh;
   z-index: 100;
   @media (max-width: 600px) {
     padding: 0.8rem 1rem;

@@ -57,7 +57,7 @@ const TabContainer = styled.div`
   height: 12rem;
   margin: 5rem auto;
   padding: 0 4rem 4rem;
-  box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
   background: ${(props) => props.theme.fieldsetBg};
   border: none;
   border-radius: 0.5rem;
@@ -179,23 +179,29 @@ const StyledSwiper = styled(Swiper)`
 `;
 
 const H2 = styled.h2`
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 1rem 1.5rem;
+  border-radius: 0.6rem;
   color: #212529;
   text-align: center;
   font-size: 2rem;
   text-shadow: ${(props) => props.theme.textShadow};
+  box-shadow: 0 0.2rem 0.3rem rgba(0, 0, 0, 0.2);
 
   @media (max-width: 750px) {
     font-size: 1.8rem;
   }
 
   @media (max-width: 600px) {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    padding: 0.8rem 1rem;
+    margin: 0 3.5rem;
   }
   @media (max-width: 500px) {
-    font-size: 1.2rem;
-  }
-  @media (max-width: 400px) {
     font-size: 1rem;
+  }
+  @media (max-width: 450px) {
+    font-size: 0.8rem;
   }
 `;
 
@@ -237,13 +243,16 @@ const Name = styled.p`
   @media (max-width: 600px) {
     font-size: 1.2rem;
   }
+  @media (max-width: 450px) {
+    font-size: 1rem;
+  }
 `;
 
 const Position = styled.p`
   font-size: 0.8rem;
   font-weight: 500;
   @media (max-width: 600px) {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -252,7 +261,7 @@ const Contact = styled.p`
 
   font-weight: 600;
   @media (max-width: 600px) {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 `;
 

@@ -1,10 +1,10 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { HiChevronDown } from "react-icons/hi";
 import { useTheme } from "./ThemeContext";
 import ToggleLightMode from "./ToggleLightMode";
 import { Link } from "react-scroll";
+import { useSelector } from "react-redux";
 
 const Ul = styled.ul`
   position: fixed;
@@ -100,38 +100,8 @@ const Btn = styled.button`
   border: none;
 `;
 
-const Dropdown = styled.ul`
-  position: absolute;
-  display: ${({ open }) => (open ? "flex" : "none")};
-  flex-direction: column;
-  width: 10rem;
-  top: 4rem;
-  left: 2.4rem;
-`;
-const Dropdownlist = styled.li`
-  list-style: none;
-  width: 100%;
-  margin: 0 auto 1rem;
-  text-align: center;
-  padding: 0.7rem 1.2rem;
-  background: ${(props) => props.theme.fieldsetBg};
-  color: #e3fafc;
-
-  &:hover {
-    background: ${(props) => props.theme.ulHover};
-  }
-`;
-
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
-`;
-
-const DropDownArrow = styled(HiChevronDown)`
-  transition: all 0.3s;
-
-  &.arrow-right {
-    transform: rotate(180deg);
-  }
 `;
 
 const ToggleContainer = styled.div`
@@ -140,18 +110,10 @@ const ToggleContainer = styled.div`
   right: 1.5rem;
 `;
 
-function CollapseNav() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState(null);
+function CollapseNav({ isOpen, setIsOpen, handleNav }) {
   const { theme } = useTheme();
+  const isAuthenticated = useSelector((state) => state.user.isAuth);
 
-  function toggleOpenDropDown(menu) {
-    if (menu === "account") {
-      setActiveMenu((prevMenu) => (prevMenu === menu ? null : menu));
-    } else {
-      setActiveMenu(null);
-    }
-  }
   return (
     <>
       <Bar
@@ -163,43 +125,53 @@ function CollapseNav() {
           <ToggleLightMode />
         </ToggleContainer>
 
-        <Li theme={theme} onClick={() => toggleOpenDropDown("about")}>
-          <Link to="about" smooth={true} duration={500} offset={-60}>
+        <Li theme={theme}>
+          <Link
+            to="about"
+            onClick={() => {
+              handleNav();
+              setIsOpen(!isOpen);
+            }}
+          >
             About Us
           </Link>
         </Li>
 
         <StyledNavLink to="members">
-          <Li
-            theme={theme}
-            onClick={() => {
-              toggleOpenDropDown("registered members");
-              setIsOpen(!isOpen);
-            }}
-          >
-            Registered Members
+          <Li theme={theme} onClick={() => setIsOpen(!isOpen)}>
+            Members
           </Li>
         </StyledNavLink>
-        <Li theme={theme}>
-          <Btn
-            onClick={() => toggleOpenDropDown("account")}
-            className={activeMenu && "show-menu"}
-          >
-            Account <DropDownArrow className={activeMenu && "arrow-right"} />
-          </Btn>
 
-          <Dropdown open={activeMenu}>
-            <StyledNavLink to="signup" onClick={() => setIsOpen(!isOpen)}>
-              <Dropdownlist theme={theme}>Sign up</Dropdownlist>
+        {!isAuthenticated ? (
+          <StyledNavLink to="login">
+            <Li theme={theme} onClick={() => setIsOpen(!isOpen)}>
+              <Btn>Login</Btn>
+            </Li>
+          </StyledNavLink>
+        ) : (
+          <>
+            <StyledNavLink to="register">
+              <Li theme={theme} onClick={() => setIsOpen(!isOpen)}>
+                <Btn>Register Member</Btn>
+              </Li>
             </StyledNavLink>
-            <StyledNavLink to="login" onClick={() => setIsOpen(!isOpen)}>
-              <Dropdownlist theme={theme}>Login</Dropdownlist>
+            <StyledNavLink to="logout">
+              <Li theme={theme} onClick={() => setIsOpen(!isOpen)}>
+                <Btn>Logout</Btn>
+              </Li>
             </StyledNavLink>
-          </Dropdown>
-        </Li>
+          </>
+        )}
       </Ul>
     </>
   );
 }
+
+CollapseNav.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
+  handleNav: PropTypes.func.isRequired,
+};
 
 export default CollapseNav;

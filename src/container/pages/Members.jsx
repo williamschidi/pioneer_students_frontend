@@ -161,6 +161,28 @@ const Section = styled.section`
     }
   }
 `;
+const H3 = styled.h3`
+  color: #fff;
+  text-align: center;
+  margin-top: 8rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1rem 1.5rem;
+  border-radius: 0.8rem;
+  @media (max-width: 900px) {
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+  }
+  @media (max-width: 750px) {
+    margin-top: 6rem;
+    font-size: 0.8rem;
+    padding: 0.7rem 0.8rem;
+  }
+  @media (max-width: 600px) {
+    margin-top: 5rem;
+    font-size: 0.7rem;
+    padding: 0.5rem 0.7rem;
+  }
+`;
 const Img = styled.img`
   width: 100%;
   height: 100%;
@@ -225,34 +247,37 @@ function Members() {
 
   return (
     <Container>
-      <Heading theme={theme}>Members</Heading>
-      {data?.data?.members.map((info, ind) => (
-        <StyledLinkNav
-          to={`/member/${info._id}?page=${currentPage} `}
-          key={ind}
-          theme={theme}
-        >
-          <Main theme={theme}>
-            <Section className="image-container">
-              <Img src={info.profilePic} alt="profile_pic" />
-            </Section>
-            <Section className="info-container">
-              <P>
-                <strong>
-                  {info.firstName} {info.lastName}
-                </strong>
-              </P>
-              <P>{info.phone}</P>
-              <P className="clip">{info.email}</P>
-            </Section>
-          </Main>
-        </StyledLinkNav>
-      ))}
-      <BtnContainer>
-        {!data ? (
-          ""
-        ) : (
-          <>
+      {!data ? (
+        <H3>
+          You do not have any registered member yet. Pls login to register
+          members{" "}
+        </H3>
+      ) : (
+        <>
+          <Heading theme={theme}>Members</Heading>
+          {data?.data?.members.map((info, ind) => (
+            <StyledLinkNav
+              to={`/member/${info._id}?page=${currentPage} `}
+              key={ind}
+              theme={theme}
+            >
+              <Main theme={theme}>
+                <Section className="image-container">
+                  <Img src={info.profilePic} alt="profile_pic" />
+                </Section>
+                <Section className="info-container">
+                  <P>
+                    <strong>
+                      {info.firstName} {info.lastName}
+                    </strong>
+                  </P>
+                  <P>{info.phone}</P>
+                  <P className="clip">{info.email}</P>
+                </Section>
+              </Main>
+            </StyledLinkNav>
+          ))}
+          <BtnContainer>
             <Button bgColor={theme.navBg} textColor="#fff" onClick={prevPage}>
               Prev
             </Button>
@@ -260,9 +285,9 @@ function Members() {
             <Button bgColor={theme.navBg} textColor="#fff" onClick={nextPage}>
               Next
             </Button>
-          </>
-        )}
-      </BtnContainer>
+          </BtnContainer>
+        </>
+      )}
     </Container>
   );
 }

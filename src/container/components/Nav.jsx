@@ -7,7 +7,7 @@ import CollapseNav from "./CollapseNav";
 import { useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { useTheme } from "./ThemeContext";
-// import { Link } from "react-scroll";
+
 import ToggleLightMode from "./ToggleLightMode";
 import { useLogoutMutation } from "./redux/apiSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -153,12 +153,13 @@ const SearchIcon = styled(HiOutlineSearch)`
 function Nav() {
   const location = useLocation();
   const { theme } = useTheme();
-  const [search, setSearch] = useState();
-
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.user.isAuth);
   const disPatch = useDispatch();
+
+  const [search, setSearch] = useState();
+  const [isOpen, setIsOpen] = useState(false);
 
   const isMobile = useMediaQuery({ maxWidth: 750 });
 
@@ -182,10 +183,20 @@ function Nav() {
     }
   }
 
+  function handleNav() {
+    if (location.pathname === "/home") {
+      scrollToSection("about");
+    } else {
+      navigate("/home", { state: { scrollTo: "about" } });
+    }
+  }
+
+  const customProps = { handleNav, isOpen, setIsOpen };
+
   return (
     <Container theme={theme}>
       <LogoContainer>
-        <NavLink to="home">
+        <NavLink to="home" onClick={() => setIsOpen(!open)}>
           <Img src={logo} alt="logo" id="top" />
         </NavLink>
       </LogoContainer>
@@ -204,16 +215,7 @@ function Nav() {
         {!isMobile ? (
           <>
             <Ul>
-              <Li
-                theme={theme}
-                onClick={() => {
-                  if (location.pathname === "/home") {
-                    scrollToSection("about");
-                  } else {
-                    navigate("/home", { state: { scrollTo: "about" } });
-                  }
-                }}
-              >
+              <Li theme={theme} onClick={handleNav}>
                 About Us
               </Li>
 
@@ -241,7 +243,7 @@ function Nav() {
             <ToggleLightMode />
           </>
         ) : (
-          <CollapseNav />
+          <CollapseNav {...customProps} />
         )}
       </NavListContainer>
     </Container>

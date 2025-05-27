@@ -49,7 +49,7 @@ const Button = styled.button`
     width: 2rem;
     height: 2rem;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 500px) {
     width: 1.5rem;
     height: 1.5rem;
   }
@@ -60,8 +60,8 @@ const DarkModeIcon = styled(HiMiniMoon)`
   color: #fff;
 
   @media (max-width: 450px) {
-    width: 1rem;
-    height: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 `;
 const LightModeIcon = styled(HiOutlineSun)`
@@ -73,8 +73,8 @@ const LightModeIcon = styled(HiOutlineSun)`
     height: 1.5rem;
   }
   @media (max-width: 450px) {
-    width: 1rem;
-    height: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
 `;
 

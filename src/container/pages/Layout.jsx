@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Footer from "../components/Footer";
-// import Header from "../components/Header";
+
 import Nav from "../components/Nav";
 import { Outlet, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -41,7 +41,7 @@ const BgLayer = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 92vh;
   background-size: cover;
   backgroung-position: center;
   background-repeat: no-repeat;
@@ -55,16 +55,13 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 92vh;
   background-color: #000;
-  opacity: 0.5;
+  opacity: 0.6;
   z-index: 2;
 `;
 
 const Wraper = styled.div`
-  // position: fixed;
-  // top: 5rem;
-  // left: 25%;
   max-width: 50rem;
   opacity: 0.7;
   padding: 1.5rem;
@@ -72,6 +69,7 @@ const Wraper = styled.div`
   margin: 10rem auto;
   @media (max-width: 750px) {
     max-width: 40rem;
+    margin: 5rem auto;
   }
 `;
 
