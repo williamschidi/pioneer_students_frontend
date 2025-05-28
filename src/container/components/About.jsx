@@ -11,18 +11,17 @@ const tabContents = [
   {
     label: "Vision",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta ratione explicabo,laborum sint neque sunt molestiae quam expedita. Illum, velit culpa assumenda tenetur repellat facilis",
+      "Our vision is to build a globally respected alumni community rooted in unity, service, and leadership. We aim to foster a strong, connected network of professionals from the 2002/2003 pioneer class—dedicated to supporting one another, advancing St. Mark’s Anglican Secondary School, Emene, and inspiring lasting impact through integrity, excellence, and mentorship.",
   },
 
   {
     label: "Mission",
     content:
-      "laborum sint neque sunt molestiae quam expedita. Illum, velit culpa assumenda tenetur repellat facilis.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta ratione explicabo,laborum",
+      "Our mission is to strengthen lifelong bonds among the 2002/2003 pioneer class through unity, respect, and collaboration. We are committed to enhancing the social, academic, and professional well-being of our members while giving back to our alma mater through developmental projects, mentorship, scholarships, and educational support—preserving the values and legacy of St. Mark's Anglican Secondary School, Emene.",
   },
   {
     label: "Motto",
-    content:
-      "Veniam dolores excepturi sed nobis velit culpa assumenda tenetur repellat facilis.laborum sint neque sunt molestiae quam expedita. Illum, velit culpa assumenda tenetur repellat facilis",
+    content: " 'Together for Growth and Service.'",
   },
 ];
 
