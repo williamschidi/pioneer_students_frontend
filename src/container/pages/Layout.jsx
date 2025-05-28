@@ -57,12 +57,12 @@ const Overlay = styled.div`
   width: 100%;
   height: ${(props) => (props.home === "true" ? "92vh" : "100vh")};
   background-color: #000;
-  opacity: 0.6;
+  opacity: 0.5;
   z-index: 2;
 `;
 
 const Wraper = styled.div`
-  height: 85vh;
+  height: 88vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

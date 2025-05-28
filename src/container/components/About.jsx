@@ -140,7 +140,8 @@ const Btn = styled.button`
 
 const TabContent = styled.p`
   color: #fff;
-  line-height: 2;
+  line-height: 1.8;
+  font-size: 0.9rem;
 
   @media (max-width: 600px) {
     font-size: 0.9rem;

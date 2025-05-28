@@ -110,10 +110,11 @@ const SearchContainer = styled.div`
 
 const Search = styled.input`
   width: 18rem;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 1rem;
   border: 1px solid gray;
-  border-radius: 0.8rem;
+  border-radius: 1rem;
   outline: none;
+
   &:focus {
     border: none;
     border-left: 2px solid gray;
@@ -124,7 +125,7 @@ const Search = styled.input`
 
   @media (max-width: 1000px) {
     width: 16rem;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
   @media (max-width: 500px) {
     width: 14rem;
@@ -138,7 +139,7 @@ const Search = styled.input`
 
 const SearchIcon = styled(HiOutlineSearch)`
   position: absolute;
-  top: 0.6rem;
+  top: 0.5rem;
   right: 0.8rem;
   @media (max-width: 500px) {
     top: 0.4rem;
