@@ -7,8 +7,6 @@ import { useLoginMutation } from "../components/redux/apiSlice";
 import { useDispatch } from "react-redux";
 import { setUsername } from "../components/redux/userSlice";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
-// import Profile from "./Profile";
-// import BackgroundImage from "./BackgroundImage";
 
 const Form = styled.form`
   margin: 0 auto;
@@ -193,11 +191,13 @@ function Login() {
 
     try {
       const result = await login(formData).unwrap();
-
       dispatch(setUsername(result.data.name));
       result && navigate("/register");
     } catch (err) {
-      console.log("login failed", err.message);
+      console.log(
+        "login failed",
+        err?.data?.message || err?.error || "unknown error"
+      );
     }
   }
 
@@ -207,9 +207,15 @@ function Login() {
         <Fieldset theme={theme}>
           <Legend>Login</Legend>
           <InputFieldsContainer>
-            {error?.data && (
-              <p style={{ color: "red", fontSize: ".8rem" }}>
-                {error?.data?.message}
+            {error && (
+              <p
+                style={{
+                  color: "red",
+                  fontSize: ".8rem",
+                  border: ".1rem red ",
+                }}
+              >
+                {error?.data?.message || error?.error || "Login failed"}
               </p>
             )}
             {data?.message && (

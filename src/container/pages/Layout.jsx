@@ -37,7 +37,7 @@ const HeaderContainer = styled.div`
 `;
 
 const BgLayer = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -51,7 +51,7 @@ const BgLayer = styled.div`
 `;
 
 const Overlay = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
