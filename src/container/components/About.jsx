@@ -342,7 +342,7 @@ function About() {
           <ExcoDetail>
             <Img src="/images/ezebig.jpeg" alt="image1" />
             <BioInfo>
-              <Name>Chimezie Ezebuilo</Name>
+              <Name>Chimeziem Ezebuilo</Name>
               <Position>Chairmain</Position>
               <Contact>08036863049</Contact>
             </BioInfo>
@@ -367,7 +367,7 @@ function About() {
             <Img src="/images/steve.jpg" alt="image1" />
             <BioInfo>
               <Name>Onochie Mgbor</Name>
-              <Position>Financial Secretary</Position>
+              <Position>Treasurer</Position>
               <Contact>07065235443</Contact>
             </BioInfo>
           </ExcoDetail>
@@ -375,7 +375,7 @@ function About() {
             <Img src="" alt="image1" />
             <BioInfo>
               <Name>Chizoba Eneh</Name>
-              <Position>Welfare</Position>
+              <Position>D.O.S</Position>
               <Contact>08169934770</Contact>
             </BioInfo>
           </ExcoDetail>
@@ -383,7 +383,7 @@ function About() {
             <Img src="/images/meche.jpeg" alt="image1" />
             <BioInfo>
               <Name>Chinonso Ugwu</Name>
-              <Position>Treasurer</Position>
+              <Position>Financial Secretary</Position>
               <Contact>09162340382</Contact>
             </BioInfo>
           </ExcoDetail>
