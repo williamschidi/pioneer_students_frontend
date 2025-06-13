@@ -200,19 +200,6 @@ function Members() {
     }
   }
 
-  // if (isFetching && !data) {
-  //   toast('fetchin data ....', {
-  //     style: {
-  //       color: 'green',
-  //       borderLeft: '0.6rem solid green',
-  //       marginTop: '4rem',
-  //       width: '30rem',
-  //       maxWidth: '70vw',
-  //       fontSize: '.8rem',
-  //     },
-  //   });
-  // }
-
   const newData = searchedMembers?.data
     ? searchedMembers?.data?.searchedMembers
     : data?.data?.members;
