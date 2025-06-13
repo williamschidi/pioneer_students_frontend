@@ -99,7 +99,7 @@ const SubContent = styled.div`
   @media (max-width: 500px) {
     flex-direction: column;
     gap: 1.4rem;
-    padding: 1.6rem 2rem;
+    padding: 1.6rem;
   }
 `;
 
@@ -112,7 +112,7 @@ const ImgContainer = styled.div`
   }
   @media (max-width: 500px) {
     height: 12rem;
-    width: 98%;
+    width: 100%;
   }
 `;
 
@@ -123,7 +123,7 @@ const DetailContainer = styled.div`
     width: 40%;
   }
   @media (max-width: 500px) {
-    width: 98%;
+    width: 100%;
   }
 `;
 
@@ -149,7 +149,7 @@ const AsideHeading = styled.h2`
       margin-bottom: 0.4rem;
     }
     @media (max-width: 500px) {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
 
   }
   @media (max-width: 750px) {
@@ -159,7 +159,7 @@ const AsideHeading = styled.h2`
     font-size: 1rem;
   }
     @media (max-width: 500px) {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     margin-bottom: 0.2rem;
   }
 `;
@@ -247,8 +247,8 @@ const TabContainer = styled.div`
   }
 
   @media (max-width: 400px) {
-    padding: 0 1rem 1rem;
-    max-width: 22rem;
+    padding: 0 0.8rem 1rem;
+    max-width: 21rem;
     margin: 2rem auto;
   }
 `;

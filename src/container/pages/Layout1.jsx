@@ -121,7 +121,7 @@ const H1 = styled.p`
 
 const P = styled.p`
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: 500;
   font-family: playfair;
   margin-bottom: 2rem;
   max-width: 60rem;
@@ -136,8 +136,9 @@ const P = styled.p`
     max-width: 60rem;
   }
   @media (max-width: 400px) {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     max-width: 40rem;
+    padding: 0 0.2rem;
   }
 `;
 
