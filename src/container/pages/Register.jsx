@@ -253,7 +253,6 @@ function Register() {
         },
       });
     } catch (err) {
-      console.log(err?.data?.message);
       const errorMessage =
         err?.data?.message || 'Something went wrong. Please try again later';
       toast.error(errorMessage, {
