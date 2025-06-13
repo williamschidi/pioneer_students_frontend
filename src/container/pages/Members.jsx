@@ -176,7 +176,7 @@ function Members() {
   const paramPage = parseInt(searchParams.get('page')) || 1;
   const [currentPage, setCurrentPage] = useState(paramPage);
 
-  const [fetchResult, { data, isFetching }] = useLazyGetMembersQuery();
+  const [fetchResult, { data }] = useLazyGetMembersQuery();
   const searchedMembers = useSelector((state) => state.user.searchedMembers);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -200,9 +200,18 @@ function Members() {
     }
   }
 
-  if (isFetching && !data) {
-    return <p>Fetching ....</p>;
-  }
+  // if (isFetching && !data) {
+  //   toast('fetchin data ....', {
+  //     style: {
+  //       color: 'green',
+  //       borderLeft: '0.6rem solid green',
+  //       marginTop: '4rem',
+  //       width: '30rem',
+  //       maxWidth: '70vw',
+  //       fontSize: '.8rem',
+  //     },
+  //   });
+  // }
 
   const newData = searchedMembers?.data
     ? searchedMembers?.data?.searchedMembers
@@ -229,7 +238,7 @@ function Members() {
         <HiArrowNarrowLeft />
       </Button>
       <Container>
-        {!data ? (
+        {!data || data.length === 0 ? (
           <H3>
             You do not have any registered member yet. Pls login to register
             members
