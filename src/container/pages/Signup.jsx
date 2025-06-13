@@ -7,6 +7,8 @@ import { useSignupMutation } from '../components/redux/apiSlice';
 import { useNavigate } from 'react-router-dom';
 import { useThemes } from '../components/ThemesContext';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { setUsername } from '../components/redux/userSlice';
 
 const Form = styled.form`
   margin: 0 auto;
@@ -197,6 +199,7 @@ function Signup() {
 
   const [Signup, { isLoading }] = useSignupMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [error, setError] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -260,7 +263,7 @@ function Signup() {
     }
 
     try {
-      await Signup(formData).unwrap();
+      const result = await Signup(formData).unwrap();
       dispatch(setUsername(result.data.name));
       setFormData({
         firstName: '',
