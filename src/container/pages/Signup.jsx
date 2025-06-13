@@ -261,6 +261,7 @@ function Signup() {
 
     try {
       await Signup(formData).unwrap();
+      dispatch(setUsername(result.data.name));
       setFormData({
         firstName: '',
         lastName: '',
