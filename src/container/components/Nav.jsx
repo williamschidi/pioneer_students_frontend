@@ -2,13 +2,10 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import logo from './../../assets/logo.png';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
-
 import CollapseNav from './CollapseNav';
 import { useState } from 'react';
 import { HiOutlineSearch } from 'react-icons/hi';
-
 import { useThemes } from './ThemesContext';
-
 import {
   useLazyGetSearchMembersQuery,
   useLogoutMutation,
@@ -21,6 +18,7 @@ import {
 } from './redux/userSlice';
 import { scrollToSection } from './scrollToSection';
 import { toast } from 'react-toastify';
+import useSticky from '../hooks/useSticky';
 
 const navTabs = ['/members', '/register', '/home'];
 
@@ -177,6 +175,7 @@ function Nav() {
   const { myTheme } = useThemes();
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
+  const { isSticky, nav } = useSticky();
   const isAuthenticated = useSelector((state) => state.user.isAuth);
 
   const dispatch = useDispatch();
@@ -241,7 +240,7 @@ function Nav() {
   const customProps = { handleNav, isOpen, setIsOpen };
 
   return (
-    <Container theme={myTheme}>
+    <Container className={isSticky ? 'sticky' : ''} theme={myTheme} ref={nav}>
       <LogoContainer>
         <NavLink to="/" onClick={() => setIsOpen(!open)}>
           <Img src={logo} alt="logo" id="top" />

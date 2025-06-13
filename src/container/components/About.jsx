@@ -112,7 +112,7 @@ const ImgContainer = styled.div`
   }
   @media (max-width: 500px) {
     height: 12rem;
-    width: 80%;
+    width: 98%;
   }
 `;
 
@@ -123,7 +123,7 @@ const DetailContainer = styled.div`
     width: 40%;
   }
   @media (max-width: 500px) {
-    width: 80%;
+    width: 98%;
   }
 `;
 

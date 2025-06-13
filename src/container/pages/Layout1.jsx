@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import Nav from '../components/Nav';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import useSticky from '../hooks/useSticky';
+
 import Footer from '../components/Footer';
 import { useEffect, useState } from 'react';
 import { useThemes } from '../components/ThemesContext';
@@ -97,7 +96,7 @@ const Wraper = styled.div`
     max-width: 50rem;
     justify-content: center;
     align-items: center;
-    padding: 2rem 0 0 0;
+    padding: 1rem 0 0 0;
   }
 `;
 
@@ -116,7 +115,7 @@ const H1 = styled.p`
     margin-bottom: 0.1rem;
   }
   @media (max-width: 450px) {
-    font-size: 1.2rem;
+    text-align: center;
   }
 `;
 
@@ -177,7 +176,6 @@ const ActionCotainer = styled.div`
 `;
 
 function Layout1() {
-  const { isSticky, navRef } = useSticky();
   const location = useLocation();
   const { myTheme } = useThemes();
   const isMobile = useMediaQuery({ maxWidth: 600 });
@@ -208,8 +206,7 @@ function Layout1() {
 
   return (
     <Container>
-      <HeaderContainer ref={navRef} className={isSticky ? 'sticky' : ''}>
-        {/* <Header /> */}
+      <HeaderContainer clas>
         <Nav />
         <ToastContainer position="top-center" autoClose={5000} />
       </HeaderContainer>
@@ -256,10 +253,5 @@ function Layout1() {
     </Container>
   );
 }
-
-Layout1.propTypes = {
-  isAuth: PropTypes.bool,
-  setIsAuth: PropTypes.func,
-};
 
 export default Layout1;
