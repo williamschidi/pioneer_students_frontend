@@ -225,7 +225,7 @@ function Members() {
         <HiArrowNarrowLeft />
       </Button>
       <Container>
-        {!data || data.length === 0 ? (
+        {!data || data?.data?.members?.length === 0 ? (
           <H3>
             You do not have any registered member yet. Pls login to register
             members
