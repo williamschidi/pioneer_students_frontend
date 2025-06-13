@@ -92,14 +92,14 @@ const StyledNavLink = styled(NavLink)`
     background-color: ${(props) => props.theme.secondary};
     color: ${(props) => props.theme.primary};
     border-radius: 5rem;
-    &:hover {
-      color: ${(props) => props.theme.textColor1};
-    }
   }
 
   &:hover {
     border-bottom: 0.2rem solid ${(props) => props.theme.secondary};
-    color: ${(props) => props.theme.secondary};
+    color: ${(props) => props.theme.textColor1};
+  }
+  &.login:hover {
+    color: ${(props) => props.theme.textColor1};
   }
 
   @media (max-width: 900px) {
@@ -197,10 +197,18 @@ function Nav() {
         navigate('/members');
         setSearch('');
       } catch (err) {
-        console.log('Search Error:', err.data.message);
         const errorMessage =
           err?.data?.message || err?.error || 'Something went wrong';
-        toast(errorMessage);
+        toast.error(errorMessage, {
+          style: {
+            color: 'red',
+            borderLeft: '0.6rem solid red',
+            marginTop: '4rem',
+            width: '50rem',
+            maxWidth: '70vw',
+            fontSize: '.8rem',
+          },
+        });
       }
     }
   }
