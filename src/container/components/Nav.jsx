@@ -49,8 +49,8 @@ const LogoContainer = styled.div`
   margin-right: auto;
 
   @media (max-width: 500px) {
-    width: 2rem;
-    height: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 `;
 const Img = styled.img`
