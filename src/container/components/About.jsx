@@ -32,7 +32,7 @@ const tabContents = [
 
 const MainContainer = styled.section`
   background: #fff;
-  padding: 3rem 0 0;
+  padding: 1.5rem 0 0;
   z-index: 5;
 
   @media (max-width: 750px) {
@@ -329,7 +329,7 @@ const ExcoDetailsContainer = styled.div`
   max-width: 60rem;
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 2.2rem;
 
   @media (max-width: 600px) {
     gap: 2rem;
@@ -350,7 +350,7 @@ const StyledSwiper = styled(Swiper)`
 
 const H2 = styled.h2`
   font-family: playfair;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.5rem 0.7rem;
   border-radius: 0.6rem;
   color: ${(props) => props.theme.secondary};
   text-align: center;
@@ -540,8 +540,8 @@ function About() {
   const smMobile = useMediaQuery({ maxWidth: 500 });
 
   return (
-    <MainContainer id="about" name="about">
-      <SubHeading>
+    <MainContainer name="about">
+      <SubHeading id="about">
         <H1 theme={myTheme}>Why We Exist</H1>
         <P theme={myTheme}>
           Keep pioneer students united, sharing memories,

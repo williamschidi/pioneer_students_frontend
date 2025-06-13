@@ -22,6 +22,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  max-width: 100%;
   overflow-x: hidden;
 `;
 
@@ -32,7 +33,7 @@ const ContentWrapper = styled.main`
 `;
 
 const HeaderContainer = styled.div`
-  position: sticky;
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 99;
@@ -50,6 +51,7 @@ const BgLayer = styled.div`
   opacity: ${(props) => (props.visible ? 1 : 0)};
   transition: opacity 3s ease-in-out;
   z-index: 1;
+
   @media (max-width: 600px) {
     background-position: top;
   }
@@ -61,10 +63,9 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: ${(props) => (props.home === 'true' ? '98vh' : '100vh')};
-
   background-image: linear-gradient(
     to right,
-    rgba(44, 62, 148, 0.6),
+    rgba(44, 62, 148, 0.5),
     rgba(244, 180, 0, 0.3)
   );
 
@@ -207,7 +208,7 @@ function Layout1() {
 
   return (
     <Container>
-      <HeaderContainer clas>
+      <HeaderContainer>
         <Nav />
         <ToastContainer position="top-center" autoClose={5000} />
       </HeaderContainer>

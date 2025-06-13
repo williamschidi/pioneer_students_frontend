@@ -53,7 +53,7 @@ const Fieldset = styled.fieldset`
 
   @media (max-width: 400px) {
     padding: 3rem 0.8rem 1rem;
-    gap: 1.8rem;
+    gap: 1.4rem;
   }
 `;
 
@@ -74,7 +74,7 @@ const InputFieldsContainer = styled.div`
   flex-direction: column;
   gap: 1.5rem;
   @media (max-width: 600px) {
-    gap: 1.2rem;
+    gap: 1rem;
   }
 `;
 
@@ -140,6 +140,10 @@ const Span = styled.span`
   color: #e3fafc;
   font-size: 0.9rem;
   font-weight: bold;
+
+  @media (max-width: 600px) {
+    font-size: 0.7rem;
+  }
 `;
 
 const ShowPassword = styled(HiOutlineEye)`
@@ -282,7 +286,7 @@ function Login() {
               style={{
                 color: bg,
                 textDecoration: 'none',
-                fontSize: '1rem',
+                fontSize: '.9rem',
               }}
             >
               Sign Up

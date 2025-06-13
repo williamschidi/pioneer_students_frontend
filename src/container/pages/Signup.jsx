@@ -54,6 +54,7 @@ const Fieldset = styled.fieldset`
   @media (max-width: 400px) {
     padding: 3.5rem 0.8rem 1rem;
     gap: 1.8rem;
+    opacity: 1;
   }
 `;
 
