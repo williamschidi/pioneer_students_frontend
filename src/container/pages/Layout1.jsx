@@ -43,14 +43,17 @@ const BgLayer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100rem;
-  min-height: ${(props) => (props.home === 'true' ? '92vh' : '100vh')};
+  width: 100%;
+  height: ${(props) => (props.home === 'true' ? '92vh' : '100vh')};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   opacity: ${(props) => (props.visible ? 1 : 0)};
   transition: opacity 3s ease-in-out;
   z-index: 1;
+  @media (max-width: 600px) {
+    background-position: top;
+  }
 `;
 
 const Overlay = styled.div`
@@ -67,6 +70,14 @@ const Overlay = styled.div`
   );
 
   z-index: 2;
+
+  @media (max-width: 600px) {
+    background-image: linear-gradient(
+      to right,
+      rgba(44, 62, 148, 0.3),
+      rgba(244, 180, 0, 0.2)
+    );
+  }
 `;
 
 const Wraper = styled.div`
@@ -102,6 +113,7 @@ const H1 = styled.p`
   }
   @media (max-width: 600px) {
     font-size: 1.4rem;
+    margin-bottom: 0.1rem;
   }
   @media (max-width: 450px) {
     font-size: 1.2rem;
@@ -121,6 +133,12 @@ const P = styled.p`
   }
   @media (max-width: 600px) {
     font-size: 0.8rem;
+    margin-bottom: 1.4rem;
+    max-width: 60rem;
+  }
+  @media (max-width: 400px) {
+    font-size: 0.8rem;
+    max-width: 40rem;
   }
 `;
 
@@ -146,6 +164,9 @@ const StyleLink = styled(Link)`
   @media (max-width: 600px) {
     padding: 0.8rem 1.4rem;
     font-size: 0.8rem;
+  }
+  @media (max-width: 400px) {
+    padding: 0.5rem 0.8rem;
   }
 `;
 

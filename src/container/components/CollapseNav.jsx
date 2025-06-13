@@ -51,6 +51,7 @@ const Bar = styled.div`
   position: relative;
   background: #e3fafc;
   width: 1.4rem;
+  top: 0;
   height: 0.15rem;
   @media (max-width: 500px) {
     width: 1.2rem;
@@ -71,10 +72,10 @@ const Bar = styled.div`
     }
   }
   &::before {
-    top: 0.6rem;
+    top: 0.4rem;
   }
   &::after {
-    top: -0.6rem;
+    top: -0.4rem;
   }
 
   &.active {
@@ -103,12 +104,6 @@ const Btn = styled.button`
 const StyledNavLink = styled(NavLink)`
   text-decoration: none;
 `;
-
-// const ToggleContainer = styled.div`
-//   position: absolute;
-//   top: 1rem;
-//   right: 1.5rem;
-// `;
 
 function CollapseNav({ isOpen, setIsOpen, handleNav }) {
   const { myTheme } = useThemes();

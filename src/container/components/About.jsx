@@ -36,7 +36,7 @@ const MainContainer = styled.section`
   z-index: 5;
 
   @media (max-width: 750px) {
-    padding: 1.5rem 0;
+    padding: 1.5rem 0 0;
   }
 `;
 
@@ -49,7 +49,10 @@ const SubHeading = styled.div`
   font-family: playfair;
   text-align: center;
   width: 25rem;
-  margin: 0 auto 1rem;
+  margin: 0 auto;
+  @media (max-width: 600px) {
+    margin-bottom: 3rem;
+  }
 `;
 
 const H1 = styled.h2`
@@ -62,11 +65,19 @@ const H1 = styled.h2`
     font-size: 1.4rem;
     padding: 1rem 0;
   }
+  @media (max-width: 600px) {
+    margin-bottom: 0;
+    padding: 0.8rem 0 0.6rem 0;
+  }
 `;
 
 const P = styled.p`
   color: ${(props) => props.theme.primary};
   font-size: 0.9rem;
+
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const SubContent = styled.div`
@@ -85,6 +96,11 @@ const SubContent = styled.div`
   @media (max-width: 600px) {
     width: 95%;
   }
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 1.4rem;
+    padding: 1.6rem 2rem;
+  }
 `;
 
 const ImgContainer = styled.div`
@@ -94,6 +110,10 @@ const ImgContainer = styled.div`
   @media (max-width: 600px) {
     height: 12rem;
   }
+  @media (max-width: 500px) {
+    height: 12rem;
+    width: 80%;
+  }
 `;
 
 const DetailContainer = styled.div`
@@ -101,6 +121,9 @@ const DetailContainer = styled.div`
   width: 35%;
   @media (max-width: 750px) {
     width: 40%;
+  }
+  @media (max-width: 500px) {
+    width: 80%;
   }
 `;
 
@@ -126,27 +149,18 @@ const AsideHeading = styled.h2`
       margin-bottom: 0.4rem;
     }
     @media (max-width: 500px) {
-      font-size: 0.9rem;
-      margin-bottom: 0.4rem;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    font-size: 1.6rem;
-  }
-
-  @media (max-width: 900px) {
     font-size: 1.4rem;
-    margin-bottom: 0.4rem;
-  }
-  @media (max-width: 750px) {
-    font-size: 1.4rem;
+
   }
   @media (max-width: 750px) {
     font-size: 1.2rem;
   }
   @media (max-width: 600px) {
     font-size: 1rem;
+  }
+    @media (max-width: 500px) {
+    font-size: 1.6rem;
+    margin-bottom: 0.2rem;
   }
 `;
 
@@ -172,6 +186,9 @@ const AsideSubHeading = styled.p`
   @media (max-width: 600px) {
     font-size: 0.8rem;
   }
+  @media (max-width: 600px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const AsideText = styled.p`
@@ -183,6 +200,10 @@ const AsideText = styled.p`
   @media (max-width: 900px) {
     line-height: 1.8;
     font-size: 0.8rem;
+  }
+  @media (max-width: 900px) {
+    line-height: 1.8;
+    font-size: 1rem;
   }
 `;
 
@@ -227,8 +248,7 @@ const TabContainer = styled.div`
 
   @media (max-width: 400px) {
     padding: 0 1rem 1rem;
-
-    max-width: 25rem;
+    max-width: 22rem;
     margin: 2rem auto;
   }
 `;
@@ -238,6 +258,10 @@ const TabList = styled.div`
   justify-content: space-around;
   align-items: center;
   margin-top: -1rem;
+  @media (max-width: 600px) {
+    justify-content: center;
+    gap: 1.2rem;
+  }
 `;
 
 const Btn = styled.button`
@@ -451,6 +475,10 @@ const CallToAction = styled.div`
   left: 5rem;
   bottom: 3rem;
   color: ${(props) => props.theme.textColor1};
+  @media (max-width: 600px) {
+    left: 3rem;
+    bottom: 2rem;
+  }
 `;
 
 const CtaHeading = styled.p`
@@ -459,6 +487,11 @@ const CtaHeading = styled.p`
   font-weight: bold;
   line-height: 1.2;
   margin-bottom: 1rem;
+  @media (max-width: 600px) {
+    font-size: 1.2rem;
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
 `;
 
 const CtaText = styled.p`
@@ -504,14 +537,15 @@ function About() {
   const [activeTab, setActiveTab] = useState(0);
   const { myTheme } = useThemes();
   const isMobile = useMediaQuery({ maxWidth: 600 });
+  const smMobile = useMediaQuery({ maxWidth: 500 });
 
   return (
     <MainContainer id="about" name="about">
       <SubHeading>
         <H1 theme={myTheme}>Why We Exist</H1>
         <P theme={myTheme}>
-          Keep pioneer students united, sharing memories, updating on life
-          milestones
+          Keep pioneer students united, sharing memories,
+          {isMobile ? <br /> : ' '} updating on life milestones
         </P>
       </SubHeading>
       <TabContainer theme={myTheme}>
@@ -529,64 +563,124 @@ function About() {
         </TabList>
         <TabContent>{tabContents[activeTab].content}</TabContent>
       </TabContainer>
-      <SubHeadingContainer>
-        <SubContent>
-          <ImgContainer>
-            <Img1 src={img1} alt="memories" />
-          </ImgContainer>
-          <DetailContainer>
-            <AsideHeading className="sub-heading-right" theme={myTheme}>
-              Share Your Memories
-            </AsideHeading>
-            <AsideSubHeading className="sub-topic-right" theme={myTheme}>
-              Relive the Golden Days
-            </AsideSubHeading>
-            <AsideText theme={myTheme}>
-              Upload throwback photos, tag classmates,
-              {isMobile ? '' : <br />} and preserve unforgettable school
-              {isMobile ? '' : <br />} moments forever
-            </AsideText>
-          </DetailContainer>
-        </SubContent>
-        <SubContent>
-          <DetailContainer>
-            <AsideHeading className="sub-heading-left" theme={myTheme}>
-              Connect With Classmates
-            </AsideHeading>
-            <AsideSubHeading className="sub-topic-left" theme={myTheme}>
-              Find Old Friends
-            </AsideSubHeading>
-            <AsideText theme={myTheme}>
-              Use our smart directory to search, message{' '}
-              {isMobile ? '' : <br />}
-              and reconnect with your classmates and {isMobile ? '' : <br />}
-              old friends
-            </AsideText>
-          </DetailContainer>
+      {smMobile ? (
+        <SubHeadingContainer>
+          <SubContent>
+            <DetailContainer>
+              <AsideHeading className="sub-heading-right" theme={myTheme}>
+                Share Your Memories
+              </AsideHeading>
+              <AsideSubHeading className="sub-topic-right" theme={myTheme}>
+                Relive the Golden Days
+              </AsideSubHeading>
+              <AsideText theme={myTheme}>
+                Upload throwback photos, tag classmates,
+                {isMobile ? '' : <br />} and preserve unforgettable school
+                {isMobile ? '' : <br />} moments forever
+              </AsideText>
+            </DetailContainer>
+            <ImgContainer>
+              <Img1 src={img1} alt="memories" />
+            </ImgContainer>
+          </SubContent>
+          <SubContent>
+            <DetailContainer>
+              <AsideHeading className="sub-heading-left" theme={myTheme}>
+                Connect With Classmates
+              </AsideHeading>
+              <AsideSubHeading className="sub-topic-left" theme={myTheme}>
+                Find Old Friends
+              </AsideSubHeading>
+              <AsideText theme={myTheme}>
+                Use our smart directory to search, message{' '}
+                {isMobile ? '' : <br />}
+                and reconnect with your classmates and {isMobile ? '' : <br />}
+                old friends
+              </AsideText>
+            </DetailContainer>
+            <ImgContainer>
+              <Img1 src={img2} alt="memories" />
+            </ImgContainer>
+          </SubContent>
+          <SubContent>
+            <DetailContainer>
+              <AsideHeading className="sub-heading-right" theme={myTheme}>
+                Stay in the loop
+              </AsideHeading>
+              <AsideSubHeading className="sub-topic-right" theme={myTheme}>
+                Never Miss an Event
+              </AsideSubHeading>
+              <AsideText theme={myTheme}>
+                Stay updated with the upcoming reunions, celebrations, and class
+                news - all in
+                {isMobile ? '' : <br />} one place
+              </AsideText>
+            </DetailContainer>
+            <ImgContainer>
+              <Img1 src={img3} alt="memories" />
+            </ImgContainer>
+          </SubContent>
+        </SubHeadingContainer>
+      ) : (
+        <SubHeadingContainer>
+          <SubContent>
+            <ImgContainer>
+              <Img1 src={img1} alt="memories" />
+            </ImgContainer>
+            <DetailContainer>
+              <AsideHeading className="sub-heading-right" theme={myTheme}>
+                Share Your Memories
+              </AsideHeading>
+              <AsideSubHeading className="sub-topic-right" theme={myTheme}>
+                Relive the Golden Days
+              </AsideSubHeading>
+              <AsideText theme={myTheme}>
+                Upload throwback photos, tag classmates,
+                {isMobile ? '' : <br />} and preserve unforgettable school
+                {isMobile ? '' : <br />} moments forever
+              </AsideText>
+            </DetailContainer>
+          </SubContent>
+          <SubContent>
+            <DetailContainer>
+              <AsideHeading className="sub-heading-left" theme={myTheme}>
+                Connect With Classmates
+              </AsideHeading>
+              <AsideSubHeading className="sub-topic-left" theme={myTheme}>
+                Find Old Friends
+              </AsideSubHeading>
+              <AsideText theme={myTheme}>
+                Use our smart directory to search, message{' '}
+                {isMobile ? '' : <br />}
+                and reconnect with your classmates and {isMobile ? '' : <br />}
+                old friends
+              </AsideText>
+            </DetailContainer>
 
-          <ImgContainer>
-            <Img1 src={img2} alt="memories" />
-          </ImgContainer>
-        </SubContent>
-        <SubContent>
-          <ImgContainer>
-            <Img1 src={img3} alt="memories" />
-          </ImgContainer>
-          <DetailContainer>
-            <AsideHeading className="sub-heading-right" theme={myTheme}>
-              Stay in the loop
-            </AsideHeading>
-            <AsideSubHeading className="sub-topic-right" theme={myTheme}>
-              Never Miss an Event
-            </AsideSubHeading>
-            <AsideText theme={myTheme}>
-              Stay updated with the upcoming reunions, celebrations, and class
-              news - all in
-              {isMobile ? '' : <br />} one place
-            </AsideText>
-          </DetailContainer>
-        </SubContent>
-      </SubHeadingContainer>
+            <ImgContainer>
+              <Img1 src={img2} alt="memories" />
+            </ImgContainer>
+          </SubContent>
+          <SubContent>
+            <ImgContainer>
+              <Img1 src={img3} alt="memories" />
+            </ImgContainer>
+            <DetailContainer>
+              <AsideHeading className="sub-heading-right" theme={myTheme}>
+                Stay in the loop
+              </AsideHeading>
+              <AsideSubHeading className="sub-topic-right" theme={myTheme}>
+                Never Miss an Event
+              </AsideSubHeading>
+              <AsideText theme={myTheme}>
+                Stay updated with the upcoming reunions, celebrations, and class
+                news - all in
+                {isMobile ? '' : <br />} one place
+              </AsideText>
+            </DetailContainer>
+          </SubContent>
+        </SubHeadingContainer>
+      )}
 
       <ExcoDetailsContainer>
         <H2 theme={myTheme}>Pioneer Students Executive Members</H2>

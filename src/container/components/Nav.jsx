@@ -41,6 +41,9 @@ const Container = styled.nav`
   @media (max-width: 900px) {
     padding: 0 1.2rem;
   }
+  @media (max-width: 900px) {
+    padding: 0.3rem 1rem;
+  }
 `;
 const LogoContainer = styled.div`
   width: 3rem;

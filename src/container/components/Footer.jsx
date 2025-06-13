@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import img1 from './../../assets/logo.png';
 
 import { useThemes } from './ThemesContext';
+import { useMediaQuery } from 'react-responsive';
 
 const FooterContainer = styled.footer`
   text-align: center;
@@ -28,6 +29,9 @@ const FooterLogo = styled.div`
   justify-content: center;
   align-items: flex-start;
   gap: 0.5rem;
+  @media (max-width: 600px) {
+    align-items: center;
+  }
 `;
 
 const Title = styled.div`
@@ -35,6 +39,9 @@ const Title = styled.div`
   padding-bottom: 1.5rem;
   font-size: 0.8rem;
   font-weight: 600;
+  @media (max-width: 600px) {
+    padding-bottom: 1rem;
+  }
 `;
 
 const Ul = styled.ul`
@@ -61,6 +68,9 @@ const Img = styled.img`
 const Text = styled.p`
   color: ${(props) => props.theme.secondary};
   font-size: 0.8rem;
+  @media (max-width: 600px) {
+    font-size: 0.7rem;
+  }
 `;
 
 const P = styled.p`
@@ -90,6 +100,7 @@ const P = styled.p`
 
 function Footer() {
   const { myTheme } = useThemes();
+  const isMobile = useMediaQuery({ maxWidth: 600 });
   return (
     <FooterContainer theme={myTheme}>
       <FooterHead>
@@ -98,7 +109,9 @@ function Footer() {
             <Img src={img1} alt="logo" />
           </ImgContainer>
 
-          <Text theme={myTheme}>Keeping pioneer connections alive.</Text>
+          <Text theme={myTheme}>
+            Keeping pioneer {isMobile ? <br /> : ''}connections alive.
+          </Text>
         </FooterLogo>
         <div>
           <Title theme={myTheme}>Quick Link</Title>
