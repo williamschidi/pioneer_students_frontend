@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import Button from "../components/Button";
-import { useTheme } from "../components/ThemeContext";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Button from '../components/Button';
+
 import {
   useGetAllStatesQuery,
   useGetMemberQuery,
   useUpdateMemberMutation,
-} from "../components/redux/apiSlice";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+} from '../components/redux/apiSlice';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useThemes } from '../components/ThemesContext';
 
 const Form = styled.form`
   margin: 0 auto;
@@ -41,7 +42,7 @@ const Fieldset = styled.fieldset`
   gap: 2.4rem;
   padding: 4rem 1.4rem 2rem;
   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.4);
-  background: ${(props) => props.theme.fieldsetBg};
+  background: ${(props) => props.theme.primary};
   border: none;
   border-radius: 0.5rem;
   opacity: 0.9;
@@ -126,7 +127,7 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  width: ${(props) => (props.type === "radio" ? "6rem" : "30rem")};
+  width: ${(props) => (props.type === 'radio' ? '6rem' : '30rem')};
   padding: 0.5rem 1rem;
   border: 1px solid gray;
   border-radius: 0.8rem;
@@ -139,19 +140,19 @@ const Input = styled.input`
     box-shadow: 0 0 0.5rem rgba(0, 0, 255, 0.5);
   }
   @media (max-width: 900px) {
-    width: ${(props) => (props.type === "radio" ? "4rem" : "25rem")};
+    width: ${(props) => (props.type === 'radio' ? '4rem' : '25rem')};
   }
   @media (max-width: 700px) {
-    width: ${(props) => (props.type === "radio" ? "2rem" : "25rem")};
+    width: ${(props) => (props.type === 'radio' ? '2rem' : '25rem')};
   }
 
   @media (max-width: 600px) {
-    width: ${(props) => (props.type === "radio" ? "2rem" : "22rem")};
+    width: ${(props) => (props.type === 'radio' ? '2rem' : '22rem')};
     padding: 0.4rem 0.8rem;
   }
 
   @media (max-width: 400px) {
-    width: ${(props) => (props.type === "radio" ? "2rem" : "18rem")};
+    width: ${(props) => (props.type === 'radio' ? '2rem' : '18rem')};
     padding: 0.3rem 0.6rem;
   }
 `;
@@ -194,20 +195,20 @@ function Update() {
   const { data: userData } = useGetMemberQuery(id);
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    gender: "",
-    maritalStatus: "",
-    residence: "",
-    occupation: "",
-    state: "",
-    localGov: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    gender: '',
+    maritalStatus: '',
+    residence: '',
+    occupation: '',
+    state: '',
+    localGov: '',
     profilePic: null,
   });
 
-  const { theme } = useTheme();
+  const { myTheme } = useThemes();
 
   function handleOnChange(e) {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -231,13 +232,13 @@ function Update() {
       const formPayload = new FormData();
 
       Object.entries(formData).forEach(([key, value]) => {
-        if (key !== "profilePic") {
+        if (key !== 'profilePic') {
           formPayload.append(key, value);
         }
       });
 
       if (formData.profilePic) {
-        formPayload.append("profilePic", formData.profilePic);
+        formPayload.append('profilePic', formData.profilePic);
       }
 
       await updateData({ id, data: formPayload }).unwrap();
@@ -256,16 +257,16 @@ function Update() {
     if (userData) {
       console.log(userData);
       setFormData({
-        firstName: userData.data.member.firstName || "",
-        lastName: userData.data.member.lastName || "",
-        email: userData.data.member.email || "",
-        phone: userData.data.member.phone || "",
-        gender: userData.data.member.gender || "",
-        maritalStatus: userData.data.member.maritalStatus || "",
-        residence: userData.data.member.residence || "",
-        occupation: userData.data.member.occupation || "",
-        state: userData.data.member.state || "",
-        localGov: userData.data.member.localGov || "",
+        firstName: userData.data.member.firstName || '',
+        lastName: userData.data.member.lastName || '',
+        email: userData.data.member.email || '',
+        phone: userData.data.member.phone || '',
+        gender: userData.data.member.gender || '',
+        maritalStatus: userData.data.member.maritalStatus || '',
+        residence: userData.data.member.residence || '',
+        occupation: userData.data.member.occupation || '',
+        state: userData.data.member.state || '',
+        localGov: userData.data.member.localGov || '',
         profilePic: null,
       });
     }
@@ -275,7 +276,7 @@ function Update() {
     <>
       <P>Welcome | {username}</P>
       <Form onSubmit={handleSubmit} encType="multipart/form-data">
-        <Fieldset theme={theme}>
+        <Fieldset theme={myTheme}>
           <Legend>Update Member </Legend>
 
           <InputFieldsContainer>
@@ -333,7 +334,7 @@ function Update() {
                   name="gender"
                   id="male"
                   value="male"
-                  checked={formData.gender === "male"}
+                  checked={formData.gender === 'male'}
                   onChange={handleOnChange}
                 />
                 <Label htmlFor="male">Male</Label>
@@ -343,7 +344,7 @@ function Update() {
                   name="gender"
                   id="female"
                   value="female"
-                  checked={formData.gender === "female"}
+                  checked={formData.gender === 'female'}
                   onChange={handleOnChange}
                 />
                 <Label htmlFor="female">Female</Label>
@@ -357,7 +358,7 @@ function Update() {
                   name="maritalStatus"
                   id="single"
                   value="single"
-                  checked={formData.maritalStatus === "single"}
+                  checked={formData.maritalStatus === 'single'}
                   onChange={handleOnChange}
                 />
                 <Label htmlFor="single">Single</Label>
@@ -366,7 +367,7 @@ function Update() {
                   name="maritalStatus"
                   id="married"
                   value="married"
-                  checked={formData.maritalStatus === "married"}
+                  checked={formData.maritalStatus === 'married'}
                   onChange={handleOnChange}
                 />
                 <Label htmlFor="married">Married</Label>
@@ -376,7 +377,7 @@ function Update() {
                   name="maritalStatus"
                   id="divorced"
                   value="divorced"
-                  checked={formData.maritalStatus === "divorced"}
+                  checked={formData.maritalStatus === 'divorced'}
                   onChange={handleOnChange}
                 />
                 <Label htmlFor="divorced">Divorced</Label>
@@ -448,7 +449,7 @@ function Update() {
               />
             </InputFields>
           </InputFieldsContainer>
-          <Button type="submit">{isLoading ? "Updating" : "Update"}</Button>
+          <Button type="submit">{isLoading ? 'Updating' : 'Update'}</Button>
         </Fieldset>
       </Form>
     </>

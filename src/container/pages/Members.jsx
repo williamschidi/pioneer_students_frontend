@@ -1,53 +1,12 @@
-// import chidi from "./../../assets/chidi.jpg";
-// import princess from "./../../assets/princess.png";
-// import princess01 from "./../../assets/princess01.png";
-// import loveth from "./../../assets/loveth.png";
-import styled from "styled-components";
-import { NavLink, useSearchParams } from "react-router-dom";
-import { useTheme } from "../components/ThemeContext";
-// import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
-import Button from "../components/Button";
-import { useEffect, useState } from "react";
-import { useLazyGetMembersQuery } from "../components/redux/apiSlice";
-
-// const data = [
-//   {
-//     id: 1,
-//     firstName: "William",
-//     lastName: "Emeaso",
-//     email: "William@gmail.com",
-//     gender: "male",
-//     phone: 7033881174,
-//     photo: chidi,
-//   },
-//   {
-//     id: 2,
-//     firstName: "Chidi",
-//     lastName: "Eze",
-//     email: "Chidi@gmail.com",
-//     gender: "male",
-//     phone: 8033551174,
-//     photo: loveth,
-//   },
-//   {
-//     id: 3,
-//     firstName: "Esther",
-//     lastName: "Nze",
-//     email: "Esther@gmail.com",
-//     gender: "female",
-//     phone: 7066889374,
-//     photo: princess,
-//   },
-//   {
-//     id: 4,
-//     firstName: "Prince",
-//     lastName: "Lucky",
-//     email: "Prince@gmail.com",
-//     gender: "male",
-//     phone: 9055678912,
-//     photo: princess01,
-//   },
-// ];
+import styled from 'styled-components';
+import { NavLink, useNavigate, useSearchParams } from 'react-router-dom';
+import Button from '../components/Button';
+import { useEffect, useState } from 'react';
+import { useLazyGetMembersQuery } from '../components/redux/apiSlice';
+import { useThemes } from '../components/ThemesContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { HiArrowNarrowLeft } from 'react-icons/hi';
+import { resetSearchedMembers } from '../components/redux/userSlice';
 
 const Container = styled.main`
   margin: 2rem auto;
@@ -74,9 +33,10 @@ const Container = styled.main`
 `;
 
 const Heading = styled.h2`
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.textColor1};
   text-transform: uppercase;
-  text-shadow: ${(props) => props.theme.textShadow};
+
+  text-shadow: 0.3rem 0.4rem 0.5rem rgba(0, 0, 0, 0.5);
 
   @media (max-width: 750px) {
     font-size: 1.4rem;
@@ -100,12 +60,12 @@ const Main = styled.main`
   margin: 1rem 0;
   border: 0.1rem solid gray;
   border-radius: 0.5rem;
-  background: ${(props) => props.theme.navBg};
+  background: ${(props) => props.theme.primary};
   box-shadow: 1rem 2rem 3rem rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-in-out;
   opacity: 0.9;
   &:hover {
-    background: ${(props) => props.theme.hoverBg};
+    background: #3c3fba;
     color: #e3fafc;
     cursor: pointer;
   }
@@ -190,7 +150,7 @@ const Img = styled.img`
 `;
 const StyledLinkNav = styled(NavLink)`
   text-decoration: none;
-  color: ${(props) => props.theme.color};
+  color: ${(props) => props.theme.textColor1};
 `;
 
 const P = styled.p`
@@ -210,18 +170,16 @@ const BtnContainer = styled.div`
   margin-top: 3rem;
 `;
 
-// const ArrorRight = styled(HiChevronRight)`
-//   font-size: 3rem;
-//   color: #fff;
-// `;
-
 function Members() {
-  const { theme } = useTheme();
+  const { myTheme } = useThemes();
   const [searchParams, setSearchParams] = useSearchParams();
-  const paramPage = parseInt(searchParams.get("page")) || 1;
+  const paramPage = parseInt(searchParams.get('page')) || 1;
   const [currentPage, setCurrentPage] = useState(paramPage);
 
   const [fetchResult, { data, isFetching }] = useLazyGetMembersQuery();
+  const searchedMembers = useSelector((state) => state.user.searchedMembers);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setSearchParams({ page: currentPage });
@@ -241,54 +199,79 @@ function Members() {
       setCurrentPage((curPage) => curPage - 1);
     }
   }
+
   if (isFetching && !data) {
     return <p>Fetching ....</p>;
   }
 
-  return (
-    <Container>
-      {!data ? (
-        <H3>
-          You do not have any registered member yet. Pls login to register
-          members{" "}
-        </H3>
-      ) : (
-        <>
-          <Heading theme={theme}>Members</Heading>
-          {data?.data?.members.map((info, ind) => (
-            <StyledLinkNav
-              to={`/member/${info._id}?page=${currentPage} `}
-              key={ind}
-              theme={theme}
-            >
-              <Main theme={theme}>
-                <Section className="image-container">
-                  <Img src={info.profilePic} alt="profile_pic" />
-                </Section>
-                <Section className="info-container">
-                  <P>
-                    <strong>
-                      {info.firstName} {info.lastName}
-                    </strong>
-                  </P>
-                  <P>{info.phone}</P>
-                  <P className="clip">{info.email}</P>
-                </Section>
-              </Main>
-            </StyledLinkNav>
-          ))}
-          <BtnContainer>
-            <Button bgColor={theme.navBg} textColor="#fff" onClick={prevPage}>
-              Prev
-            </Button>
+  const newData = searchedMembers?.data
+    ? searchedMembers?.data?.searchedMembers
+    : data?.data?.members;
 
-            <Button bgColor={theme.navBg} textColor="#fff" onClick={nextPage}>
-              Next
-            </Button>
-          </BtnContainer>
-        </>
-      )}
-    </Container>
+  return (
+    <>
+      <Button
+        alignment="left"
+        hover="transparent"
+        style={{
+          fontSize: '3rem',
+          backgroundColor: 'transparent',
+          color: '#fff',
+          border: 'none',
+          paddingLeft: '2rem',
+          boxShadow: 'none',
+        }}
+        onClick={() => {
+          dispatch(resetSearchedMembers());
+          navigate('/');
+        }}
+      >
+        <HiArrowNarrowLeft />
+      </Button>
+      <Container>
+        {!data ? (
+          <H3>
+            You do not have any registered member yet. Pls login to register
+            members
+          </H3>
+        ) : (
+          <>
+            <Heading theme={myTheme}>Members</Heading>
+            {newData.map((info, ind) => (
+              <StyledLinkNav
+                to={`/member/${info._id}?page=${currentPage}`}
+                key={ind}
+                theme={myTheme}
+              >
+                <Main theme={myTheme}>
+                  <Section className="image-container">
+                    <Img src={info.profilePic.url} alt="profile_pic" />
+                  </Section>
+                  <Section className="info-container">
+                    <P>
+                      <strong>
+                        {info.firstName} {info.lastName}
+                      </strong>
+                    </P>
+                    <P>{info.phone}</P>
+                    <P className="clip">{info.email}</P>
+                  </Section>
+                </Main>
+              </StyledLinkNav>
+            ))}
+            <BtnContainer>
+              <Button textColor="#fff" onClick={prevPage}>
+                Prev
+              </Button>
+
+              <Button textColor="#fff" onClick={nextPage}>
+                Next
+              </Button>
+            </BtnContainer>
+          </>
+        )}
+      </Container>
+    </>
   );
 }
 

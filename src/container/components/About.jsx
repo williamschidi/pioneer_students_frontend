@@ -1,33 +1,38 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { useTheme } from "./ThemeContext";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import { useState } from 'react';
+import styled from 'styled-components';
+// import { useTheme } from './ThemeContext';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { useThemes } from './ThemesContext';
+import img1 from './../../assets/img1.png';
+import img2 from './../../assets/img2.png';
+import img3 from './../../assets/reminder.png';
+import { useMediaQuery } from 'react-responsive';
 
 const tabContents = [
   {
-    label: "Vision",
+    label: 'Vision',
     content:
-      "Our vision is to build a globally respected alumni community rooted in unity, service, and leadership. We aim to foster a strong, connected network of professionals from the 2002/2003 pioneer class—dedicated to supporting one another, advancing St. Mark’s Anglican Secondary School, Emene, and inspiring lasting impact through integrity, excellence, and mentorship.",
+      'Our vision is to build a globally respected alumni community rooted in unity, service, and leadership. We aim to foster a strong, connected network of professionals from the 2002/2003 pioneer class—dedicated to supporting one another, advancing St. Mark’s Anglican Secondary School, Emene, and inspiring lasting impact through integrity, excellence, and mentorship.',
   },
 
   {
-    label: "Mission",
+    label: 'Mission',
     content:
       "Our mission is to strengthen lifelong bonds among the 2002/2003 pioneer class through unity, respect, and collaboration. We are committed to enhancing the social, academic, and professional well-being of our members while giving back to our alma mater through developmental projects, mentorship, scholarships, and educational support—preserving the values and legacy of St. Mark's Anglican Secondary School, Emene.",
   },
   {
-    label: "Motto",
+    label: 'Motto',
     content: " 'Together for Growth and Service.'",
   },
 ];
 
 const MainContainer = styled.section`
   background: #fff;
-  padding: 3rem 0 2rem;
+  padding: 3rem 0 0;
   z-index: 5;
 
   @media (max-width: 750px) {
@@ -35,16 +40,155 @@ const MainContainer = styled.section`
   }
 `;
 
-const H1 = styled.h1`
+const SubHeadingContainer = styled.div`
+  width: 100vw;
+  background-color: rgba(244, 180, 0, 0.05);
+`;
+
+const SubHeading = styled.div`
+  font-family: playfair;
   text-align: center;
-  color: #212529;
-  font-size: 2.4rem;
+  width: 25rem;
+  margin: 0 auto 1rem;
+`;
+
+const H1 = styled.h2`
+  color: ${(props) => props.theme.secondary};
+  font-size: 2rem;
   text-shadow: ${(props) => props.theme.textShadow};
+  margin-bottom: 0.8rem;
 
   @media (max-width: 750px) {
-    font-size: 2rem;
+    font-size: 1.4rem;
     padding: 1rem 0;
   }
+`;
+
+const P = styled.p`
+  color: ${(props) => props.theme.primary};
+  font-size: 0.9rem;
+`;
+
+const SubContent = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 2.4rem 2rem;
+  max-width: 80rem;
+
+  @media (max-width: 750px) {
+    width: 90%;
+  }
+  @media (max-width: 600px) {
+    width: 95%;
+  }
+`;
+
+const ImgContainer = styled.div`
+  width: 45%;
+  height: 15rem;
+
+  @media (max-width: 600px) {
+    height: 12rem;
+  }
+`;
+
+const DetailContainer = styled.div`
+  font-family: playfair;
+  width: 35%;
+  @media (max-width: 750px) {
+    width: 40%;
+  }
+`;
+
+const AsideHeading = styled.h2`
+  font-size: 1.8rem;
+  margin-bottom: 0.6rem;
+
+  &.sub-heading-right {
+    color: ${(props) => props.theme.primary};
+  }
+  &.sub-heading-left {
+    color: ${(props) => props.theme.secondary};
+
+    @media (max-width: 1024px) {
+      font-size: 1.4rem;
+    }
+    @media (max-width: 900px) {
+      font-size: 1.2rem;
+      margin-bottom: 0.4rem;
+    }
+    @media (max-width: 600px) {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 1.6rem;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+  }
+  @media (max-width: 750px) {
+    font-size: 1.4rem;
+  }
+  @media (max-width: 750px) {
+    font-size: 1.2rem;
+  }
+  @media (max-width: 600px) {
+    font-size: 1rem;
+  }
+`;
+
+const AsideSubHeading = styled.p`
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.4rem;
+  &.sub-topic-right {
+    color: ${(props) => props.theme.secondary};
+  }
+  &.sub-topic-left {
+    color: ${(props) => props.theme.primary};
+  }
+  @media (max-width: 900px) {
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 900px) {
+    margin-bottom: 0.8rem;
+  }
+  @media (max-width: 750px) {
+    font-size: 0.9rem;
+  }
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
+`;
+
+const AsideText = styled.p`
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 2;
+  color: ${(props) => props.theme.textColor};
+
+  @media (max-width: 900px) {
+    line-height: 1.8;
+    font-size: 0.8rem;
+  }
+`;
+
+const Img1 = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 const TabContainer = styled.div`
@@ -56,33 +200,35 @@ const TabContainer = styled.div`
   margin: 5rem auto;
   padding: 0 4rem 4rem;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.4);
-  background: ${(props) => props.theme.fieldsetBg};
+  background: ${(props) => props.theme.primary};
   border: none;
   border-radius: 0.5rem;
-  opacity: 0.9;
 
   @media (max-width: 750px) {
     max-width: 35rem;
     margin: 3rem auto;
+    padding: 0 2rem 4rem;
   }
 
   @media (max-width: 600px) {
     max-width: 30rem;
-    padding: 0 2rem 2rem;
-    gap: 2rem;
+    padding: 0 1rem 2rem;
+    gap: 1.5rem;
   }
 
   @media (max-width: 500px) {
-    padding: 0 1.6rem 1.6rem;
-    gap: 1.8rem;
-    max-width: 25rem;
+    padding: 0 1rem 1.5rem;
+    gap: 1rem;
+    max-width: 28rem;
+    height: 14rem;
+    font-size: 0.7rem;
     margin: 2rem auto;
   }
 
   @media (max-width: 400px) {
-    padding: 0 1.4rem 1.4rem;
-    gap: 1.8rem;
-    max-width: 22rem;
+    padding: 0 1rem 1rem;
+
+    max-width: 25rem;
     margin: 2rem auto;
   }
 `;
@@ -98,9 +244,10 @@ const Btn = styled.button`
   padding: 0.7rem 1rem;
   border: ${(props) =>
     props.isActive
-      ? "0.1rem solid #e3fafc"
+      ? '0.1rem solid #e3fafc'
       : `0.1rem solid ${props.theme.borderColor}`};
-  color: ${(props) => (props.isActive ? "#e3fafc" : "#343a40")};
+  color: ${(props) =>
+    props.isActive ? props.theme.textColor1 : props.theme.primary};
   border-radius: 0.4rem;
   font-weight: bold;
   font-size: 1rem;
@@ -108,8 +255,8 @@ const Btn = styled.button`
   transition: all 0.2s ease-in-out;
   box-shadow: 0 0.4rem 0.4rem rgba(0, 0, 0, 0.4);
   transform: ${(props) =>
-    !props.isActive ? "translateY(.1rem)" : "translateY(-.5rem)"};
-  background: ${(props) => (props.isActive ? props.theme.btnHoverBg : "#fff")};
+    !props.isActive ? 'translateY(.1rem)' : 'translateY(-.5rem)'};
+  background: ${(props) => (props.isActive ? props.theme.primary : '#fff')};
   cursor: pointer;
 
   @media (max-width: 750px) {
@@ -126,7 +273,7 @@ const Btn = styled.button`
     width: 5rem;
     font-size: 0.9rem;
     transform: ${(props) =>
-      !props.isActive ? "translateY(.1rem)" : "translateY(-.4rem)"};
+      !props.isActive ? 'translateY(.1rem)' : 'translateY(-.4rem)'};
   }
 
   @media (max-width: 400px) {
@@ -134,7 +281,7 @@ const Btn = styled.button`
 
     font-size: 0.8rem;
     transform: ${(props) =>
-      !props.isActive ? "translateY(.1rem)" : "translateY(-.3rem)"};
+      !props.isActive ? 'translateY(.1rem)' : 'translateY(-.3rem)'};
   }
 `;
 
@@ -143,8 +290,8 @@ const TabContent = styled.p`
   line-height: 1.8;
   font-size: 0.9rem;
 
-  @media (max-width: 600px) {
-    font-size: 0.9rem;
+  @media (max-width: 750px) {
+    font-size: 0.8rem;
   }
 
   @media (max-width: 400px) {
@@ -178,13 +325,12 @@ const StyledSwiper = styled(Swiper)`
 `;
 
 const H2 = styled.h2`
+  font-family: playfair;
   padding: 1rem 1.5rem;
   border-radius: 0.6rem;
-  color: #212529;
+  color: ${(props) => props.theme.secondary};
   text-align: center;
   font-size: 2rem;
-  text-shadow: ${(props) => props.theme.textShadow};
-  box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.2);
 
   @media (max-width: 750px) {
     font-size: 1.8rem;
@@ -209,20 +355,18 @@ const ExcoDetail = styled(SwiperSlide)`
   justify-content: flex-start;
   align-items: center;
   gap: 2rem;
-  border: 0.1rem solid gray;
-  box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0.3rem 0.4rem 0.4rem rgba(0, 0, 0, 0.4);
   border-radius: 1rem;
   padding: 1rem 2rem 2rem;
   backdrop-filter: blur(3rem);
-  background: ${(props) => props.theme.fieldsetBg};
-  opacity: 0.9;
+  background: ${(props) => props.theme.primary};
 `;
 const Img = styled.img`
   margin: 0 auto;
   width: 70%;
   height: 12rem;
   border-radius: 50%;
-  border: 0.3rem solid rgba(255, 255, 255, 0.5);
+  border: 0.3rem solid rgba(244, 180, 0, 0.5);
   padding: 0.3rem;
 `;
 
@@ -291,24 +435,93 @@ const Button = styled.button`
   }
 `;
 
+const CallToActionSection = styled.div`
+  position: relative;
+  height: 25rem;
+  width: 100vw;
+  background-image: linear-gradient(
+    to right,
+    rgba(44, 62, 148, 0.8),
+    rgba(244, 180, 0, 0.5)
+  );
+`;
+
+const CallToAction = styled.div`
+  position: absolute;
+  left: 5rem;
+  bottom: 3rem;
+  color: ${(props) => props.theme.textColor1};
+`;
+
+const CtaHeading = styled.p`
+  font-family: playfair;
+  font-size: 1.6rem;
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+`;
+
+const CtaText = styled.p`
+  font-size: 0.9rem;
+  font-family: inter;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+`;
+const CtaBtnContainer = styled.div`
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CtaBtn = styled.button`
+  color: ${(props) => props.theme.textColor1};
+  padding: 0.7rem 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  border: none;
+  background: ${(props) => props.theme.secondary};
+  cursor: pointer;
+
+  &:hover {
+    background: ${(props) => props.theme.textColor1};
+    color: ${(props) => props.theme.textColor};
+    transform: scale(1.05);
+  }
+  @media (max-width: 750px) {
+    padding: 1rem 2rem;
+  }
+
+  @media (max-width: 600px) {
+    padding: 0.8rem 1.4rem;
+    font-size: 0.8rem;
+  }
+`;
+
 function About() {
   const [activeTab, setActiveTab] = useState(0);
-  const { theme } = useTheme();
+  const { myTheme } = useThemes();
+  const isMobile = useMediaQuery({ maxWidth: 600 });
 
   return (
     <MainContainer id="about" name="about">
-      <H1>
-        Know About Us
-        <hr />
-      </H1>
-
-      <TabContainer theme={theme}>
+      <SubHeading>
+        <H1 theme={myTheme}>Why We Exist</H1>
+        <P theme={myTheme}>
+          Keep pioneer students united, sharing memories, updating on life
+          milestones
+        </P>
+      </SubHeading>
+      <TabContainer theme={myTheme}>
         <TabList>
           {tabContents.map((tabContent, index) => (
             <Btn
               onClick={() => setActiveTab(index)}
               isActive={activeTab === index}
               key={index}
+              theme={myTheme}
             >
               {tabContent.label}
             </Btn>
@@ -316,8 +529,67 @@ function About() {
         </TabList>
         <TabContent>{tabContents[activeTab].content}</TabContent>
       </TabContainer>
+      <SubHeadingContainer>
+        <SubContent>
+          <ImgContainer>
+            <Img1 src={img1} alt="memories" />
+          </ImgContainer>
+          <DetailContainer>
+            <AsideHeading className="sub-heading-right" theme={myTheme}>
+              Share Your Memories
+            </AsideHeading>
+            <AsideSubHeading className="sub-topic-right" theme={myTheme}>
+              Relive the Golden Days
+            </AsideSubHeading>
+            <AsideText theme={myTheme}>
+              Upload throwback photos, tag classmates,
+              {isMobile ? '' : <br />} and preserve unforgettable school
+              {isMobile ? '' : <br />} moments forever
+            </AsideText>
+          </DetailContainer>
+        </SubContent>
+        <SubContent>
+          <DetailContainer>
+            <AsideHeading className="sub-heading-left" theme={myTheme}>
+              Connect With Classmates
+            </AsideHeading>
+            <AsideSubHeading className="sub-topic-left" theme={myTheme}>
+              Find Old Friends
+            </AsideSubHeading>
+            <AsideText theme={myTheme}>
+              Use our smart directory to search, message{' '}
+              {isMobile ? '' : <br />}
+              and reconnect with your classmates and {isMobile ? '' : <br />}
+              old friends
+            </AsideText>
+          </DetailContainer>
+
+          <ImgContainer>
+            <Img1 src={img2} alt="memories" />
+          </ImgContainer>
+        </SubContent>
+        <SubContent>
+          <ImgContainer>
+            <Img1 src={img3} alt="memories" />
+          </ImgContainer>
+          <DetailContainer>
+            <AsideHeading className="sub-heading-right" theme={myTheme}>
+              Stay in the loop
+            </AsideHeading>
+            <AsideSubHeading className="sub-topic-right" theme={myTheme}>
+              Never Miss an Event
+            </AsideSubHeading>
+            <AsideText theme={myTheme}>
+              Stay updated with the upcoming reunions, celebrations, and class
+              news - all in
+              {isMobile ? '' : <br />} one place
+            </AsideText>
+          </DetailContainer>
+        </SubContent>
+      </SubHeadingContainer>
+
       <ExcoDetailsContainer>
-        <H2 theme={theme}>Pioneer Students Executive members</H2>
+        <H2 theme={myTheme}>Pioneer Students Executive Members</H2>
         <StyledSwiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={15}
@@ -325,12 +597,12 @@ function About() {
           loop={true}
           pagination={{
             clickable: true,
-            el: ".swiper-pagination",
+            el: '.swiper-pagination',
             dynamicBullets: true,
           }}
           navigation={{
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
           }}
           autoplay={{ delay: 5000, disabledOnInteraction: false }}
           breakpoints={{
@@ -339,7 +611,7 @@ function About() {
             750: { slidesPerView: 3 },
           }}
         >
-          <ExcoDetail>
+          <ExcoDetail theme={myTheme}>
             <Img src="/images/ezebig.jpeg" alt="image1" />
             <BioInfo>
               <Name>Chimeziem Ezebuilo</Name>
@@ -347,7 +619,7 @@ function About() {
               <Contact>08036863049</Contact>
             </BioInfo>
           </ExcoDetail>
-          <ExcoDetail>
+          <ExcoDetail theme={myTheme}>
             <Img src="/images/chika.jpeg" alt="image1" />
             <BioInfo>
               <Name>Chikodili Onwugamba</Name>
@@ -355,7 +627,7 @@ function About() {
               <Contact>07032205868</Contact>
             </BioInfo>
           </ExcoDetail>
-          <ExcoDetail>
+          <ExcoDetail theme={myTheme}>
             <Img src="/images/desmond.jpeg" alt="image1" />
             <BioInfo>
               <Name>Desmond Nwadishi</Name>
@@ -363,7 +635,7 @@ function About() {
               <Contact>08061698540</Contact>
             </BioInfo>
           </ExcoDetail>
-          <ExcoDetail>
+          <ExcoDetail theme={myTheme}>
             <Img src="/images/steve.jpg" alt="image1" />
             <BioInfo>
               <Name>Onochie Mgbor</Name>
@@ -371,7 +643,7 @@ function About() {
               <Contact>07065235443</Contact>
             </BioInfo>
           </ExcoDetail>
-          <ExcoDetail>
+          <ExcoDetail theme={myTheme}>
             <Img src="" alt="image1" />
             <BioInfo>
               <Name>Chizoba Eneh</Name>
@@ -379,7 +651,7 @@ function About() {
               <Contact>08169934770</Contact>
             </BioInfo>
           </ExcoDetail>
-          <ExcoDetail>
+          <ExcoDetail theme={myTheme}>
             <Img src="/images/meche.jpeg" alt="image1" />
             <BioInfo>
               <Name>Chinonso Ugwu</Name>
@@ -387,7 +659,7 @@ function About() {
               <Contact>09162340382</Contact>
             </BioInfo>
           </ExcoDetail>
-          <ExcoDetail>
+          <ExcoDetail theme={myTheme}>
             <Img src="/images/chidera.jpeg" alt="image1" />
             <BioInfo>
               <Name>Chidera Ugwu</Name>
@@ -395,7 +667,7 @@ function About() {
               <Contact>08035994524</Contact>
             </BioInfo>
           </ExcoDetail>
-          <ExcoDetail>
+          <ExcoDetail theme={myTheme}>
             <Img src="/images/chidi.jpeg" alt="image1" />
             <BioInfo>
               <Name>Emeaso Chidiebere</Name>
@@ -403,7 +675,7 @@ function About() {
               <Contact>07033881174</Contact>
             </BioInfo>
           </ExcoDetail>
-          <ExcoDetail>
+          <ExcoDetail theme={myTheme}>
             <Img src="" alt="image1" />
             <BioInfo>
               <Name>Chukwuebuka Ibeh</Name>
@@ -412,10 +684,22 @@ function About() {
             </BioInfo>
           </ExcoDetail>
 
-          <Button theme={theme} className="swiper-button-next"></Button>
-          <Button theme={theme} className="swiper-button-prev"></Button>
+          <Button theme={myTheme} className="swiper-button-next"></Button>
+          <Button theme={myTheme} className="swiper-button-prev"></Button>
         </StyledSwiper>
       </ExcoDetailsContainer>
+      <CallToActionSection>
+        <CallToAction theme={myTheme}>
+          <CtaHeading>
+            Once a Pioneer, Always Family.
+            <br /> Reconnect. Reminisce. Reunite.
+          </CtaHeading>
+          <CtaText>Join the community and be part of the legacy</CtaText>
+          <CtaBtnContainer>
+            <CtaBtn theme={myTheme}>Join the Community</CtaBtn>
+          </CtaBtnContainer>
+        </CallToAction>
+      </CallToActionSection>
     </MainContainer>
   );
 }

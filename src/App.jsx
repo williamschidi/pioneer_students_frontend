@@ -1,20 +1,18 @@
-import { createGlobalStyle } from "styled-components";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { createGlobalStyle } from 'styled-components';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import Login from "./container/pages/Login";
-import Register from "./container/pages/Register";
-import Signup from "./container/pages/Signup";
-import Home from "./container/pages/Home.jsx";
-import Layout from "./container/pages/Layout.jsx";
-import Profile from "./container/pages/Profile.jsx";
-import PageNotFount from "./container/pages/PageNotFount.jsx";
-import Members from "./container/pages/Members.jsx";
-import Update from "./container/pages/Update.jsx";
-
-// import About from "./container/components/About.jsx";
-import Motto from "./container/components/Motto.jsx";
-import ProtectedRoute from "./container/components/ProtectedRoute.jsx";
-import { useVerifyTokenQuery } from "./container/components/redux/apiSlice.js";
+import Login from './container/pages/Login';
+import Register from './container/pages/Register';
+import Signup from './container/pages/Signup';
+import Home from './container/pages/Home.jsx';
+import Profile from './container/pages/Profile.jsx';
+import PageNotFount from './container/pages/PageNotFount.jsx';
+import Members from './container/pages/Members.jsx';
+import Update from './container/pages/Update.jsx';
+import Motto from './container/components/Motto.jsx';
+import ProtectedRoute from './container/components/ProtectedRoute.jsx';
+import { useVerifyTokenQuery } from './container/components/redux/apiSlice.js';
+import Layout1 from './container/pages/Layout1.jsx';
 
 const GlobalStyle = createGlobalStyle`
     *{
@@ -42,6 +40,7 @@ const GlobalStyle = createGlobalStyle`
         font-family:tahoma ,'Ogg', serif;
         width: 100%;
         max-width: 140rem;
+       
     }
 
    
@@ -54,7 +53,7 @@ function App() {
       <GlobalStyle />
 
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout1 />}>
           <Route index element={<Home />} />
 
           <Route path="login" element={<Login />} />
@@ -71,6 +70,7 @@ function App() {
           <Route path="home" element={<Home />} />
 
           <Route path="members" element={<Members />} />
+          <Route path="members/:lastName" element={<Members />} />
           <Route path="member/:id" element={<Profile />} />
           <Route path="update/:id" element={<Update />} />
           <Route path="motto" element={<Motto />} />

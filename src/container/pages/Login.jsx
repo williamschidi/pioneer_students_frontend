@@ -1,12 +1,14 @@
-import { useState } from "react";
-import styled from "styled-components";
-import Button from "../components/Button";
-import { Link, useNavigate } from "react-router-dom";
-import { useTheme } from "../components/ThemeContext";
-import { useLoginMutation } from "../components/redux/apiSlice";
-import { useDispatch } from "react-redux";
-import { setUsername } from "../components/redux/userSlice";
-import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
+import { useState } from 'react';
+import styled from 'styled-components';
+import Button from '../components/Button';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { useLoginMutation } from '../components/redux/apiSlice';
+import { useDispatch } from 'react-redux';
+import { setUsername } from '../components/redux/userSlice';
+import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
+import { useThemes } from '../components/ThemesContext';
+import { toast } from 'react-toastify';
 
 const Form = styled.form`
   margin: 0 auto;
@@ -39,7 +41,7 @@ const Fieldset = styled.fieldset`
   gap: 2.4rem;
   padding: 4rem 1.4rem 2rem;
   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.4);
-  background: ${(props) => props.theme.fieldsetBg};
+  background: ${(props) => props.theme.primary};
   border: none;
   border-radius: 0.5rem;
   opacity: 0.9;
@@ -174,16 +176,22 @@ const InputDiv = styled.div`
 `;
 
 function Login() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [login, { data, isLoading, error }] = useLoginMutation();
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [login, { data, isLoading }] = useLoginMutation();
 
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { theme } = useTheme();
+  const { myTheme } = useThemes();
+
+  const bg = myTheme.secondary;
 
   function handleOnChange(e) {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: id === 'email' ? value.toLowerCase() : value,
+    });
   }
 
   async function handleSubmit(e) {
@@ -192,34 +200,30 @@ function Login() {
     try {
       const result = await login(formData).unwrap();
       dispatch(setUsername(result.data.name));
-      result && navigate("/register");
+      result && navigate('/register');
     } catch (err) {
-      console.log(
-        "login failed",
-        err?.data?.message || err?.error || "unknown error"
-      );
+      const errorMessage = err?.data?.message || err?.error || 'unknown error';
+      toast.error(errorMessage, {
+        style: {
+          color: 'red',
+          borderLeft: '0.6rem solid red',
+          marginTop: '4rem',
+          width: '50rem',
+          maxWidth: '70vw',
+          fontSize: '.8rem',
+        },
+      });
     }
   }
 
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <Fieldset theme={theme}>
+        <Fieldset theme={myTheme}>
           <Legend>Login</Legend>
           <InputFieldsContainer>
-            {error && (
-              <p
-                style={{
-                  color: "red",
-                  fontSize: ".8rem",
-                  border: ".1rem red ",
-                }}
-              >
-                {error?.data?.message || error?.error || "Login failed"}
-              </p>
-            )}
             {data?.message && (
-              <p style={{ color: "#fff", fontSize: ".8rem" }}>
+              <p style={{ color: '#fff', fontSize: '.8rem' }}>
                 {data?.message}
               </p>
             )}
@@ -240,7 +244,7 @@ function Login() {
 
               <InputDiv>
                 <Input
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   placeholder="password"
                   value={formData.password}
@@ -269,16 +273,16 @@ function Login() {
             </InputFields>
           </InputFieldsContainer>
           <Button type="submit">
-            {isLoading ? "Logging in...." : "Login"}
+            {isLoading ? 'Logging in....' : 'Login'}
           </Button>
           <Span>
-            Don&apos;t have an Account?{" "}
+            Don&apos;t have an Account?{' '}
             <Link
               to="/signup"
               style={{
-                color: "blue",
-                textDecoration: "none",
-                fontSize: "1rem",
+                color: bg,
+                textDecoration: 'none',
+                fontSize: '1rem',
               }}
             >
               Sign Up
@@ -286,8 +290,6 @@ function Login() {
           </Span>
         </Fieldset>
       </Form>
-      {/* <Profile /> */}
-      {/* <BackgroundImage /> */}
     </>
   );
 }

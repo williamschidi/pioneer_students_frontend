@@ -1,9 +1,10 @@
 // import PropTypes from 'prop-types';
-import { useState } from "react";
-import styled from "styled-components";
-import { useTheme } from "./ThemeContext";
-import PropTypes from "prop-types";
-import { useMediaQuery } from "react-responsive";
+import { useState } from 'react';
+import styled from 'styled-components';
+
+import PropTypes from 'prop-types';
+import { useMediaQuery } from 'react-responsive';
+import { useThemes } from './ThemesContext';
 
 const BtnContainer = styled.div`
   width: 100%;
@@ -17,8 +18,6 @@ const BtnContainer = styled.div`
 const Btn = styled.button`
   padding: 0.4rem 1rem;
   border: 0.1rem solid #e3fafc;
-
-  // color: #343a40;
   border-radius: 0.4rem;
   font-weight: bold;
   transition: all 0.2s ease-in-out;
@@ -29,8 +28,7 @@ const Btn = styled.button`
     background-color: #fff;
   }
   &:hover {
-    background: ${(props) =>
-      props.hover ? props.hover : props.theme.btnHoverBg};
+    background: ${(props) => (props.hover ? props.hover : props.theme.primary)};
     color: #e3fafc;
     font-weight: bold;
   }
@@ -42,14 +40,14 @@ const Btn = styled.button`
 
 function Button({
   children,
-  type = "button",
-  alignment = "center",
+  type = 'button',
+  alignment = 'center',
   containerStyle = {},
-  bgHoverColor = "",
+  bgHoverColor = '',
   ...props
 }) {
   const [active, setActive] = useState(false);
-  const { theme } = useTheme();
+  const { myTheme } = useThemes();
   const mobile = useMediaQuery({ maxWidth: 700 });
 
   return (
@@ -60,12 +58,12 @@ function Button({
     >
       <Btn
         hover={bgHoverColor}
-        theme={theme}
+        theme={myTheme}
         type={type}
         onMouseDown={() => setActive(true)}
         onMouseUp={() => setActive(false)}
         onMouseLeave={() => setActive(false)}
-        className={`${active ? "active" : ""} btn-custom`}
+        className={`${active ? 'active' : ''} btn-custom`}
         {...props}
       >
         {children}
@@ -80,7 +78,7 @@ Button.propTypes = {
   containerStyle: PropTypes.string,
   alignment: PropTypes.string,
   bgHoverColor: PropTypes.string,
-  type: PropTypes.oneOf(["button", "submit"]),
+  type: PropTypes.oneOf(['button', 'submit']),
 };
 
 export default Button;

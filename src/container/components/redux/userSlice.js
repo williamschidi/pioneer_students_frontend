@@ -1,17 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  searchedMembers: {},
   username: null,
   isAuth: false,
 };
 
 const userSlice = createSlice({
-  name: "User",
+  name: 'User',
   initialState,
   reducers: {
     setUsername: (state, action) => {
       state.username = action.payload;
       state.isAuth = true;
+    },
+    setSearchedMembers: (state, action) => {
+      state.searchedMembers = action.payload;
+    },
+    resetSearchedMembers: (state) => {
+      state.searchedMembers = {};
     },
     clearUser: (state) => {
       state.username = null;
@@ -20,5 +27,10 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUsername, clearUser } = userSlice.actions;
+export const {
+  setUsername,
+  clearUser,
+  resetSearchedMembers,
+  setSearchedMembers,
+} = userSlice.actions;
 export default userSlice.reducer;

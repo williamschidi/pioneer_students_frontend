@@ -1,27 +1,37 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import logo from "./../../assets/mylogo.webp";
-import styled from "styled-components";
-import { useMediaQuery } from "react-responsive";
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import logo from './../../assets/logo.png';
+import styled from 'styled-components';
+import { useMediaQuery } from 'react-responsive';
 
-import CollapseNav from "./CollapseNav";
-import { useState } from "react";
-import { HiOutlineSearch } from "react-icons/hi";
-import { useTheme } from "./ThemeContext";
+import CollapseNav from './CollapseNav';
+import { useState } from 'react';
+import { HiOutlineSearch } from 'react-icons/hi';
 
-import ToggleLightMode from "./ToggleLightMode";
-import { useLogoutMutation } from "./redux/apiSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { clearUser } from "./redux/userSlice";
-import { scrollToSection } from "./scrollToSection";
+import { useThemes } from './ThemesContext';
+
+import {
+  useLazyGetSearchMembersQuery,
+  useLogoutMutation,
+} from './redux/apiSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  clearUser,
+  resetSearchedMembers,
+  setSearchedMembers,
+} from './redux/userSlice';
+import { scrollToSection } from './scrollToSection';
+import { toast } from 'react-toastify';
+
+const navTabs = ['/members', '/register', '/home'];
 
 const Container = styled.nav`
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem 0 1rem;
-  background: ${(props) => props.theme.navBg};
-  border-bottom: ${(props) => props.theme.navBorderBottom};
+  padding: 0.5rem 3rem;
+  background: ${(props) => props.theme.primary};
+
   &.sticky {
     position: sticky;
     top: 0;
@@ -33,13 +43,13 @@ const Container = styled.nav`
   }
 `;
 const LogoContainer = styled.div`
-  width: 5rem;
-  height: 5rem;
+  width: 3rem;
+  height: 3rem;
   margin-right: auto;
 
   @media (max-width: 500px) {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 2rem;
+    height: 2rem;
   }
 `;
 const Img = styled.img`
@@ -58,29 +68,43 @@ const Ul = styled.ul`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1.2rem;
   list-style: none;
 `;
+
+const Li = styled.li``;
+
 const StyledNavLink = styled(NavLink)`
-  text-decoration: none;
-`;
-
-const Li = styled.li`
-  color: #e3fafc;
   font-size: 1rem;
-  font-weight: bold;
-  padding: 1rem 1.6rem;
+  text-decoration: none;
+  color: ${(props) => props.theme.textColor1};
+  padding: 0.3rem 1.2rem;
   text-align: center;
-
-  ${StyledNavLink}.active & {
-    border-radius: 0.5rem;
-    border-bottom: 0.1rem solid #e3fafc;
-  }
+  font-weight: bold;
   cursor: pointer;
-  &:hover {
+
+  &.login {
+    background-color: ${(props) => props.theme.secondary};
+    color: ${(props) => props.theme.primary};
+    border-radius: 5rem;
   }
+  &.active {
+    background-color: ${(props) => props.theme.secondary};
+    color: ${(props) => props.theme.primary};
+    border-radius: 5rem;
+    &:hover {
+      color: ${(props) => props.theme.textColor1};
+    }
+  }
+
+  &:hover {
+    border-bottom: 0.2rem solid ${(props) => props.theme.secondary};
+    color: ${(props) => props.theme.secondary};
+  }
+
   @media (max-width: 900px) {
     font-size: 0.8rem;
-    padding: 1rem;
+    padding: 0.2rem 0.9rem;
   }
   @media (max-width: 750px) {
     padding: 0.8rem 1rem;
@@ -89,14 +113,6 @@ const Li = styled.li`
   @media (max-width: 650px) {
     padding: 0.6rem 1rem;
   }
-`;
-
-const Btn = styled.button`
-  border: none;
-  background-color: transparent;
-  color: #e3fafc;
-  font-weight: bold;
-  font-size: 1rem;
 `;
 
 const SearchContainer = styled.div`
@@ -126,10 +142,11 @@ const Search = styled.input`
   @media (max-width: 1000px) {
     width: 16rem;
     font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
   }
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     width: 14rem;
-    padding: 0.3rem 0.7rem;
+    padding: 0.2rem 0.7rem;
   }
   @media (max-width: 450px) {
     width: 12rem;
@@ -141,32 +158,50 @@ const SearchIcon = styled(HiOutlineSearch)`
   position: absolute;
   top: 0.5rem;
   right: 0.8rem;
-  @media (max-width: 500px) {
+  @media (max-width: 900px) {
     top: 0.4rem;
-    right: 0.6rem;
   }
-  @media (max-width: 450px) {
+  @media (max-width: 600px) {
     width: 0.8rem;
     height: 0.8rem;
+    top: 0.4rem;
+    right: 0.6rem;
   }
 `;
 
 function Nav() {
   const location = useLocation();
-  const { theme } = useTheme();
+  const { myTheme } = useThemes();
   const [logout] = useLogoutMutation();
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.user.isAuth);
-  const disPatch = useDispatch();
 
-  const [search, setSearch] = useState();
+  const dispatch = useDispatch();
+
+  const [fetchData] = useLazyGetSearchMembersQuery();
+
+  const [search, setSearch] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
   const isMobile = useMediaQuery({ maxWidth: 750 });
 
-  function handleSearch(e) {
-    if (e.key === "Enter") {
-      setSearch("");
+  const hasActiveClass = navTabs.some((path) =>
+    location.pathname.startsWith(path)
+  );
+
+  async function handleSearch(e) {
+    if (e.key === 'Enter' && search) {
+      try {
+        const response = await fetchData(search).unwrap();
+        dispatch(setSearchedMembers(response));
+        navigate('/members');
+        setSearch('');
+      } catch (err) {
+        console.log('Search Error:', err.data.message);
+        const errorMessage =
+          err?.data?.message || err?.error || 'Something went wrong';
+        toast(errorMessage);
+      }
     }
   }
 
@@ -177,27 +212,27 @@ function Nav() {
   async function handlelogout() {
     try {
       await logout().unwrap();
-      disPatch(clearUser());
-      navigate("/login");
+      dispatch(clearUser());
+      navigate('/login');
     } catch (err) {
-      console.log("Login failed", err.stack);
+      toast(`Login failed ${err.message}`);
     }
   }
 
   function handleNav() {
-    if (location.pathname === "/home") {
-      scrollToSection("about");
+    if (location.pathname === '/home') {
+      scrollToSection('about');
     } else {
-      navigate("/home", { state: { scrollTo: "about" } });
+      navigate('/home', { state: { scrollTo: 'about' } });
     }
   }
 
   const customProps = { handleNav, isOpen, setIsOpen };
 
   return (
-    <Container theme={theme}>
+    <Container theme={myTheme}>
       <LogoContainer>
-        <NavLink to="home" onClick={() => setIsOpen(!open)}>
+        <NavLink to="/" onClick={() => setIsOpen(!open)}>
           <Img src={logo} alt="logo" id="top" />
         </NavLink>
       </LogoContainer>
@@ -216,32 +251,59 @@ function Nav() {
         {!isMobile ? (
           <>
             <Ul>
-              <Li theme={theme} onClick={handleNav}>
-                About Us
+              <Li onClick={handleNav}>
+                <StyledNavLink to="home" theme={myTheme}>
+                  About Us
+                </StyledNavLink>
               </Li>
 
-              <StyledNavLink to="members">
-                <Li theme={theme}>Members</Li>
-              </StyledNavLink>
+              <Li>
+                <StyledNavLink
+                  to="members"
+                  theme={myTheme}
+                  onClick={() => {
+                    dispatch(resetSearchedMembers());
+                  }}
+                >
+                  Members
+                </StyledNavLink>
+              </Li>
 
               {!isAuthenticated ? (
-                <StyledNavLink to="login">
-                  <Li theme={theme}>Login</Li>
-                </StyledNavLink>
+                <Li>
+                  <StyledNavLink
+                    to="login"
+                    className={!hasActiveClass ? 'login' : ''}
+                    theme={myTheme}
+                  >
+                    Login
+                  </StyledNavLink>
+                </Li>
               ) : (
                 <>
-                  <StyledNavLink to="register">
-                    <Li>Register Member</Li>
-                  </StyledNavLink>
-                  <StyledNavLink>
-                    <Li>
-                      <Btn onClick={handlelogout}>Logout</Btn>
-                    </Li>
-                  </StyledNavLink>
+                  <Li>
+                    <StyledNavLink
+                      to="register"
+                      className={!hasActiveClass ? 'login' : ''}
+                      theme={myTheme}
+                    >
+                      Register Member
+                    </StyledNavLink>
+                  </Li>
+
+                  <Li>
+                    <StyledNavLink
+                      to="login"
+                      className={!hasActiveClass ? 'login' : ''}
+                      theme={myTheme}
+                      onClick={handlelogout}
+                    >
+                      Logout
+                    </StyledNavLink>
+                  </Li>
                 </>
               )}
             </Ul>
-            <ToggleLightMode />
           </>
         ) : (
           <CollapseNav {...customProps} />

@@ -1,12 +1,14 @@
-import { useState } from "react";
-import styled from "styled-components";
-import Button from "../components/Button";
-import { useTheme } from "../components/ThemeContext";
+import { useState } from 'react';
+import styled from 'styled-components';
+import Button from '../components/Button';
+
 import {
   useGetAllStatesQuery,
   useRegisterMemberMutation,
-} from "../components/redux/apiSlice";
-import { useSelector } from "react-redux";
+} from '../components/redux/apiSlice';
+import { useSelector } from 'react-redux';
+import { useThemes } from '../components/ThemesContext';
+import { toast } from 'react-toastify';
 
 const Form = styled.form`
   margin: 0 auto;
@@ -39,7 +41,7 @@ const Fieldset = styled.fieldset`
   gap: 2.4rem;
   padding: 4rem 1.4rem 2rem;
   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.4);
-  background: ${(props) => props.theme.fieldsetBg};
+  background: ${(props) => props.theme.primary};
   border: none;
   border-radius: 0.5rem;
   opacity: 0.9;
@@ -124,7 +126,7 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  width: ${(props) => (props.type === "radio" ? "6rem" : "30rem")};
+  width: ${(props) => (props.type === 'radio' ? '6rem' : '30rem')};
   padding: 0.5rem 1rem;
   border: 1px solid gray;
   border-radius: 0.8rem;
@@ -137,19 +139,19 @@ const Input = styled.input`
     box-shadow: 0 0 0.5rem rgba(0, 0, 255, 0.5);
   }
   @media (max-width: 900px) {
-    width: ${(props) => (props.type === "radio" ? "4rem" : "25rem")};
+    width: ${(props) => (props.type === 'radio' ? '4rem' : '25rem')};
   }
   @media (max-width: 700px) {
-    width: ${(props) => (props.type === "radio" ? "2rem" : "25rem")};
+    width: ${(props) => (props.type === 'radio' ? '2rem' : '25rem')};
   }
 
   @media (max-width: 600px) {
-    width: ${(props) => (props.type === "radio" ? "2rem" : "22rem")};
+    width: ${(props) => (props.type === 'radio' ? '2rem' : '22rem')};
     padding: 0.4rem 0.8rem;
   }
 
   @media (max-width: 400px) {
-    width: ${(props) => (props.type === "radio" ? "2rem" : "18rem")};
+    width: ${(props) => (props.type === 'radio' ? '2rem' : '18rem')};
     padding: 0.3rem 0.6rem;
   }
 `;
@@ -189,23 +191,27 @@ function Register() {
   const { username } = useSelector((state) => state.user);
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    gender: "",
-    maritalStatus: "",
-    residence: "",
-    occupation: "",
-    state: "",
-    localGov: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    gender: '',
+    maritalStatus: '',
+    residence: '',
+    occupation: '',
+    state: '',
+    localGov: '',
     profilePicture: null,
   });
 
-  const { theme } = useTheme();
+  const { myTheme } = useThemes();
 
   function handleOnChange(e) {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+
+    const formatValue = (val) =>
+      val.slice(0, 1).toUpperCase() + val.slice(1).toLowerCase();
+    setFormData((prev) => ({ ...prev, [name]: formatValue(value) }));
   }
 
   function handleFileChange(e) {
@@ -224,21 +230,44 @@ function Register() {
 
     try {
       const formPayload = new FormData();
-    
+
       Object.entries(formData).forEach(([key, value]) => {
-        if (key !== "profilePicture") {
+        if (key !== 'profilePicture') {
           formPayload.append(key, value);
         }
       });
 
       if (formData.profilePicture) {
-        formPayload.append("profilePic", formData.profilePicture);
+        formPayload.append('profilePic', formData.profilePicture);
       }
 
       await register(formPayload).unwrap();
-      console.log("data submitted successful");
+      toast.success('Data submitted successful', {
+        style: {
+          color: 'green',
+          borderLeft: '0.6rem solid green',
+          marginTop: '4rem',
+          width: '50rem',
+          maxWidth: '70vw',
+          fontSize: '.8rem',
+        },
+      });
     } catch (err) {
-      console.log(err.message);
+      console.log(err?.data?.message);
+      const errorMessage =
+        err?.data?.message || 'Something went wrong. Please try again later';
+      toast.error(errorMessage, {
+        style: {
+          color: 'red',
+          borderLeft: '0.6rem solid red',
+          marginTop: '4rem',
+          width: '50rem',
+          maxWidth: '70vw',
+          fontSize: '.8rem',
+        },
+      });
+    } finally {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
@@ -252,7 +281,7 @@ function Register() {
     <>
       <P>Welcome | {username}</P>
       <Form onSubmit={handleSubmit} encType="multipart/form-data">
-        <Fieldset theme={theme}>
+        <Fieldset theme={myTheme}>
           <Legend>Register Member </Legend>
           <InputFieldsContainer>
             <InputFields>
@@ -309,7 +338,7 @@ function Register() {
                   name="gender"
                   id="male"
                   value="male"
-                  checked={formData.gender === "male"}
+                  checked={formData.gender === 'male'}
                   onChange={handleOnChange}
                 />
                 <Label htmlFor="male">Male</Label>
@@ -319,7 +348,7 @@ function Register() {
                   name="gender"
                   id="female"
                   value="female"
-                  checked={formData.gender === "female"}
+                  checked={formData.gender === 'female'}
                   onChange={handleOnChange}
                 />
                 <Label htmlFor="female">Female</Label>
@@ -333,7 +362,7 @@ function Register() {
                   name="maritalStatus"
                   id="single"
                   value="single"
-                  checked={formData.maritalStatus === "single"}
+                  checked={formData.maritalStatus === 'single'}
                   onChange={handleOnChange}
                 />
                 <Label htmlFor="single">Single</Label>
@@ -342,7 +371,7 @@ function Register() {
                   name="maritalStatus"
                   id="married"
                   value="married"
-                  checked={formData.maritalStatus === "married"}
+                  checked={formData.maritalStatus === 'married'}
                   onChange={handleOnChange}
                 />
                 <Label htmlFor="married">Married</Label>
@@ -352,7 +381,7 @@ function Register() {
                   name="maritalStatus"
                   id="divorced"
                   value="divorced"
-                  checked={formData.maritalStatus === "divorced"}
+                  checked={formData.maritalStatus === 'divorced'}
                   onChange={handleOnChange}
                 />
                 <Label htmlFor="divorced">Divorced</Label>
@@ -425,7 +454,7 @@ function Register() {
             </InputFields>
           </InputFieldsContainer>
           <Button type="submit">
-            {isLoading ? "Registering" : "Register"}
+            {isLoading ? 'Registering' : 'Register'}
           </Button>
         </Fieldset>
       </Form>

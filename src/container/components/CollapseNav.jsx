@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
-import { useTheme } from "./ThemeContext";
-import ToggleLightMode from "./ToggleLightMode";
-import { Link } from "react-scroll";
-import { useSelector } from "react-redux";
+import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+// import ToggleLightMode from './ToggleLightMode';
+import { Link } from 'react-scroll';
+import { useSelector } from 'react-redux';
+import { useThemes } from './ThemesContext';
 
 const Ul = styled.ul`
   position: fixed;
@@ -15,7 +15,7 @@ const Ul = styled.ul`
   display: block;
   z-index: 98;
   margin-top: 5.2rem;
-  background: ${(props) => props.theme.layoutBg};
+  background: ${(props) => props.theme.primary};
   transition: all 0.8s;
 
   &.show-nav {
@@ -34,11 +34,11 @@ const Li = styled.li`
   margin: 0 auto 1.2rem;
   text-align: center;
   padding: 1.2rem 1.6rem;
-  background: ${(props) => props.theme.fieldsetBg};
+  background: #3c3fba;
   color: #e3fafc;
 
   &:hover {
-    background: ${(props) => props.theme.ulHover};
+    background: #5b5de8;
   }
   &.sub-list {
     display: inline-flex;
@@ -59,7 +59,7 @@ const Bar = styled.div`
 
   &::before,
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     background: #e3fafc;
     width: 1.4rem;
@@ -104,28 +104,28 @@ const StyledNavLink = styled(NavLink)`
   text-decoration: none;
 `;
 
-const ToggleContainer = styled.div`
-  position: absolute;
-  top: 1rem;
-  right: 1.5rem;
-`;
+// const ToggleContainer = styled.div`
+//   position: absolute;
+//   top: 1rem;
+//   right: 1.5rem;
+// `;
 
 function CollapseNav({ isOpen, setIsOpen, handleNav }) {
-  const { theme } = useTheme();
+  const { myTheme } = useThemes();
   const isAuthenticated = useSelector((state) => state.user.isAuth);
 
   return (
     <>
       <Bar
         onClick={() => setIsOpen(!isOpen)}
-        className={isOpen ? "active" : ""}
+        className={isOpen ? 'active' : ''}
       ></Bar>
-      <Ul className={isOpen ? "show-nav" : ""} theme={theme}>
-        <ToggleContainer>
+      <Ul className={isOpen ? 'show-nav' : ''} theme={myTheme}>
+        {/* <ToggleContainer>
           <ToggleLightMode />
-        </ToggleContainer>
+        </ToggleContainer> */}
 
-        <Li theme={theme}>
+        <Li theme={myTheme}>
           <Link
             to="about"
             onClick={() => {
@@ -138,26 +138,26 @@ function CollapseNav({ isOpen, setIsOpen, handleNav }) {
         </Li>
 
         <StyledNavLink to="members">
-          <Li theme={theme} onClick={() => setIsOpen(!isOpen)}>
+          <Li theme={myTheme} onClick={() => setIsOpen(!isOpen)}>
             Members
           </Li>
         </StyledNavLink>
 
         {!isAuthenticated ? (
           <StyledNavLink to="login">
-            <Li theme={theme} onClick={() => setIsOpen(!isOpen)}>
+            <Li theme={myTheme} onClick={() => setIsOpen(!isOpen)}>
               <Btn>Login</Btn>
             </Li>
           </StyledNavLink>
         ) : (
           <>
             <StyledNavLink to="register">
-              <Li theme={theme} onClick={() => setIsOpen(!isOpen)}>
+              <Li theme={myTheme} onClick={() => setIsOpen(!isOpen)}>
                 <Btn>Register Member</Btn>
               </Li>
             </StyledNavLink>
             <StyledNavLink to="logout">
-              <Li theme={theme} onClick={() => setIsOpen(!isOpen)}>
+              <Li theme={myTheme} onClick={() => setIsOpen(!isOpen)}>
                 <Btn>Logout</Btn>
               </Li>
             </StyledNavLink>

@@ -1,11 +1,10 @@
-import styled from "styled-components";
-// import esther from "./../../assets/esther.png";
-import { useTheme } from "../components/ThemeContext";
-import Button from "../components/Button";
-import { useMediaQuery } from "react-responsive";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useGetMemberQuery } from "../components/redux/apiSlice";
-import { HiArrowNarrowLeft } from "react-icons/hi";
+import styled from 'styled-components';
+import Button from '../components/Button';
+import { useMediaQuery } from 'react-responsive';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useGetMemberQuery } from '../components/redux/apiSlice';
+import { HiArrowNarrowLeft } from 'react-icons/hi';
+import { useThemes } from '../components/ThemesContext';
 
 const Main = styled.main`
   position: relative;
@@ -121,7 +120,7 @@ const Section = styled.section`
   padding: 1rem 0;
   flex: 1;
   height: 100%;
-  background: ${(props) => props.theme.fieldsetBg};
+  background: ${(props) => props.theme.primary};
   box-shadow: 4rem 6rem 8rem rgba(0, 0, 0, 0.4);
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
@@ -174,15 +173,15 @@ const BtnContainer = styled.div`
 
 function Profile() {
   const isMobile = useMediaQuery({ maxWidth: 750 });
-  const { theme } = useTheme();
+  const { myTheme } = useThemes();
   const { id } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || 1;
+  const page = searchParams.get('page') || 1;
   const { data, isLoading } = useGetMemberQuery(id);
 
   if (!data && isLoading) {
-    return <p style={{ color: "#fff" }}>Data Loading .......</p>;
+    return <p style={{ color: '#fff' }}>Data Loading .......</p>;
   }
 
   return (
@@ -191,12 +190,12 @@ function Profile() {
         alignment="left"
         hover="transparent"
         style={{
-          fontSize: "3rem",
-          backgroundColor: "transparent",
-          color: "#fff",
-          border: "none",
-          paddingLeft: "2rem",
-          boxShadow: "none",
+          fontSize: '3rem',
+          backgroundColor: 'transparent',
+          color: '#fff',
+          border: 'none',
+          paddingLeft: '2rem',
+          boxShadow: 'none',
         }}
         onClick={() => {
           navigate(`/members?page=${page}`);
@@ -204,12 +203,12 @@ function Profile() {
       >
         <HiArrowNarrowLeft />
       </Button>
-      <Main theme={theme}>
+      <Main>
         <Aside>
           <ImgContainer>
-            <Img src={data?.data?.member?.profilePic} alt="profile pics" />
+            <Img src={data?.data?.member?.profilePic.url} alt="profile pics" />
           </ImgContainer>
-          <DetailContainer theme={theme}>
+          <DetailContainer>
             <H2>
               {data?.data?.member?.firstName} {data?.data?.member?.lastName}
             </H2>
@@ -221,11 +220,11 @@ function Profile() {
                 Edit
               </Button>
             ) : (
-              ""
+              ''
             )}
           </BtnContainer>
         </Aside>
-        <Section theme={theme}>
+        <Section theme={myTheme}>
           <H2 className="bio-heading">Bio Information</H2>
           <BioContainer>
             <BioDetail>

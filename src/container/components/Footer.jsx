@@ -1,32 +1,77 @@
-import styled from "styled-components";
-import img1 from "./../../assets/image0002.jpg";
-import { useTheme } from "./ThemeContext";
+import styled from 'styled-components';
+import img1 from './../../assets/logo.png';
+
+import { useThemes } from './ThemesContext';
 
 const FooterContainer = styled.footer`
   text-align: center;
-  padding: 1rem 1.4rem;
-  background: ${(props) => props.theme.footerBg};
-  height: 8vh;
+  padding: 1rem 0;
+  background: ${(props) => props.theme.primary};
   z-index: 100;
   @media (max-width: 600px) {
     padding: 0.8rem 1rem;
   }
 `;
 
+const FooterHead = styled.div`
+  max-width: 60rem;
+  padding: 2rem 0;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+const FooterLogo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.5rem;
+`;
+
+const Title = styled.div`
+  color: ${(props) => props.theme.textColor1};
+  padding-bottom: 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+`;
+
+const Ul = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.8rem;
+  color: ${(props) => props.theme.secondary};
+  font-size: 0.8rem;
+`;
+
+const ImgContainer = styled.div`
+  width: 3rem;
+  height: 3rem;
+`;
+
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+
+const Text = styled.p`
+  color: ${(props) => props.theme.secondary};
+  font-size: 0.8rem;
+`;
+
 const P = styled.p`
   max-width: 98vw;
-  text-transform: uppercase;
   transform: skewX(-20deg);
   display: inline-block;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.7rem;
+  font-weight: 500;
   word-spacing: 0.2rem;
-  background-image: url(${img1});
-  background-position: cover;
-  background-position: center;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: ${(props) => props.theme.textColor1};
+
   @media (max-width: 900px) {
     font-size: 0.8rem;
   }
@@ -44,10 +89,36 @@ const P = styled.p`
 `;
 
 function Footer() {
-  const { theme } = useTheme();
+  const { myTheme } = useThemes();
   return (
-    <FooterContainer theme={theme}>
-      <P>
+    <FooterContainer theme={myTheme}>
+      <FooterHead>
+        <FooterLogo>
+          <ImgContainer>
+            <Img src={img1} alt="logo" />
+          </ImgContainer>
+
+          <Text theme={myTheme}>Keeping pioneer connections alive.</Text>
+        </FooterLogo>
+        <div>
+          <Title theme={myTheme}>Quick Link</Title>
+          <Ul theme={myTheme}>
+            <li>Home</li>
+            <li>Team</li>
+            <li>Memories</li>
+          </Ul>
+        </div>
+        <div>
+          <Title theme={myTheme}>Stay Connected</Title>
+          <Ul theme={myTheme}>
+            <li>Email</li>
+            <li>Contact</li>
+            <li>Follow Us</li>
+          </Ul>
+        </div>
+      </FooterHead>
+      <hr />
+      <P theme={myTheme}>
         &copy; {new Date().getFullYear()} Pioneer Students of St. Marks Sec.
         Sch. Emene. All rights reserved
       </P>

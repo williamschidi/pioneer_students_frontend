@@ -1,10 +1,12 @@
-import { useState } from "react";
-import styled from "styled-components";
-import Button from "../components/Button";
-import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
-import { useTheme } from "../components/ThemeContext";
-import { useSignupMutation } from "../components/redux/apiSlice";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import styled from 'styled-components';
+import Button from '../components/Button';
+import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
+
+import { useSignupMutation } from '../components/redux/apiSlice';
+import { useNavigate } from 'react-router-dom';
+import { useThemes } from '../components/ThemesContext';
+import { toast } from 'react-toastify';
 
 const Form = styled.form`
   margin: 0 auto;
@@ -37,7 +39,7 @@ const Fieldset = styled.fieldset`
   gap: 2.4rem;
   padding: 4rem 1.4rem 2rem;
   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.4);
-  background: ${(props) => props.theme.fieldsetBg};
+  background: ${(props) => props.theme.primary};
   border: none;
   border-radius: 0.5rem;
   opacity: 0.9;
@@ -185,25 +187,37 @@ const accessCodes = [1234, 2345, 3425, 4444];
 
 function Signup() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirm_Password: "",
-    accessCode: "",
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirm_Password: '',
+    accessCode: '',
   });
 
-  const [Signup, { isLoading, isError }] = useSignupMutation();
+  const [Signup, { isLoading }] = useSignupMutation();
   const navigate = useNavigate();
 
   const [error, setError] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [msg, setMsg] = useState("");
-  const { theme } = useTheme();
+  const [msg, setMsg] = useState('');
+  const { myTheme } = useThemes();
 
   function handleOnChange(e) {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-    setError({ ...error, [e.target.id]: "" });
+    const { id, value } = e.target;
+    const formatValue = (val) =>
+      val.slice(0, 1).toUpperCase() + val.slice(1).toLowerCase();
+
+    setFormData({
+      ...formData,
+      [id]:
+        id === 'email'
+          ? value.toLowerCase()
+          : ['firstName', 'lastName'].includes(id)
+          ? formatValue(value)
+          : value,
+    });
+    setError({ ...error, [e.target.id]: '' });
   }
 
   async function handleSubmit(e) {
@@ -211,33 +225,33 @@ function Signup() {
 
     let newError = {};
     if (!formData.firstName) {
-      newError.firstName = "First name is required";
+      newError.firstName = 'First name is required';
     }
     if (!formData.lastName) {
-      newError.lastName = "Last Name is required";
+      newError.lastName = 'Last Name is required';
     }
 
     if (!formData.email) {
-      newError.email = "Email is required";
+      newError.email = 'Email is required';
     }
     if (!formData.password) {
-      newError.password = "Password is required";
+      newError.password = 'Password is required';
     }
     if (!formData.confirm_Password) {
-      newError.confirm_Password = "Confirm password is required";
+      newError.confirm_Password = 'Confirm password is required';
     }
     if (formData.password !== formData.confirm_Password) {
-      newError.confirm_Password = "Passwords do not match";
+      newError.confirm_Password = 'Passwords do not match';
     }
 
     if (!formData.accessCode) {
-      newError.accessCode = "Access Code is required";
+      newError.accessCode = 'Access Code is required';
     }
     if (!accessCodes.includes(formData.accessCode * 1)) {
-      setMsg("Wrong Access code. Pls provide a valid access code");
+      setMsg('Wrong Access code. Pls provide a valid access code');
       return;
     } else {
-      setMsg("");
+      setMsg('');
     }
 
     if (Object.keys(newError).length > 0) {
@@ -248,32 +262,37 @@ function Signup() {
     try {
       await Signup(formData).unwrap();
       setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        confirm_Password: "",
-        accessCode: "",
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirm_Password: '',
+        accessCode: '',
       });
 
-      navigate("/register");
+      navigate('/register');
     } catch (err) {
-      console.error("Signup failed:", err);
-      setMsg("Signup failed. Please try again.");
+      const errorMessage = err?.data?.message;
+      toast.error(errorMessage, {
+        style: {
+          color: 'red',
+          borderLeft: '0.6rem solid red',
+          marginTop: '4rem',
+          width: '50rem',
+          maxWidth: '70vw',
+          fontSize: '.8rem',
+        },
+      });
+    } finally {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }
-
-  if (!isLoading && isError) {
-    return (
-      <p>{error?.data?.message || error?.error || "Something went wrong"}</p>
-    );
   }
 
   return (
     <>
       <Form onSubmit={handleSubmit}>
         {msg && <Span>{msg}</Span>}
-        <Fieldset theme={theme}>
+        <Fieldset theme={myTheme}>
           <Legend>Signup</Legend>
           <InputFieldsContainer>
             <InputFields>
@@ -324,7 +343,7 @@ function Signup() {
               <InputDiv>
                 {error.password && <P>{error.password}</P>}
                 <Input
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   placeholder="password"
                   value={formData.password}
@@ -347,7 +366,7 @@ function Signup() {
               <InputDiv>
                 {error.confirm_Password && <P>{error.confirm_Password}</P>}
                 <Input
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   id="confirm_Password"
                   placeholder="confirm password"
                   value={formData.confirm_Password}
@@ -381,7 +400,7 @@ function Signup() {
             </InputFields>
           </InputFieldsContainer>
           <Button type="submit">
-            {isLoading ? "Registering...... " : "Sign up"}
+            {isLoading ? 'Registering...... ' : 'Sign up'}
           </Button>
         </Fieldset>
       </Form>

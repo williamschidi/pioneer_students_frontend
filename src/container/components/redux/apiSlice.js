@@ -1,83 +1,88 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { clearUser, setUsername } from "./userSlice";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { clearUser, setUsername } from './userSlice';
 
 export const apiSlice = createApi({
-  reducerPath: "api",
+  reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://pioneer-students-backend.onrender.com/api/v1",
-    // baseUrl: "http://localhost:3003/api/v1",
-    credentials: "include",
+    // baseUrl: 'https://pioneer-students-backend.onrender.com/api/v1',
+    baseUrl: 'http://localhost:3003/api/v1',
+    credentials: 'include',
   }),
-  tagTypes: ["Admin"],
+  tagTypes: ['Admin'],
 
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (data) => ({
-        url: "/admin/login",
-        method: "POST",
+        url: '/admin/login',
+        method: 'POST',
         body: data,
       }),
     }),
     signup: builder.mutation({
       query: (data) => ({
-        url: "/admin/signup",
-        method: "POST",
+        url: '/admin/signup',
+        method: 'POST',
         body: data,
       }),
     }),
 
     logout: builder.mutation({
       query: () => ({
-        url: "/admin/logout",
-        method: "POST",
+        url: '/admin/logout',
+        method: 'POST',
       }),
     }),
     protected: builder.query({
-      query: () => "/register",
+      query: () => '/register',
     }),
     registerMember: builder.mutation({
       query: (data) => ({
-        url: "/register",
-        method: "POST",
+        url: '/register',
+        method: 'POST',
         body: data,
       }),
-      invalidatesTags: ["Admin"],
+      invalidatesTags: ['Admin'],
       transformResponse: (response) => response,
     }),
     getMembers: builder.query({
       query: ({ page = 1, limit = 10 }) =>
         `/register?page=${page}&limit=${limit}`,
-      providesTags: ["Admin"],
+      providesTags: ['Admin'],
     }),
     getMember: builder.query({
       query: (id) => `/register/${id}`,
-      providesTags: ["Admin"],
+      providesTags: ['Admin'],
+    }),
+
+    getSearchMembers: builder.query({
+      query: (lastName) => `/register/search?lastName=${lastName}`,
+      providesTags: ['Admin'],
     }),
 
     updateMember: builder.mutation({
       query: ({ id, data }) => ({
         url: `/register/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: data,
       }),
-      invalidatesTags: ["Admin"],
+      invalidatesTags: ['Admin'],
       transformResponse: (response) => response,
     }),
     deleteMember: builder.mutation({
       query: (id) => ({
         url: `/register/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
         body: id,
       }),
-      invalidatesTags: ["Admin"],
+      invalidatesTags: ['Admin'],
     }),
 
     getAllStates: builder.query({
-      query: () => "/states",
+      query: () => '/states',
     }),
 
     verifyToken: builder.query({
-      query: () => "/admin/verify",
+      query: () => '/admin/verify',
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -95,6 +100,7 @@ export const {
   useDeleteMemberMutation,
   useGetMemberQuery,
   useGetMembersQuery,
+  useLazyGetSearchMembersQuery,
   useLazyGetMembersQuery,
   useGetAllStatesQuery,
   useUpdateMemberMutation,
