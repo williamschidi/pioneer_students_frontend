@@ -9,6 +9,7 @@ import { setUsername } from '../components/redux/userSlice';
 import { HiOutlineEye, HiOutlineEyeOff } from 'react-icons/hi';
 import { useThemes } from '../components/ThemesContext';
 import { toast } from 'react-toastify';
+import { useMediaQuery } from 'react-responsive';
 
 const Form = styled.form`
   margin: 0 auto;
@@ -19,11 +20,10 @@ const Form = styled.form`
   }
   @media (max-width: 700px) {
     max-width: 35rem;
-    padding: 2rem 0 1rem;
+    padding: 4rem 0 0.8rem;
   }
   @media (max-width: 600px) {
     max-width: 30rem;
-    padding: 1rem 0;
   }
   @media (max-width: 500px) {
     max-width: 25rem;
@@ -48,12 +48,8 @@ const Fieldset = styled.fieldset`
 
   @media (max-width: 500px) {
     padding: 3.5rem 1rem 1.5rem;
-    gap: 2rem;
-  }
-
-  @media (max-width: 400px) {
     padding: 3rem 0.8rem 1rem;
-    gap: 1.4rem;
+    gap: 1.8rem;
   }
 `;
 
@@ -182,7 +178,7 @@ const InputDiv = styled.div`
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [login, { data, isLoading }] = useLoginMutation();
-
+  const isMobile = useMediaQuery({ maxWidth: 600 });
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -210,10 +206,10 @@ function Login() {
       toast.error(errorMessage, {
         style: {
           color: 'red',
-          borderLeft: '0.6rem solid red',
-          marginTop: '4rem',
+          borderLeft: '0.5rem solid red',
+          marginTop: `${isMobile ? '2.4rem' : ' 4rem'}`,
           width: '50rem',
-          maxWidth: '70vw',
+          maxWidth: `${isMobile ? '90vw' : '70rem'}`,
           fontSize: '.8rem',
         },
       });

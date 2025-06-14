@@ -114,9 +114,12 @@ const RadioInput = styled.div`
 `;
 
 const Label = styled.label`
+  display: inline-block;
   font-size: 1rem;
   color: #e3fafc;
   font-weight: 600;
+  cursor: pointer;
+
   @media (max-width: 700px) {
     font-size: 0.9rem;
   }
@@ -207,11 +210,17 @@ function Register() {
   const { myTheme } = useThemes();
 
   function handleOnChange(e) {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
+
+    console.log(`Change event : ${name}: ${value} : ${type}`);
 
     const formatValue = (val) =>
-      val.slice(0, 1).toUpperCase() + val.slice(1).toLowerCase();
+      type === 'text'
+        ? val.slice(0, 1).toUpperCase() + val.slice(1).toLowerCase()
+        : val;
+
     setFormData((prev) => ({ ...prev, [name]: formatValue(value) }));
+    // setFormData((prev) => ({ ...prev, [name]: value }));
   }
 
   function handleFileChange(e) {
@@ -330,7 +339,7 @@ function Register() {
               />
             </InputFields>
             <RadioInput>
-              <Label htmlFor="gender">Gender :</Label>
+              <Label>Gender :</Label>
               <div>
                 <Input
                   type="radio"
