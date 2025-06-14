@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 const Form = styled.form`
   margin: 0 auto;
   width: 50rem;
-  padding: 3rem 0 2rem;
+  padding: 1rem 0 2rem;
 
   @media (max-width: 900px) {
     max-width: 40rem;
@@ -26,7 +26,7 @@ const Form = styled.form`
   }
   @media (max-width: 500px) {
     max-width: 25rem;
-    padding: 3rem 0 2rem;
+    padding: 1rem 0 2rem;
   }
   @media (max-width: 400px) {
     max-width: 22rem;
@@ -182,7 +182,7 @@ const Select = styled.select`
   }
 `;
 const P = styled.p`
-  padding: 1rem 2rem;
+  padding: 5rem 2rem 0;
   color: #fff;
   font-size: 0.9rem;
   font-weight: bold;
@@ -212,15 +212,12 @@ function Register() {
   function handleOnChange(e) {
     const { name, value, type } = e.target;
 
-    console.log(`Change event : ${name}: ${value} : ${type}`);
-
     const formatValue = (val) =>
       type === 'text'
         ? val.slice(0, 1).toUpperCase() + val.slice(1).toLowerCase()
         : val;
 
     setFormData((prev) => ({ ...prev, [name]: formatValue(value) }));
-    // setFormData((prev) => ({ ...prev, [name]: value }));
   }
 
   function handleFileChange(e) {
