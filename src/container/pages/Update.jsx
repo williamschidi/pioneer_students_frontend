@@ -243,8 +243,7 @@ function Update() {
       }
 
       await updateData({ id, data: formPayload }).unwrap();
-
-       toast.success("Data successfully updated!",{
+      toast.success('Data successfully updated', {
         style: {
           color: 'green',
           borderLeft: '0.6rem solid red',
@@ -252,12 +251,12 @@ function Update() {
           width: '50rem',
           maxWidth: '70vw',
           fontSize: '.8rem',
-        }
-    })
+        },
+      });
     } catch (err) {
       const errorMessage =
         err.message || 'Data could not be updated. Please try again later';
-      toast.error(errorMessage,{
+      toast.error(errorMessage, {
         style: {
           color: 'red',
           borderLeft: '0.6rem solid red',
@@ -265,8 +264,9 @@ function Update() {
           width: '50rem',
           maxWidth: '70vw',
           fontSize: '.8rem',
-        }
-    })
+        },
+      });
+    }
   }
 
   const states = data?.data?.getStates;
