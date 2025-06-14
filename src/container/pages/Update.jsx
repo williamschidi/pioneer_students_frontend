@@ -10,6 +10,7 @@ import {
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useThemes } from '../components/ThemesContext';
+import { toast } from 'react-toastify';
 
 const Form = styled.form`
   margin: 0 auto;
@@ -242,9 +243,30 @@ function Update() {
       }
 
       await updateData({ id, data: formPayload }).unwrap();
+
+       toast.success("Data successfully updated!",{
+        style: {
+          color: 'green',
+          borderLeft: '0.6rem solid red',
+          marginTop: '4rem',
+          width: '50rem',
+          maxWidth: '70vw',
+          fontSize: '.8rem',
+        }
+    })
     } catch (err) {
-      console.log(err.message);
-    }
+      const errorMessage =
+        err.message || 'Data could not be updated. Please try again later';
+      toast.error(errorMessage,{
+        style: {
+          color: 'red',
+          borderLeft: '0.6rem solid red',
+          marginTop: '4rem',
+          width: '50rem',
+          maxWidth: '70vw',
+          fontSize: '.8rem',
+        }
+    })
   }
 
   const states = data?.data?.getStates;

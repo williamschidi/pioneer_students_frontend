@@ -266,7 +266,7 @@ function Signup() {
     try {
       const result = await Signup(formData).unwrap();
 
-      dispatch(setUsername(result.data.newAdmin.firstName));
+      dispatch(setUsername(result.data.firstName));
       setFormData({
         firstName: '',
         lastName: '',
