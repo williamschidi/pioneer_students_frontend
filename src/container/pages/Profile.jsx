@@ -56,7 +56,11 @@ const Aside = styled.aside`
 const ImgContainer = styled.div`
   text-align: center;
   width: 18rem;
-  height: 60%;
+  height: 50%;
+  @media (max-width: 600px) {
+    width: 15rem;
+    height: 40%;
+  }
 `;
 
 const Img = styled.img`
@@ -77,7 +81,7 @@ const DetailContainer = styled.div`
 `;
 
 const H2 = styled.h2`
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: bold;
   &.bio-heading {
     align-self: center;
@@ -213,7 +217,7 @@ function Profile() {
             <H2>
               {data?.data?.member?.firstName} {data?.data?.member?.lastName}
             </H2>
-            <P className="small">{data?.data?.member?.member?.occupation}</P>
+            <P className="small">{data?.data?.member?.occupation}</P>
           </DetailContainer>
           <BtnContainer>
             {!isMobile ? (
