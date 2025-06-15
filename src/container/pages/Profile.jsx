@@ -55,10 +55,10 @@ const Aside = styled.aside`
 
 const ImgContainer = styled.div`
   text-align: center;
-  width: 18rem;
-  height: 50%;
+  width: 15rem;
+  height: 60%;
   @media (max-width: 600px) {
-    width: 15rem;
+    width: 14rem;
     height: 40%;
   }
 `;
