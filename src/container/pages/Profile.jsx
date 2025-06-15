@@ -200,7 +200,7 @@ function Profile() {
           border: 'none',
           paddingLeft: '2rem',
           boxShadow: 'none',
-          marginTop: '5rem',
+          marginTop: `${isMobile ? '3rem' : '5rem'}`,
         }}
         onClick={() => {
           navigate(`/members?page=${page}`);
@@ -220,13 +220,9 @@ function Profile() {
             <P className="small">{data?.data?.member?.occupation}</P>
           </DetailContainer>
           <BtnContainer>
-            {!isMobile ? (
-              <Button noPadding onClick={() => navigate(`/update/${id}`)}>
-                Edit
-              </Button>
-            ) : (
-              ''
-            )}
+            <Button noPadding onClick={() => navigate(`/update/${id}`)}>
+              Edit
+            </Button>
           </BtnContainer>
         </Aside>
         <Section theme={myTheme}>
