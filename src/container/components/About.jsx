@@ -738,7 +738,7 @@ function About() {
             </BioInfo>
           </ExcoDetail>
           <ExcoDetail theme={myTheme}>
-            <Img src="" alt="image1" />
+            <Img src="/images/chizoba.webp" alt="image1" />
             <BioInfo>
               <Name>Chizoba Eneh</Name>
               <Position>D.O.S</Position>
