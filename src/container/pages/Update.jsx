@@ -101,11 +101,14 @@ const InputFields = styled.div`
   }
 `;
 
-const RadioInput = styled.div`
+const RadioInput = styled.fieldset`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 5rem;
+  border: none;
+  color: #fff;
+  // padding-bottom: 2rem;
+  gap: 115rem;
   @media (max-width: 700px) {
     justify-content: flex-start;
     gap: 2rem;
@@ -113,6 +116,10 @@ const RadioInput = styled.div`
   @media (max-width: 600px) {
     gap: 2rem;
   }
+`;
+
+const Legends = styled.legend`
+  padding-bottom: 1rem;
 `;
 
 const Label = styled.label`
@@ -241,7 +248,7 @@ function Update() {
       if (formData.profilePic) {
         formPayload.append('profilePic', formData.profilePic);
       }
-
+      console.log(formData, formPayload.profilePic);
       await updateData({ id, data: formPayload }).unwrap();
       toast.success('Data successfully updated', {
         style: {
@@ -348,8 +355,11 @@ function Update() {
                 onChange={handleOnChange}
               />
             </InputFields>
-            <RadioInput>
-              <Label htmlFor="gender">Gender :</Label>
+
+            <RadioInput aria-labelled="gender-label">
+              <Legends id="gender-label" htmlFor="gender">
+                Gender :
+              </Legends>
               <div>
                 <Input
                   type="radio"
@@ -373,7 +383,7 @@ function Update() {
               </div>
             </RadioInput>
             <RadioInput>
-              <Label>Marital Status :</Label>
+              <Legends id="marital-status-label">Marital Status :</Legends>
               <div>
                 <Input
                   type="radio"
@@ -471,7 +481,7 @@ function Update() {
               />
             </InputFields>
           </InputFieldsContainer>
-          <Button type="submit">{isLoading ? 'Updating' : 'Update'}</Button>
+          <Button type="submit">{isLoading ? 'Updating...' : 'Update'}</Button>
         </Fieldset>
       </Form>
     </>
