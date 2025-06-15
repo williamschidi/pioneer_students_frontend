@@ -183,7 +183,7 @@ function Members() {
 
   useEffect(() => {
     setSearchParams({ page: currentPage });
-    fetchResult({ page: currentPage, limit: 2 });
+    fetchResult({ page: currentPage, limit: 5 });
   }, [fetchResult, currentPage, setSearchParams]);
 
   const totalPages = data?.data?.totalPages || 1;
@@ -241,7 +241,7 @@ function Members() {
               >
                 <Main theme={myTheme}>
                   <Section className="image-container">
-                    <Img src={info.profilePic.url} alt="profile_pic" />
+                    <Img src={info?.profilePic?.url} alt="profile_pic" />
                   </Section>
                   <Section className="info-container">
                     <P>
@@ -255,6 +255,7 @@ function Members() {
                 </Main>
               </StyledLinkNav>
             ))}
+
             <BtnContainer>
               <Button textColor="#fff" onClick={prevPage}>
                 Prev
