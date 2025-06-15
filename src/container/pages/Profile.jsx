@@ -196,6 +196,7 @@ function Profile() {
           border: 'none',
           paddingLeft: '2rem',
           boxShadow: 'none',
+          marginTop: '5rem',
         }}
         onClick={() => {
           navigate(`/members?page=${page}`);
