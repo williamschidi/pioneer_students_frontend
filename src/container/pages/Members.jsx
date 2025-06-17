@@ -101,10 +101,6 @@ const Section = styled.section`
       width: 2.5rem;
       height: 2.5rem;
     }
-    // @media (max-width: 450px) {
-    //   width: 2rem;
-    //   height: 2rem;
-    // }
   }
   &.info-container {
     font-size: 0.9rem;
@@ -176,6 +172,9 @@ const BtnContainer = styled.div`
   align-items: center;
   padding: 0 2rem;
   margin-top: 3rem;
+  @media (max-width: 400px) {
+    padding: 0 1rem;
+  }
 `;
 
 const Span = styled.span`
@@ -203,7 +202,7 @@ const Span = styled.span`
     margin: 0 0.5rem;
   }
   @media (max-width: 400px) {
-    margin: 0;
+    margin: 0 0.3rem;
   }
 `;
 
@@ -302,6 +301,7 @@ function Members() {
                   theme={myTheme}
                   key={i}
                   className={currentPage === i + 1 ? 'active' : ' '}
+                  onClick={() => setCurrentPage(i + 1)}
                 >
                   {i + 1}
                 </Span>
