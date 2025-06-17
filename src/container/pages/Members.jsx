@@ -74,9 +74,9 @@ const Main = styled.main`
     gap: 1rem;
     padding: 0.5rem 0;
   }
-  @media (max-width: 500px) {
-    gap: 1rem;
-    padding: 0.5rem;
+  @media (max-width: 400px) {
+    gap: 0.6rem;
+    padding: 0.4rem;
   }
 `;
 
@@ -101,10 +101,10 @@ const Section = styled.section`
       width: 2.5rem;
       height: 2.5rem;
     }
-    @media (max-width: 450px) {
-      width: 2rem;
-      height: 2rem;
-    }
+    // @media (max-width: 450px) {
+    //   width: 2rem;
+    //   height: 2rem;
+    // }
   }
   &.info-container {
     font-size: 0.9rem;
@@ -114,10 +114,12 @@ const Section = styled.section`
     padding: 0.5rem 1rem;
     @media (max-width: 600px) {
       font-size: 0.8rem;
+      padding: 0.5rem 0.8rem;
     }
     @media (max-width: 500px) {
       gap: 0.7rem;
       font-size: 0.7rem;
+      padding: 0.4rem 0.7rem;
     }
   }
 `;
@@ -155,13 +157,13 @@ const StyledLinkNav = styled(NavLink)`
 
 const P = styled.p`
   &.clip {
-    width: 6rem;
+    width: 5rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   &.clipPhoneNum {
-    width: 7rem;
+    width: 5.4rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -178,6 +180,7 @@ const BtnContainer = styled.div`
 
 const Span = styled.span`
   padding: 0 1rem;
+  margin: 0 3rem;
   color: #fff;
   &.active {
     background: #fff;
@@ -189,6 +192,18 @@ const Span = styled.span`
     align-items: center;
     font-weight: bold;
     color: ${(props) => props.theme.primary};
+  }
+  @media (max-width: 600px) {
+    margin: 0 2rem;
+  }
+  @media (max-width: 500px) {
+    margin: 0 1rem;
+  }
+  @media (max-width: 450px) {
+    margin: 0 0.5rem;
+  }
+  @media (max-width: 400px) {
+    margin: 0;
   }
 `;
 
