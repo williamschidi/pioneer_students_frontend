@@ -85,11 +85,11 @@ const Section = styled.section`
   height: 100%;
 
   @media (max-width: 500px) {
-    width: 20rem;
+    width: 22rem;
   }
 
   @media (max-width: 500px) {
-    width: 18rem;
+    width: 20rem;
   }
 
   &.image-container {
@@ -155,7 +155,13 @@ const StyledLinkNav = styled(NavLink)`
 
 const P = styled.p`
   &.clip {
-    width: 5rem;
+    width: 6rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &.clipPhoneNum {
+    width: 7rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -168,6 +174,22 @@ const BtnContainer = styled.div`
   align-items: center;
   padding: 0 2rem;
   margin-top: 3rem;
+`;
+
+const Span = styled.span`
+  padding: 0 1rem;
+  color: #fff;
+  &.active {
+    background: #fff;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: ${(props) => props.theme.primary};
+  }
 `;
 
 function Members() {
@@ -249,7 +271,7 @@ function Members() {
                         {info.firstName} {info.lastName}
                       </strong>
                     </P>
-                    <P>{info.phone}</P>
+                    <P className="clipPhoneNum">{info.phone}</P>
                     <P className="clip">{info.email}</P>
                   </Section>
                 </Main>
@@ -260,6 +282,15 @@ function Members() {
               <Button textColor="#fff" onClick={prevPage}>
                 Prev
               </Button>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <Span
+                  theme={myTheme}
+                  key={i}
+                  className={currentPage === i + 1 ? 'active' : ' '}
+                >
+                  {i + 1}
+                </Span>
+              ))}
 
               <Button textColor="#fff" onClick={nextPage}>
                 Next
