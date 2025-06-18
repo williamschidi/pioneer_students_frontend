@@ -214,7 +214,8 @@ function Register() {
 
     const formatValue = (val) =>
       type === 'text'
-        ? val.slice(0, 1).toUpperCase() + val.slice(1).toLowerCase()
+        ? val.slice(0, 1).toUpperCase().trim() +
+          val.slice(1).toLowerCase().trim()
         : val;
 
     setFormData((prev) => ({ ...prev, [name]: formatValue(value) }));

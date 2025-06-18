@@ -198,6 +198,7 @@ function Nav() {
         search.slice(0, 1).toUpperCase() + search.slice(1).toLowerCase();
       try {
         const response = await fetchData(user).unwrap();
+        console.log(response);
         dispatch(setSearchedMembers(response));
         navigate('/members');
         setSearch('');

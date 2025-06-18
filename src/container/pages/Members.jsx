@@ -216,6 +216,8 @@ function Members() {
   const [searchParams, setSearchParams] = useSearchParams();
   const paramPage = parseInt(searchParams.get('page')) || 1;
   const [currentPage, setCurrentPage] = useState(paramPage);
+  const [showButton, setShowButton] = useState(0);
+  const [showMembers, setShowMember] = useState(null);
 
   const [fetchResult, { data, isFetching, isError, error }] =
     useLazyGetMembersQuery();
@@ -242,11 +244,15 @@ function Members() {
     }
   }
 
-  const newData = searchedMembers?.data
-    ? searchedMembers?.data?.searchedMembers
-    : data?.data?.members;
-
-  console.log(newData);
+  useEffect(() => {
+    if (searchedMembers?.data) {
+      setShowMember(searchedMembers.data.searchedMembers);
+      setShowButton(searchedMembers.total);
+    } else {
+      setShowMember(data?.data?.members);
+      setShowButton(data.data.total);
+    }
+  }, [searchedMembers, data]);
 
   useEffect(() => {
     if (isError && error) {
@@ -267,6 +273,7 @@ function Members() {
   if (isFetching && !isError) {
     return <Spinner />;
   }
+  console.log(showMembers, showButton);
 
   return (
     <>
@@ -289,12 +296,12 @@ function Members() {
         <HiArrowNarrowLeft />
       </Button>
 
-      {!newData ? (
+      {!showMembers ? (
         ''
       ) : (
         <Container>
           <Heading theme={myTheme}>Members</Heading>
-          {newData?.map((info, ind) => (
+          {showMembers?.map((info, ind) => (
             <StyledLinkNav
               to={`/member/${info._id}?page=${currentPage}`}
               key={ind}
@@ -316,7 +323,7 @@ function Members() {
               </Main>
             </StyledLinkNav>
           ))}
-          {newData.length >= 5 ? (
+          {showButton > 5 ? (
             <BtnContainer>
               <Button textColor="#fff" onClick={prevPage}>
                 Prev
