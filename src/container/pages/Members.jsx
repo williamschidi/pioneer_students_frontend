@@ -246,6 +246,8 @@ function Members() {
     ? searchedMembers?.data?.searchedMembers
     : data?.data?.members;
 
+  console.log(newData);
+
   useEffect(() => {
     if (isError && error) {
       const errMessage = error?.error?.split(': ')[1];
@@ -287,7 +289,7 @@ function Members() {
         <HiArrowNarrowLeft />
       </Button>
 
-      {newData?.length < 1 ? (
+      {!newData ? (
         ''
       ) : (
         <Container>
@@ -314,28 +316,29 @@ function Members() {
               </Main>
             </StyledLinkNav>
           ))}
+          {newData.length >= 5 ? (
+            <BtnContainer>
+              <Button textColor="#fff" onClick={prevPage}>
+                Prev
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <Span
+                  theme={myTheme}
+                  key={i}
+                  className={currentPage === i + 1 ? 'active' : ' '}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </Span>
+              ))}
 
-          <BtnContainer>
-            <Button textColor="#fff" onClick={prevPage}>
-              Prev
-            </Button>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <Span
-                theme={myTheme}
-                key={i}
-                className={currentPage === i + 1 ? 'active' : ' '}
-                onClick={() => setCurrentPage(i + 1)}
-              >
-                {i + 1}
-              </Span>
-            ))}
-
-            <Button textColor="#fff" onClick={nextPage}>
-              Next
-            </Button>
-          </BtnContainer>
-          {/* </>
-        )} */}
+              <Button textColor="#fff" onClick={nextPage}>
+                Next
+              </Button>
+            </BtnContainer>
+          ) : (
+            ''
+          )}
         </Container>
       )}
     </>

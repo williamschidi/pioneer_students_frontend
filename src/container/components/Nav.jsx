@@ -19,6 +19,7 @@ import {
 import { scrollToSection } from './scrollToSection';
 import { toast } from 'react-toastify';
 import useSticky from '../hooks/useSticky';
+import Spinner from './Spinner';
 
 const navTabs = ['/members', '/register', '/home'];
 
@@ -180,7 +181,7 @@ function Nav() {
 
   const dispatch = useDispatch();
 
-  const [fetchData] = useLazyGetSearchMembersQuery();
+  const [fetchData, { isError, isFetching }] = useLazyGetSearchMembersQuery();
 
   const [search, setSearch] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -240,6 +241,10 @@ function Nav() {
   }
 
   const customProps = { handleNav, isOpen, setIsOpen };
+
+  if (isFetching && isError) {
+    return <Spinner />;
+  }
 
   return (
     <Container className={isSticky ? 'sticky' : ''} theme={myTheme} ref={nav}>
