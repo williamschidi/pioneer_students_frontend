@@ -69,7 +69,6 @@ const ImgContainer = styled.div`
 
   @media (max-width: 500px) {
     width: 14rem;
-    height: 14rem;
   }
 `;
 
@@ -148,6 +147,7 @@ const Section = styled.section`
     width: 30rem;
     border-bottom-right-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
+    border-top-right-radius: 0;
   }
   @media (max-width: 500px) {
     width: 25rem;
