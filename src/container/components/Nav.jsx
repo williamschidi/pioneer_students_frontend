@@ -193,8 +193,10 @@ function Nav() {
 
   async function handleSearch(e) {
     if (e.key === 'Enter' && search) {
+      const user =
+        search.slice(0, 1).toUpperCase() + search.slice(1).toLowerCase();
       try {
-        const response = await fetchData(search).unwrap();
+        const response = await fetchData(user).unwrap();
         dispatch(setSearchedMembers(response));
         navigate('/members');
         setSearch('');
