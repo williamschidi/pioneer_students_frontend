@@ -16,7 +16,7 @@ const Spin = styled.div`
   border-top: 0.4rem solid ${(props) => props.theme.primary};
   border-radius: 50%;
   animation: ${Rotate} 1s linear infinite;
-  margin: 5rem auto;
+  margin: 10rem auto;
 `;
 
 function Spinner() {

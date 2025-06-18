@@ -12,7 +12,7 @@ const Main = styled.main`
   box-shadow: 0 4rem 4rem rgba(0, 0, 0, 0.7);
   border-radius: 0.5rem;
   height: 22rem;
-  margin: 2rem auto;
+  margin: 1rem auto;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -24,47 +24,57 @@ const Main = styled.main`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    max-width: 30rem;
     height: auto;
-  }
-
-  @media (max-width: 500px) {
-    gap: 0.5rem;
   }
 `;
 
 const Aside = styled.aside`
-  max-width: 18rem;
+  width: 18rem;
   height: 100%;
-  padding: 1.5rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   border-right: 0.1rem solid gray;
-
+  background: #ecf0f1;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  padding: 1rem;
   @media (max-width: 750px) {
-    border-right: 0;
-    width: 25rem;
+    width: 30rem;
     padding: 0.5rem;
     gap: 1rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-left-radius: 0;
+  }
+  @media (max-width: 500px) {
+    width: 25rem;
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+  @media (max-width: 450px) {
+    width: 22rem;
   }
 `;
 
 const ImgContainer = styled.div`
-  text-align: center;
-  width: 15rem;
-  height: 60%;
-  @media (max-width: 600px) {
+  width: 10rem;
+  heigth: 10rem;
+  @media (max-width: 750px) {
+    width: 15rem;
+    height: 15rem;
+  }
+
+  @media (max-width: 500px) {
     width: 14rem;
-    height: 40%;
+    height: 14rem;
   }
 `;
 
 const Img = styled.img`
-  width: 80%;
+  width: 100%;
   height: 100%;
   border-radius: 50%;
 `;
@@ -73,10 +83,12 @@ const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  color: #e3fafc;
+  color: ${(props) => props.theme.primary};
+  text-align: center;
   @media (max-width: 750px) {
     justify-content: center;
     align-items: center;
+    gap: 0.2rem;
   }
 `;
 
@@ -88,9 +100,7 @@ const H2 = styled.h2`
     padding-bottom: 0.5rem;
     border-bottom: 0.1rem solid #fff;
   }
-  @media (max-width: 900px) {
-    font-size: 1.2rem;
-  }
+
   @media (max-width: 750px) {
     font-size: 1.4rem;
   }
@@ -113,6 +123,7 @@ const P = styled.p`
     font-size: 0.9rem;
     &.small {
       font-weight: 500;
+      font-size: 1rem;
     }
     @media (max-width: 500px) {
       font-size: 0.8rem;
@@ -157,6 +168,9 @@ const BioContainer = styled.div`
   @media (max-width: 750px) {
     padding: 1rem 2rem;
   }
+  @media (max-width: 500px) {
+    padding: 1rem 1rem;
+  }
 `;
 const BioDetail = styled.div`
   width: 80%;
@@ -198,7 +212,7 @@ function Profile() {
           backgroundColor: 'transparent',
           color: '#fff',
           border: 'none',
-          paddingLeft: '2rem',
+          paddingLeft: '1rem',
           boxShadow: 'none',
           marginTop: `${isMobile ? '3rem' : '5rem'}`,
         }}
@@ -213,7 +227,7 @@ function Profile() {
           <ImgContainer>
             <Img src={data?.data?.member?.profilePic.url} alt="profile pics" />
           </ImgContainer>
-          <DetailContainer>
+          <DetailContainer theme={myTheme}>
             <H2>
               {data?.data?.member?.firstName} {data?.data?.member?.lastName}
             </H2>

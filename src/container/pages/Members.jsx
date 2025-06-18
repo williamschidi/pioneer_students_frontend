@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { HiArrowNarrowLeft } from 'react-icons/hi';
 import { resetSearchedMembers } from '../components/redux/userSlice';
 import Spinner from '../components/Spinner';
+import { toast } from 'react-toastify';
 
 const Container = styled.main`
   margin: 2rem auto;
@@ -99,7 +100,6 @@ const Section = styled.section`
     border-radius: 50%;
 
     @media (max-width: 500px) {
-      width: 2.5rem;
       height: 2.5rem;
     }
   }
@@ -114,9 +114,9 @@ const Section = styled.section`
       padding: 0.5rem 0.8rem;
     }
     @media (max-width: 500px) {
-      gap: 0.7rem;
+      gap: 0.5rem;
       font-size: 0.7rem;
-      padding: 0.4rem 0.7rem;
+      padding: 0.4rem 0.5rem;
     }
   }
 `;
@@ -160,10 +160,14 @@ const P = styled.p`
     text-overflow: ellipsis;
   }
   &.clipPhoneNum {
-    width: 5.4rem;
+    width: 8rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    @media (max-width: 600px) {
+      width: 5.2rem;
+    }
   }
 `;
 
@@ -213,7 +217,8 @@ function Members() {
   const paramPage = parseInt(searchParams.get('page')) || 1;
   const [currentPage, setCurrentPage] = useState(paramPage);
 
-  const [fetchResult, { data, isFetching, isError }] = useLazyGetMembersQuery();
+  const [fetchResult, { data, isFetching, isError, error }] =
+    useLazyGetMembersQuery();
   const searchedMembers = useSelector((state) => state.user.searchedMembers);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -241,6 +246,22 @@ function Members() {
     ? searchedMembers?.data?.searchedMembers
     : data?.data?.members;
 
+  useEffect(() => {
+    if (isError && error) {
+      const errMessage = error?.error?.split(': ')[1];
+      return toast.error(errMessage, {
+        style: {
+          color: 'red',
+          borderLeft: '0.6rem solid red',
+          marginTop: '4rem',
+          width: '50rem',
+          maxWidth: '70vw',
+          fontSize: '.8rem',
+        },
+      });
+    }
+  }, [error, isError]);
+
   if (isFetching && !isError) {
     return <Spinner />;
   }
@@ -265,60 +286,58 @@ function Members() {
       >
         <HiArrowNarrowLeft />
       </Button>
-      <Container>
-        {/* {!data || data?.data?.members?.length === 0 ? (
-          <H3>
-            You do not have any registered member yet. Pls login to register
-            members
-          </H3> */}
-        {/* ) : (
-          <> */}
-        <Heading theme={myTheme}>Members</Heading>
-        {newData?.map((info, ind) => (
-          <StyledLinkNav
-            to={`/member/${info._id}?page=${currentPage}`}
-            key={ind}
-            theme={myTheme}
-          >
-            <Main theme={myTheme}>
-              <Section className="image-container">
-                <Img src={info?.profilePic?.url} alt="profile_pic" />
-              </Section>
-              <Section className="info-container">
-                <P>
-                  <strong>
-                    {info.firstName} {info.lastName}
-                  </strong>
-                </P>
-                <P className="clipPhoneNum">{info.phone}</P>
-                <P className="clip">{info.email}</P>
-              </Section>
-            </Main>
-          </StyledLinkNav>
-        ))}
 
-        <BtnContainer>
-          <Button textColor="#fff" onClick={prevPage}>
-            Prev
-          </Button>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <Span
+      {newData?.length < 1 ? (
+        ''
+      ) : (
+        <Container>
+          <Heading theme={myTheme}>Members</Heading>
+          {newData?.map((info, ind) => (
+            <StyledLinkNav
+              to={`/member/${info._id}?page=${currentPage}`}
+              key={ind}
               theme={myTheme}
-              key={i}
-              className={currentPage === i + 1 ? 'active' : ' '}
-              onClick={() => setCurrentPage(i + 1)}
             >
-              {i + 1}
-            </Span>
+              <Main theme={myTheme}>
+                <Section className="image-container">
+                  <Img src={info?.profilePic?.url} alt="profile_pic" />
+                </Section>
+                <Section className="info-container">
+                  <P>
+                    <strong>
+                      {info.firstName} {info.lastName}
+                    </strong>
+                  </P>
+                  <P className="clipPhoneNum">{info.phone}</P>
+                  <P className="clip">{info.email}</P>
+                </Section>
+              </Main>
+            </StyledLinkNav>
           ))}
 
-          <Button textColor="#fff" onClick={nextPage}>
-            Next
-          </Button>
-        </BtnContainer>
-        {/* </>
+          <BtnContainer>
+            <Button textColor="#fff" onClick={prevPage}>
+              Prev
+            </Button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <Span
+                theme={myTheme}
+                key={i}
+                className={currentPage === i + 1 ? 'active' : ' '}
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </Span>
+            ))}
+
+            <Button textColor="#fff" onClick={nextPage}>
+              Next
+            </Button>
+          </BtnContainer>
+          {/* </>
         )} */}
-      </Container>
+        </Container>
+      )}
     </>
   );
 }

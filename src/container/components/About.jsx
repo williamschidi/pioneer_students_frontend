@@ -709,7 +709,7 @@ function About() {
             <Img src="/images/ezebig.jpeg" alt="image1" />
             <BioInfo>
               <Name>Chimeziem Ezebuilo</Name>
-              <Position>Chairmain</Position>
+              <Position>Chairman</Position>
               <Contact>08036863049</Contact>
             </BioInfo>
           </ExcoDetail>
