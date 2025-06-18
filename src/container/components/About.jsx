@@ -717,7 +717,7 @@ function About() {
             <Img src="/images/chika.jpeg" alt="image1" />
             <BioInfo>
               <Name>Chikaodili Onwugamba</Name>
-              <Position>Vice chairmain</Position>
+              <Position>Vice chairman</Position>
               <Contact>07032205868</Contact>
             </BioInfo>
           </ExcoDetail>

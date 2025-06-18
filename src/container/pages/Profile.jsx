@@ -146,6 +146,8 @@ const Section = styled.section`
   gap: 2rem;
   @media (max-width: 750px) {
     width: 30rem;
+    border-bottom-right-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
   }
   @media (max-width: 500px) {
     width: 25rem;
