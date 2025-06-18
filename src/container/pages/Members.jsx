@@ -217,7 +217,7 @@ function Members() {
   const paramPage = parseInt(searchParams.get('page')) || 1;
   const [currentPage, setCurrentPage] = useState(paramPage);
   const [showButton, setShowButton] = useState(0);
-  const [showMembers, setShowMember] = useState(null);
+  const [showMembers, setShowMember] = useState('');
 
   const [fetchResult, { data, isFetching, isError, error }] =
     useLazyGetMembersQuery();
@@ -246,14 +246,20 @@ function Members() {
 
   useEffect(() => {
     if (searchedMembers?.data) {
-      setShowMember(searchedMembers.data.searchedMembers);
-      setShowButton(searchedMembers.total);
+      setShowMember(searchedMembers?.data?.searchedMembers);
+      setShowButton(searchedMembers?.total);
     } else {
       setShowMember(data?.data?.members);
-      setShowButton(data.data.total);
+      setShowButton(data?.data.total);
     }
   }, [searchedMembers, data]);
 
+  console.log(
+    'searchdata',
+    searchedMembers?.data?.searchedMembers,
+    'member',
+    data?.data?.members
+  );
   useEffect(() => {
     if (isError && error) {
       const errMessage = error?.error?.split(': ')[1];
@@ -273,7 +279,6 @@ function Members() {
   if (isFetching && !isError) {
     return <Spinner />;
   }
-  console.log(showMembers, showButton);
 
   return (
     <>
