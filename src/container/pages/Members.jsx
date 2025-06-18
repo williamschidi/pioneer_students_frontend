@@ -7,6 +7,7 @@ import { useThemes } from '../components/ThemesContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { HiArrowNarrowLeft } from 'react-icons/hi';
 import { resetSearchedMembers } from '../components/redux/userSlice';
+import Spinner from '../components/Spinner';
 
 const Container = styled.main`
   margin: 2rem auto;
@@ -119,28 +120,28 @@ const Section = styled.section`
     }
   }
 `;
-const H3 = styled.h3`
-  color: #fff;
-  text-align: center;
-  margin-top: 8rem;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 1rem 1.5rem;
-  border-radius: 0.8rem;
-  @media (max-width: 900px) {
-    font-size: 1rem;
-    padding: 0.8rem 1rem;
-  }
-  @media (max-width: 750px) {
-    margin-top: 6rem;
-    font-size: 0.8rem;
-    padding: 0.7rem 0.8rem;
-  }
-  @media (max-width: 600px) {
-    margin-top: 5rem;
-    font-size: 0.7rem;
-    padding: 0.5rem 0.7rem;
-  }
-`;
+// const H3 = styled.h3`
+//   color: #fff;
+//   text-align: center;
+//   margin-top: 8rem;
+//   background-color: rgba(0, 0, 0, 0.5);
+//   padding: 1rem 1.5rem;
+//   border-radius: 0.8rem;
+//   @media (max-width: 900px) {
+//     font-size: 1rem;
+//     padding: 0.8rem 1rem;
+//   }
+//   @media (max-width: 750px) {
+//     margin-top: 6rem;
+//     font-size: 0.8rem;
+//     padding: 0.7rem 0.8rem;
+//   }
+//   @media (max-width: 600px) {
+//     margin-top: 5rem;
+//     font-size: 0.7rem;
+//     padding: 0.5rem 0.7rem;
+//   }
+// `;
 const Img = styled.img`
   width: 100%;
   height: 100%;
@@ -179,7 +180,7 @@ const BtnContainer = styled.div`
 
 const Span = styled.span`
   padding: 0 1rem;
-  margin: 0 3rem;
+  margin: 0 2rem;
   color: #fff;
   &.active {
     background: #fff;
@@ -193,10 +194,10 @@ const Span = styled.span`
     color: ${(props) => props.theme.primary};
   }
   @media (max-width: 600px) {
-    margin: 0 2rem;
+    margin: 0 1rem;
   }
   @media (max-width: 500px) {
-    margin: 0 1rem;
+    margin: 0 0.8rem;
   }
   @media (max-width: 450px) {
     margin: 0 0.5rem;
@@ -212,7 +213,7 @@ function Members() {
   const paramPage = parseInt(searchParams.get('page')) || 1;
   const [currentPage, setCurrentPage] = useState(paramPage);
 
-  const [fetchResult, { data }] = useLazyGetMembersQuery();
+  const [fetchResult, { data, isFetching, isError }] = useLazyGetMembersQuery();
   const searchedMembers = useSelector((state) => state.user.searchedMembers);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -240,6 +241,10 @@ function Members() {
     ? searchedMembers?.data?.searchedMembers
     : data?.data?.members;
 
+  if (isFetching && !isError) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <Button
@@ -261,58 +266,58 @@ function Members() {
         <HiArrowNarrowLeft />
       </Button>
       <Container>
-        {!data || data?.data?.members?.length === 0 ? (
+        {/* {!data || data?.data?.members?.length === 0 ? (
           <H3>
             You do not have any registered member yet. Pls login to register
             members
-          </H3>
-        ) : (
-          <>
-            <Heading theme={myTheme}>Members</Heading>
-            {newData.map((info, ind) => (
-              <StyledLinkNav
-                to={`/member/${info._id}?page=${currentPage}`}
-                key={ind}
-                theme={myTheme}
-              >
-                <Main theme={myTheme}>
-                  <Section className="image-container">
-                    <Img src={info?.profilePic?.url} alt="profile_pic" />
-                  </Section>
-                  <Section className="info-container">
-                    <P>
-                      <strong>
-                        {info.firstName} {info.lastName}
-                      </strong>
-                    </P>
-                    <P className="clipPhoneNum">{info.phone}</P>
-                    <P className="clip">{info.email}</P>
-                  </Section>
-                </Main>
-              </StyledLinkNav>
-            ))}
+          </H3> */}
+        {/* ) : (
+          <> */}
+        <Heading theme={myTheme}>Members</Heading>
+        {newData?.map((info, ind) => (
+          <StyledLinkNav
+            to={`/member/${info._id}?page=${currentPage}`}
+            key={ind}
+            theme={myTheme}
+          >
+            <Main theme={myTheme}>
+              <Section className="image-container">
+                <Img src={info?.profilePic?.url} alt="profile_pic" />
+              </Section>
+              <Section className="info-container">
+                <P>
+                  <strong>
+                    {info.firstName} {info.lastName}
+                  </strong>
+                </P>
+                <P className="clipPhoneNum">{info.phone}</P>
+                <P className="clip">{info.email}</P>
+              </Section>
+            </Main>
+          </StyledLinkNav>
+        ))}
 
-            <BtnContainer>
-              <Button textColor="#fff" onClick={prevPage}>
-                Prev
-              </Button>
-              {Array.from({ length: totalPages }, (_, i) => (
-                <Span
-                  theme={myTheme}
-                  key={i}
-                  className={currentPage === i + 1 ? 'active' : ' '}
-                  onClick={() => setCurrentPage(i + 1)}
-                >
-                  {i + 1}
-                </Span>
-              ))}
+        <BtnContainer>
+          <Button textColor="#fff" onClick={prevPage}>
+            Prev
+          </Button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <Span
+              theme={myTheme}
+              key={i}
+              className={currentPage === i + 1 ? 'active' : ' '}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </Span>
+          ))}
 
-              <Button textColor="#fff" onClick={nextPage}>
-                Next
-              </Button>
-            </BtnContainer>
-          </>
-        )}
+          <Button textColor="#fff" onClick={nextPage}>
+            Next
+          </Button>
+        </BtnContainer>
+        {/* </>
+        )} */}
       </Container>
     </>
   );

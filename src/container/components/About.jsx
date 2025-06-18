@@ -716,7 +716,7 @@ function About() {
           <ExcoDetail theme={myTheme}>
             <Img src="/images/chika.jpeg" alt="image1" />
             <BioInfo>
-              <Name>Chikodili Onwugamba</Name>
+              <Name>Chikaodili Onwugamba</Name>
               <Position>Vice chairmain</Position>
               <Contact>07032205868</Contact>
             </BioInfo>
