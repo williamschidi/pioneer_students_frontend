@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { HiOutlineSearch } from 'react-icons/hi';
 import styled from 'styled-components';
 import { useLazyGetSearchMembersQuery } from './redux/apiSlice';
-import Spinner from './Spinner';
+// import Spinner from './Spinner';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { setSearchedMembers } from './redux/userSlice';
@@ -63,7 +63,7 @@ const SearchIcon = styled(HiOutlineSearch)`
 `;
 
 function SearchBox() {
-  const [fetchData, { isError, isFetching }] = useLazyGetSearchMembersQuery();
+  const [fetchData] = useLazyGetSearchMembersQuery();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -99,6 +99,7 @@ function SearchBox() {
     }
     const delay = setTimeout(() => {
       fetchMember();
+      setSearch('');
     }, 1000);
     return () => clearTimeout(delay);
   }, [search, dispatch, fetchData, navigate]);
@@ -107,9 +108,6 @@ function SearchBox() {
     setSearch(() => e.target.value);
   }
 
-  if (isFetching && !isError) {
-    return <Spinner />;
-  }
   return (
     <SearchContainer>
       <Search

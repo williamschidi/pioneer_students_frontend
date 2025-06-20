@@ -9,6 +9,7 @@ import { HiArrowNarrowLeft } from 'react-icons/hi';
 import { resetSearchedMembers } from '../components/redux/userSlice';
 import Spinner from '../components/Spinner';
 import { toast } from 'react-toastify';
+// import { apiSlice } from '../components/redux/apiSlice';
 
 const Container = styled.main`
   margin: 2rem auto;
@@ -270,7 +271,15 @@ function Members() {
     }
   }, [error, isError]);
 
-  if (isFetching && !isError) {
+  const isSearchFetching = useSelector((state) =>
+    Object.values(state?.api?.mutations).some(
+      (mutation) =>
+        mutation.endpointName === 'getSearchMembers' &&
+        mutation?.status === 'pending'
+    )
+  );
+
+  if ((isFetching && !isError) || isSearchFetching) {
     return <Spinner />;
   }
 

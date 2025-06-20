@@ -3,8 +3,9 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 // import ToggleLightMode from './ToggleLightMode';
 import { Link } from 'react-scroll';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useThemes } from './ThemesContext';
+import { resetSearchedMembers } from './redux/userSlice';
 
 const Ul = styled.ul`
   position: fixed;
@@ -108,6 +109,7 @@ const StyledNavLink = styled(NavLink)`
 function CollapseNav({ isOpen, setIsOpen, handleNav }) {
   const { myTheme } = useThemes();
   const isAuthenticated = useSelector((state) => state.user.isAuth);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -133,7 +135,13 @@ function CollapseNav({ isOpen, setIsOpen, handleNav }) {
         </Li>
 
         <StyledNavLink to="members">
-          <Li theme={myTheme} onClick={() => setIsOpen(!isOpen)}>
+          <Li
+            theme={myTheme}
+            onClick={() => {
+              setIsOpen(!isOpen);
+              dispatch(resetSearchedMembers());
+            }}
+          >
             Members
           </Li>
         </StyledNavLink>
