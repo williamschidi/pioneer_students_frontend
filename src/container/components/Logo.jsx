@@ -17,10 +17,11 @@ const Img = styled.img`
   width: 100%;
   height: 100%;
 `;
+
 function Logo({ setIsOpen, isOpen }) {
   return (
     <LogoContainer>
-      <NavLink to="/" onClick={() => setIsOpen(!isOpen)}>
+      <NavLink to="/" onClick={() => (!isOpen ? '' : setIsOpen(!isOpen))}>
         <Img src={logo} alt="logo" id="top" />
       </NavLink>
     </LogoContainer>
