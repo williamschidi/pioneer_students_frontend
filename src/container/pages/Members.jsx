@@ -254,12 +254,6 @@ function Members() {
     }
   }, [searchedMembers, data]);
 
-  console.log(
-    'searchdata',
-    searchedMembers?.data?.searchedMembers,
-    'member',
-    data?.data?.members
-  );
   useEffect(() => {
     if (isError && error) {
       const errMessage = error?.error?.split(': ')[1];
